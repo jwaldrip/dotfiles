@@ -1,0 +1,9 @@
+[submodule ".zprezto"]
+	path = .zprezto
+	url = git@github.com:jwaldrip/prezto.git
+[submodule "solarized"]
+	path = solarized
+	url = https://github.com/altercation/solarized
+[submodule ".private"]
+	path = .private
+	url = git@github.com:jwaldrip/.private.git
