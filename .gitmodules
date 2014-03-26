@@ -3,7 +3,7 @@
 	url = git@github.com:jwaldrip/prezto.git
 [submodule "solarized"]
 	path = solarized
-	url = https://github.com/altercation/solarized
+	url = git@github.com:altercation/solarized.git
 [submodule ".private"]
 	path = .private
 	url = git@github.com:jwaldrip/.private.git
