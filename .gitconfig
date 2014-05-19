@@ -68,4 +68,3 @@
 [merge]
 	tool = Kaleidoscope
 [http]
-	proxy = localhost:8888
