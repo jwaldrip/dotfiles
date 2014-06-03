@@ -9,4 +9,4 @@
 	url = git@github.com:jwaldrip/.private.git
 [submodule "osxc"]
 	path = osxc
-	url = https://github.com/osxc/xc-boot.git
+	url = git@github.com:osxc/xc-boot.git
