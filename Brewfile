@@ -15,6 +15,7 @@ cask install dropbox
 
 # Install Development Dependencies
 cask install node
+install hub
 install rbenv
 install ruby-build
 install autojump
