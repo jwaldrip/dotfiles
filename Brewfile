@@ -1,4 +1,5 @@
 # Install Applications
+install caskroom/cask/brew-cask
 
 cask install google-chrome
 cask install rubymine
