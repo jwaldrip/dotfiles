@@ -14,6 +14,8 @@ cask install sequel-pro
 cask install dropbox
 cask install tower
 cask install kaleidoscope
+cask install citrix-receiver
+cask install spotify
 
 # Install Development Dependencies
 cask install node
