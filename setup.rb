@@ -82,7 +82,7 @@ class SetupEnv
     install_homebrew
     install_cask
     system 'brew bundle'
-    system 'rbenv install'
+    system 'rbenv install -s'
     system 'rbenv global ' + File.read('.ruby-version')
   end
 
@@ -95,6 +95,7 @@ class SetupEnv
     system 'chmod 400 ~/.ssh/id_rsa'
     system 'git submodule update --init --recursive'
     system 'chsh -s /bin/zsh'
+    puts "open a new shell"
   end
 
   def init_homedir
@@ -113,8 +114,10 @@ class SetupEnv
   end
 
   def install_homebrew
-    return if system 'which brew &> /dev/null'
-    system 'ruby -e "$(curl -fsSL https://raw.github.com/Homebrew/homebrew/go/install)"'
+    system 'ruby -e "$(curl -fsSL https://raw.github.com/Homebrew/homebrew/go/install)"' unless system 'which brew &> /dev/null'
+    system 'mkdir -p /usr/local/include && sudo chown `whoami` /usr/local/include'
+    system 'mkdir -p /usr/local/lib && sudo chown `whoami` /usr/local/lib'
+    system 'mkdir -p /usr/local && sudo chown `whoami` /usr/local/lib'
   end
 
   def token
