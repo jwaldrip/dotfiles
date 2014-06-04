@@ -7,6 +7,3 @@
 [submodule ".private"]
 	path = .private
 	url = git@github.com:jwaldrip/.private.git
-[submodule "osxc"]
-	path = osxc
-	url = git@github.com:osxc/xc-boot.git
