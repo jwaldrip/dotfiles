@@ -9,8 +9,7 @@ git submodule update -f --init --recursive
 
 # Install Homebrew
 if ! which brew &> /dev/null
-  then
-  ruby -e "$(curl -fsSL https://raw.github.com/Homebrew/homebrew/go/install)"
+  then ruby -e "$(curl -fsSL https://raw.github.com/Homebrew/homebrew/go/install)"
 fi
 
 # Fix Homebrew Directories
