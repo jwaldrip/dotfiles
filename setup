@@ -1,0 +1,22 @@
+#!/bin/bash
+set -e
+
+# Get my private directory
+./setup-private
+
+# Clone all submodules
+git submodule update -f --init --recursive
+
+# Install Homebrew
+ruby -e "$(curl -fsSL https://raw.github.com/Homebrew/homebrew/go/install)"
+
+# Fix Homebrew Directories
+mkdir -p /usr/local/include && sudo chown `whoami` /usr/local/include
+mkdir -p /usr/local/lib && sudo chown `whoami` /usr/local/lib
+mkdir -p /usr/local && sudo chown `whoami` /usr/local/lib
+
+# Update git-remote
+git remote set-url origin git@github.com:jwaldrip/environment.git
+
+# Bundle the brews
+brew bundle

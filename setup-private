@@ -6,7 +6,16 @@ require 'json'
 require 'io/console'
 require 'pp'
 
+module ShellFunctions
+  def ask(question, silent: false)
+    puts question
+    result = silent ? STDIN.noecho(&:gets) : gets
+    result.strip
+  end
+end
+
 class GithubToken < String
+  include ShellFunctions
   URL = URI.parse'https://api.github.com/'
 
   class RequestError < StandardError
@@ -27,12 +36,6 @@ class GithubToken < String
 
   def connection
     Net::HTTP.new(URL.host, URL.port).tap { |conn| conn.use_ssl = URL.scheme == 'https' }
-  end
-
-  def ask(question, silent: false)
-    puts question
-    result = silent ? STDIN.noecho(&:gets) : gets
-    result.strip
   end
 
   def get_password
@@ -71,54 +74,22 @@ class GithubToken < String
 
 end
 
-class SetupEnv
+class SetupPrivate
+  include ShellFunctions
 
   def self.start
     new.start
   end
 
   def start
-    init_homedir
-    install_homebrew
-    install_cask
-    system 'brew bundle'
-    system 'rbenv install -s'
-    system 'rbenv global ' + File.read('.ruby-version')
+    return if File.exist?('.private') &&
+      ask(".private exists, are you sure you want to continue? y/n") == 'y'
+    system "git clone https://jwaldrip:#{token}@github.com/jwaldrip/.private"
+    system 'chmod 400 ~/.ssh/id_dsa &> /dev/null'
+    system 'chmod 400 ~/.ssh/id_rsa &> /dev/null'
   end
 
   private
-
-  def clone_private
-    return if File.exist? '.private/.ssh'
-    system "git clone https://jwaldrip:#{token}@github.com/jwaldrip/.private"
-    system 'chmod 400 ~/.ssh/id_dsa'
-    system 'chmod 400 ~/.ssh/id_rsa'
-    system 'git submodule update --init --recursive'
-    system 'chsh -s /bin/zsh'
-    puts "open a new shell"
-  end
-
-  def init_homedir
-    unless `git remote -v`.include? 'jwaldrip/environment.git'
-      system 'git init && git remote add origin https://github.com/jwaldrip/environment.git'
-    end
-    unless `git rev-parse --abbrev-ref HEAD`.strip == 'home'
-      system 'git checkout --force home'
-    end
-  end
-
-  def install_cask
-    return if system 'brew --prefix cask'
-    system 'brew install caskroom/cask/brew-cask'
-    system 'brew cask'
-  end
-
-  def install_homebrew
-    system 'ruby -e "$(curl -fsSL https://raw.github.com/Homebrew/homebrew/go/install)"' unless system 'which brew &> /dev/null'
-    system 'mkdir -p /usr/local/include && sudo chown `whoami` /usr/local/include'
-    system 'mkdir -p /usr/local/lib && sudo chown `whoami` /usr/local/lib'
-    system 'mkdir -p /usr/local && sudo chown `whoami` /usr/local/lib'
-  end
 
   def token
     @token ||= GithubToken.new
@@ -126,5 +97,4 @@ class SetupEnv
 
 end
 
-SetupEnv.start
-
+SetupPrivate.start
