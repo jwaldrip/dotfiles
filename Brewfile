@@ -1,6 +1,5 @@
 # Install Application
 cask install google-chrome
-cask install java
 cask install rubymine
 cask install hipchat
 cask install charles
