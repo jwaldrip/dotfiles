@@ -83,7 +83,8 @@ class SetupPrivate
 
   def start
     return if File.exist?('.private') &&
-      ask(".private exists, are you sure you want to continue? y/n") == 'y'
+      ask(".private exists, are you sure you want to continue? y/n") != 'y'
+    puts "getting private directory"
     system "git clone https://jwaldrip:#{token}@github.com/jwaldrip/.private"
     system 'chmod 400 ~/.ssh/id_dsa &> /dev/null'
     system 'chmod 400 ~/.ssh/id_rsa &> /dev/null'

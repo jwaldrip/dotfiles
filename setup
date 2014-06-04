@@ -8,7 +8,10 @@ set -e
 git submodule update -f --init --recursive
 
 # Install Homebrew
-ruby -e "$(curl -fsSL https://raw.github.com/Homebrew/homebrew/go/install)"
+if ! which brew &> /dev/null
+  then
+  ruby -e "$(curl -fsSL https://raw.github.com/Homebrew/homebrew/go/install)"
+fi
 
 # Fix Homebrew Directories
 mkdir -p /usr/local/include && sudo chown `whoami` /usr/local/include
