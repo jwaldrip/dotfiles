@@ -12,6 +12,8 @@ cask install postgres
 cask install iterm2
 cask install sequel-pro
 cask install dropbox
+cask install tower
+cask install kaleidoscope
 
 # Install Development Dependencies
 cask install node

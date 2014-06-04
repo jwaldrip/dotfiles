@@ -1,5 +1,5 @@
-git init
-git remote add origin https://github.com/jwaldrip/environment.git
-git fetch
-git checkout -f home
+git init &> /dev/null
+git remote add origin https://github.com/jwaldrip/environment.git &> /dev/null
+git fetch &> /dev/null
+git checkout -f home &> /dev/null
 setup
