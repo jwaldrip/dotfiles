@@ -1,1 +1,1 @@
-/Users/jwaldrip/.zprezto/runcoms/zlogin
+./.zprezto/runcoms/zlogin

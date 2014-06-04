@@ -1,1 +1,1 @@
-/Users/jwaldrip/.zprezto/runcoms/zshrc
+./.zprezto/runcoms/zshrc
