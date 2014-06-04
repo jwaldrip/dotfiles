@@ -77,6 +77,15 @@ class SetupEnv
     new.start
   end
 
+  def start
+    init_homedir
+    install_homebrew
+    install_cask
+    system 'brew bundle'
+    system 'rbenv install'
+    system 'rbenv global ' + File.read('.ruby-version')
+  end
+
   private
 
   def clone_private
@@ -106,15 +115,6 @@ class SetupEnv
   def install_homebrew
     return if system 'which brew &> /dev/null'
     system 'ruby -e "$(curl -fsSL https://raw.github.com/Homebrew/homebrew/go/install)"'
-  end
-
-  def start
-    init_homedir
-    install_homebrew
-    install_cask
-    system 'brew bundle'
-    system 'rbenv install'
-    system 'rbenv global ' + File.read('.ruby-version')
   end
 
   def token
