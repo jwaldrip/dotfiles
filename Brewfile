@@ -17,10 +17,13 @@ cask install kaleidoscope
 cask install citrix-receiver
 cask install spotify
 cask install xquartz
+cask install virtualbox
+cask install vagrant
 
 # Install Development Dependencies
 cask install node
 install hub
+install mysql
 install rbenv
 install ruby-build
 install autojump
