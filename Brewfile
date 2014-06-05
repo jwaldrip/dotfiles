@@ -16,6 +16,7 @@ cask install tower
 cask install kaleidoscope
 cask install citrix-receiver
 cask install spotify
+cask install xquartz
 
 # Install Development Dependencies
 cask install node
