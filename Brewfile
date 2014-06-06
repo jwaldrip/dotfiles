@@ -19,6 +19,8 @@ cask install spotify
 cask install xquartz
 cask install virtualbox
 cask install vagrant
+cask install flash
+cask install silverlight
 
 # Install Development Dependencies
 cask install node
