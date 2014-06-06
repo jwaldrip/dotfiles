@@ -1,28 +1,40 @@
-# Install Applications
+# Prepare Install Homebrew Dependencies
 install caskroom/cask/brew-cask
-
-cask install google-chrome
-cask install rubymine
-cask install hipchat
-cask install charles
-cask install atom
-cask install moom
-cask install transmit
-cask install postgres
-cask install iterm2
-cask install sequel-pro
-cask install dropbox
-cask install tower
-cask install kaleidoscope
-cask install citrix-receiver
-cask install spotify
 cask install xquartz
-cask install virtualbox
-cask install vagrant
+
+#### General Applications
+cask install google-chrome
+cask install moom
+
+#### Utilities
+cask install transmit
+cask install dropbox
+
+#### Entertainment
 cask install flash
 cask install silverlight
+cask install spotify
 
-# Install Development Dependencies
+#### Communication
+cask install skype
+cask install google-hangouts
+cask install hipchat
+cask install virtualbox
+cask install vagrant
+
+#### Work Stuff
+cask install citrix-receiver
+
+#### Development Tools
+cask install rubymine
+cask install charles
+cask install atom
+cask install dash
+cask install tower
+cask install kaleidoscope
+cask install iterm2
+cask install sequel-pro
+cask install postgres
 cask install node
 install hub
 install mysql
