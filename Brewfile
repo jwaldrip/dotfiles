@@ -36,6 +36,7 @@ cask install iterm2
 cask install sequel-pro
 cask install postgres
 cask install node
+install git
 install hub
 install mysql
 install rbenv
