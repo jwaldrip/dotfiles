@@ -26,6 +26,7 @@ cask install vagrant
 cask install citrix-receiver
 
 #### Development Tools
+cask install iterm2
 cask install rubymine
 cask install charles
 cask install atom
