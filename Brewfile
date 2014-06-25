@@ -44,3 +44,4 @@ install rbenv
 install ruby-build
 install autojump
 install imagemagick
+install icu4c
