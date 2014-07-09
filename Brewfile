@@ -9,6 +9,8 @@ cask install moom
 #### Utilities
 cask install transmit
 cask install dropbox
+cask install teamviewer
+cask install authy-bluetooth
 
 #### Entertainment
 cask install flash
