@@ -24,6 +24,9 @@ cask install hipchat
 cask install virtualbox
 cask install vagrant
 
+#### Media
+cask install adobe-creative-cloud
+
 #### Work Stuff
 cask install citrix-receiver
 
