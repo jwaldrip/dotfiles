@@ -18,7 +18,7 @@ mkdir -p /usr/local/lib && sudo chown `whoami` /usr/local/lib
 mkdir -p /usr/local && sudo chown `whoami` /usr/local/lib
 
 # Symlink Cloud Directories
-for folder in Documents src Pictures Music Movies
+for folder in Documents Pictures Music Movies
   do sudo rm -rf $folder && ln -sf ./.cloud-drive/$folder
 done
 
