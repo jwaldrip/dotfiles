@@ -1,4 +1,4 @@
 ---
 BUNDLE_JOBS: '8'
-BUNDLE_LOCAL__GATEKEEPER-CLIENT: "/Users/jwaldrip/Dropbox/Development/Organizations/iTriage/Ruby/Gems/gatekeeper-client-ruby"
-BUNDLE_LOCAL__GATEKEEPER-MOCK: "/Users/jwaldrip/Dropbox/Development/Organizations/iTriage/Ruby/Gems/gatekeeper-mock"
+BUNDLE_LOCAL__GATEKEEPER-CLIENT: "/Users/jwaldrip/src/github/itriage/gatekeeper-client-ruby"
+BUNDLE_LOCAL__GATEKEEPER-MOCK: "/Users/jwaldrip/src/github/itriage/gatekeeper-mock"

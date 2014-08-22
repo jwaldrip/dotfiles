@@ -40,7 +40,7 @@
 	ci = commit
 	cma = commit -am
 	co = checkout
-	br = branch 
+	br = branch
 	diff = diff --word-diff
 	dc = diff --cached
 	r = reset
@@ -52,6 +52,7 @@
 	sl = stash list
 	sa = stash apply
 	ss = stash save
+	rmg = revert -m 1
 	lg = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
 [difftool "Kaleidoscope"]
 	cmd = ksdiff --partial-changeset --relative-path \"$MERGED\" -- \"$LOCAL\" \"$REMOTE\"
