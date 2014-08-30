@@ -5,4 +5,4 @@ git submodule foreach git commit -m "dotfiles update on $date"
 git submodule foreach git push origin master
 git add -A
 git commit -am "dotfiles update on $date"
-git push origin home
+git push origin master
