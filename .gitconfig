@@ -69,3 +69,5 @@
 [merge]
 	tool = Kaleidoscope
 [http]
+[url "git@github.com:"]
+	insteadOf = https://github.com/
