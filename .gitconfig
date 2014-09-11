@@ -1,8 +1,8 @@
 [core]
 	excludesfile = /Users/jwaldrip/.gitignore_global
 [user]
-	name = Jason Waldrip
-	email = jason@waldrip.net
+	name = 
+	email = 
 [push]
 	default = current
 [git-up "fetch"]
@@ -71,3 +71,9 @@
 [http]
 [url "git@github.com:"]
 	insteadOf = https://github.com/
+[difftool "sourcetree"]
+	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
+	path = 
+[mergetool "sourcetree"]
+	cmd = /Applications/SourceTree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
+	trustExitCode = true
