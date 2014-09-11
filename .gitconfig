@@ -1,8 +1,8 @@
 [core]
 	excludesfile = /Users/jwaldrip/.gitignore_global
 [user]
-	name = 
-	email = 
+	email = jason@waldrip.net
+	name = Jason Waldrip
 [push]
 	default = current
 [git-up "fetch"]
