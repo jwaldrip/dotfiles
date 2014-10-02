@@ -71,9 +71,11 @@
 [http]
 [url "git@github.com:"]
 	insteadOf = https://github.com/
+[url "ssh://git@stash.itriagehealth.com:"]
+	insteadOf = https://stash.itriagehealth.com/
 [difftool "sourcetree"]
 	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
-	path = 
+	path =
 [mergetool "sourcetree"]
 	cmd = /Applications/SourceTree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
 	trustExitCode = true
