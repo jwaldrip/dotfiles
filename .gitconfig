@@ -69,8 +69,6 @@
 [merge]
 	tool = Kaleidoscope
 [http]
-[url "git@github.com:"]
-	insteadOf = https://github.com/
 [url "ssh://git@stash.itriagehealth.com:"]
 	insteadOf = https://stash.itriagehealth.com/
 [difftool "sourcetree"]

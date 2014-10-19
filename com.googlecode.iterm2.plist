@@ -12449,7 +12449,7 @@
 	<key>MaxVertically</key>
 	<false/>
 	<key>NSColorPanelMode</key>
-	<string>7</string>
+	<string>4</string>
 	<key>NSNavLastRootDirectory</key>
 	<string>~/Dropbox/Documents</string>
 	<key>NSQuotedKeystrokeBinding</key>
@@ -12481,11 +12481,11 @@
 		<integer>1</integer>
 	</dict>
 	<key>NSWindow Frame Preferences</key>
-	<string>633 413 924 485 0 0 1920 1177 </string>
+	<string>39 112 924 485 0 0 2560 1417 </string>
 	<key>NSWindow Frame UKCrashReporter</key>
 	<string>155 593 592 584 0 0 1920 1177 </string>
 	<key>NSWindow Frame iTerm Window 0</key>
-	<string>0 12 955 1165 0 0 1920 1177 </string>
+	<string>825 249 1452 1000 0 0 2560 1417 </string>
 	<key>NSWindow Frame iTerm Window 1</key>
 	<string>3602 666 570 451 2560 0 2560 1417 </string>
 	<key>New Bookmarks</key>
@@ -12513,21 +12513,21 @@
 				<key>Green Component</key>
 				<real>0.0</real>
 				<key>Red Component</key>
-				<real>0.73333334922790527</real>
+				<real>1</real>
 			</dict>
 			<key>Ansi 10 Color</key>
 			<dict>
 				<key>Blue Component</key>
-				<real>0.3333333432674408</real>
+				<real>0.40000000596046448</real>
 				<key>Green Component</key>
 				<real>1</real>
 				<key>Red Component</key>
-				<real>0.3333333432674408</real>
+				<real>0.80000001192092896</real>
 			</dict>
 			<key>Ansi 11 Color</key>
 			<dict>
 				<key>Blue Component</key>
-				<real>0.3333333432674408</real>
+				<real>0.40000000596046448</real>
 				<key>Green Component</key>
 				<real>1</real>
 				<key>Red Component</key>
@@ -12538,16 +12538,16 @@
 				<key>Blue Component</key>
 				<real>1</real>
 				<key>Green Component</key>
-				<real>0.3333333432674408</real>
+				<real>0.80000001192092896</real>
 				<key>Red Component</key>
-				<real>0.3333333432674408</real>
+				<real>0.40000000596046448</real>
 			</dict>
 			<key>Ansi 13 Color</key>
 			<dict>
 				<key>Blue Component</key>
-				<real>1</real>
+				<real>0.81176471710205078</real>
 				<key>Green Component</key>
-				<real>0.3333333432674408</real>
+				<real>0.43529412150382996</real>
 				<key>Red Component</key>
 				<real>1</real>
 			</dict>
@@ -12558,7 +12558,7 @@
 				<key>Green Component</key>
 				<real>1</real>
 				<key>Red Component</key>
-				<real>0.3333333432674408</real>
+				<real>0.40000000596046448</real>
 			</dict>
 			<key>Ansi 15 Color</key>
 			<dict>
@@ -12574,7 +12574,7 @@
 				<key>Blue Component</key>
 				<real>0.0</real>
 				<key>Green Component</key>
-				<real>0.73333334922790527</real>
+				<real>1</real>
 				<key>Red Component</key>
 				<real>0.0</real>
 			</dict>
@@ -12583,45 +12583,45 @@
 				<key>Blue Component</key>
 				<real>0.0</real>
 				<key>Green Component</key>
-				<real>0.73333334922790527</real>
+				<real>1</real>
 				<key>Red Component</key>
-				<real>0.73333334922790527</real>
+				<real>1</real>
 			</dict>
 			<key>Ansi 4 Color</key>
 			<dict>
 				<key>Blue Component</key>
-				<real>0.73333334922790527</real>
+				<real>1</real>
 				<key>Green Component</key>
-				<real>0.0</real>
+				<real>0.50196081399917603</real>
 				<key>Red Component</key>
 				<real>0.0</real>
 			</dict>
 			<key>Ansi 5 Color</key>
 			<dict>
 				<key>Blue Component</key>
-				<real>0.73333334922790527</real>
+				<real>1</real>
 				<key>Green Component</key>
 				<real>0.0</real>
 				<key>Red Component</key>
-				<real>0.73333334922790527</real>
+				<real>1</real>
 			</dict>
 			<key>Ansi 6 Color</key>
 			<dict>
 				<key>Blue Component</key>
-				<real>0.73333334922790527</real>
+				<real>1</real>
 				<key>Green Component</key>
-				<real>0.73333334922790527</real>
+				<real>1</real>
 				<key>Red Component</key>
 				<real>0.0</real>
 			</dict>
 			<key>Ansi 7 Color</key>
 			<dict>
 				<key>Blue Component</key>
-				<real>0.73333334922790527</real>
+				<real>0.90196079015731812</real>
 				<key>Green Component</key>
-				<real>0.73333334922790527</real>
+				<real>0.90196079015731812</real>
 				<key>Red Component</key>
-				<real>0.73333334922790527</real>
+				<real>0.90196079015731812</real>
 			</dict>
 			<key>Ansi 8 Color</key>
 			<dict>
@@ -13038,7 +13038,7 @@
 			<key>Log Directory</key>
 			<string></string>
 			<key>Minimum Contrast</key>
-			<real>0.0</real>
+			<real>0.49677082896232605</real>
 			<key>Mouse Reporting</key>
 			<true/>
 			<key>Name</key>
@@ -13291,7 +13291,7 @@
 	<key>SUHasLaunchedBefore</key>
 	<true/>
 	<key>SULastCheckTime</key>
-	<date>2014-10-02T03:19:50Z</date>
+	<date>2014-10-15T22:08:08Z</date>
 	<key>SavePasteHistory</key>
 	<false/>
 	<key>Show Toolbelt</key>
