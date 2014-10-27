@@ -8,8 +8,8 @@ set -e
 git submodule update -f --init --recursive
 
 # Install Homebrew
-if ! which brew &> /dev/null
-  then ruby -e "$(curl -fsSL https://raw.github.com/Homebrew/homebrew/go/install)"
+if ! which brew &> /dev/null ; then
+  curl -fsSL https://raw.github.com/Homebrew/homebrew/go/install
 fi
 
 # Fix Homebrew Directories
@@ -26,4 +26,4 @@ done
 git remote set-url origin git@github.com:jwaldrip/environment.git
 
 # Bundle the brews
-brew bundle
+cat Brewfile | sed 's:#.*$::g' | sed '/^$/d' | /usr/bin/ruby -e "STDIN.each_line { |line| system 'brew ' + line.strip }"
