@@ -69,8 +69,10 @@
 [merge]
 	tool = Kaleidoscope
 [http]
-[url "ssh://git@stash.itriagehealth.com:"]
+[url "ssh://git@stash.itriagehealth.com/"]
 	insteadOf = https://stash.itriagehealth.com/
+[url "ssh://git@github.com/"]
+	insteadOf = https://github.com/
 [difftool "sourcetree"]
 	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
 	path =
