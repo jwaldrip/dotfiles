@@ -1,0 +1,26 @@
+{
+  "name": "deepsea",
+  "theme": "syntax",
+  "version": "0.1.4",
+  "description": "DeepSea syntax theme",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/skcf/atom-deepsea-syntax"
+  },
+  "license": "MIT",
+  "engines": {
+    "atom": ">0.50.0"
+  },
+  "readme": "# deepsea theme\n\nDeepSea syntax theme\n\n![A screenshot of your theme](https://raw.githubusercontent.com/skcf/atom-deepsea-syntax/master/screenshot.png)\n",
+  "readmeFilename": "README.md",
+  "bugs": {
+    "url": "https://github.com/skcf/atom-deepsea-syntax/issues"
+  },
+  "homepage": "https://github.com/skcf/atom-deepsea-syntax",
+  "_id": "deepsea@0.1.4",
+  "dist": {
+    "shasum": "a4804317eb9ff39ba72e118c759774aa877fd86c"
+  },
+  "_resolved": "/var/folders/r2/8wz692wn38115859g50vb3t00000gn/T/d-11485-19393-1qi3a94/package.tgz",
+  "_from": "/var/folders/r2/8wz692wn38115859g50vb3t00000gn/T/d-11485-19393-1qi3a94/package.tgz"
+}

@@ -1,0 +1,22 @@
+'global':
+  'core':
+    'disabledPackages': [
+      'autosave'
+      'git-diff'
+    ]
+  'exception-reporting':
+    'userId': '67040a04-f265-d6b0-1d85-ada881d2b3ee'
+  'welcome':
+    'showOnStartup': false
+  'metrics':
+    'userId': '6c9576c499dff9c496be8141ced0b97bca383be5'
+  'travis-ci-status':
+    'personalAccessToken': '7633f68d5cea0554504a998a708fbbabf2037ce6'
+  'go-plus':
+    'goPath': '~/dev'
+    'runCoverageOnSave': true
+    'showPanelWhenNoIssuesExist': true
+  'editor':
+    'showIndentGuide': true
+  'recent-files':
+    'updated': false
