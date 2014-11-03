@@ -3,6 +3,7 @@
     'disabledPackages': [
       'autosave'
       'git-diff'
+      'linter-rubocop'
     ]
   'exception-reporting':
     'userId': '67040a04-f265-d6b0-1d85-ada881d2b3ee'
@@ -20,3 +21,5 @@
     'showIndentGuide': true
   'recent-files':
     'updated': false
+  'linter-rubocop':
+    'rubocopExecutablePath': '/usr/local/var/rbenv/shims/rubocop'
