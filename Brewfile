@@ -10,7 +10,6 @@ cask install moom
 cask install transmit
 cask install dropbox
 cask install teamviewer
-cask install authy-bluetooth
 
 #### Entertainment
 cask install flash
@@ -20,7 +19,7 @@ cask install spotify
 #### Communication
 cask install skype
 cask install google-hangouts
-cask install hipchat
+cask install gitter
 cask install virtualbox
 cask install vagrant
 
