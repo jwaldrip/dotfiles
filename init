@@ -3,7 +3,7 @@
 set -e
 
 git init
-git remote add origin https://github.com/jwaldrip/dotfiles.git &> /dev/null
+git remote add origin https://github.com/jwaldrip/dotfiles.git
 git fetch
 git pull origin master
 ./setup
