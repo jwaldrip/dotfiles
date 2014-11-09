@@ -26,9 +26,6 @@ cask install vagrant
 #### Media
 cask install adobe-creative-cloud
 
-#### Work Stuff
-cask install citrix-receiver
-
 #### Development Tools
 cask install iterm2
 cask install rubymine
