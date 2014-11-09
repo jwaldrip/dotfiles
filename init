@@ -1,3 +1,5 @@
+set -e
+
 git init &> /dev/null
 git remote add origin https://github.com/jwaldrip/dotfiles.git &> /dev/null
 git fetch &> /dev/null
