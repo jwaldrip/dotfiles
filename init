@@ -1,7 +1,9 @@
+#! /bin/bash
+
 set -e
 
-git init &> /dev/null
+git init
 git remote add origin https://github.com/jwaldrip/dotfiles.git &> /dev/null
-git fetch &> /dev/null
-git checkout -f home &> /dev/null
+git fetch
+git pull origin master
 ./setup
