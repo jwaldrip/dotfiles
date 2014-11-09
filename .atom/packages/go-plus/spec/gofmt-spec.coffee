@@ -12,7 +12,7 @@ describe "format", ->
     atomconfig = new AtomConfig()
     atomconfig.allfunctionalitydisabled()
     directory = temp.mkdirSync()
-    atom.project.setPath(directory)
+    atom.project.setPaths(directory)
     atom.workspaceView = new WorkspaceView()
     atom.workspace = atom.workspaceView.model
     filePath = path.join(directory, 'go-plus.go')
@@ -89,7 +89,7 @@ describe "format", ->
     it "collects errors when the input is invalid", ->
       done = false
       runs ->
-        dispatch.once 'dispatch-complete', (editorView) =>
+        dispatch.once 'dispatch-complete', (editor) =>
           expect(fs.readFileSync(filePath, {encoding: 'utf8'})).toBe "package main\n\nfunc main(!)  {\n}\n"
           expect(dispatch.messages?).toBe true
           expect(_.size(dispatch.messages)).toBe 1
@@ -106,13 +106,28 @@ describe "format", ->
     it "uses goimports to reorganize imports if enabled", ->
       done = false
       runs ->
-        atom.config.set("go-plus.formatWithGoImports", true)
+        atom.config.set("go-plus.formatTool", 'goimports')
         dispatch.once 'dispatch-complete', =>
           expect(fs.readFileSync(filePath, {encoding: 'utf8'})).toBe "package main\n\nimport \"fmt\"\n\nfunc main() {\n\tfmt.Println(\"Hello, 世界\")\n}\n"
           expect(dispatch.messages?).toBe true
           expect(_.size(dispatch.messages)).toBe 0
           done = true
         buffer.setText("package main\n\nfunc main()  {\n\tfmt.Println(\"Hello, 世界\")\n}\n")
+        buffer.save()
+
+      waitsFor ->
+        done is true
+
+    it "uses goreturns to handle returns if enabled", ->
+      done = false
+      runs ->
+        atom.config.set("go-plus.formatTool", 'goreturns')
+        dispatch.once 'dispatch-complete', =>
+          expect(fs.readFileSync(filePath, {encoding: 'utf8'})).toBe "package demo\n\nimport \"errors\"\n\nfunc F() (string, int, error) {\n\treturn \"\", 0, errors.New(\"foo\")\n}\n"
+          expect(dispatch.messages?).toBe true
+          expect(_.size(dispatch.messages)).toBe 0
+          done = true
+        buffer.setText("package demo\n\nfunc F() (string, int, error)     {\nreturn errors.New(\"foo\") }")
         buffer.save()
 
       waitsFor ->

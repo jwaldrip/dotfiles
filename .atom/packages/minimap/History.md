@@ -1,8 +1,17 @@
+3.3.6 / 2014-11-06
+==================
+
+* fix using `.editor` in tokens scopes breaks layout
+
+3.3.5 / 2014-11-06
+==================
+
+* fix relying on overlayer to compute scroll offset
+
 3.3.4 / 2014-10-22
 ==================
 
 * fix access to deprecated scopes property of tokens
-
 
 3.3.3 / 2014-10-13
 ==================

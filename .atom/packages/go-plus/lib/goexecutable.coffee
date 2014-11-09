@@ -39,8 +39,11 @@ class GoExecutable
       when 'darwin', 'freebsd', 'linux', 'sunos'
         # Configuration
         if goinstallation? and goinstallation.trim() isnt ''
-          if goinstallation.lastIndexOf(path.sep + 'go') is goinstallation.length - 3 or goinstallation.lastIndexOf(path.sep + 'goapp') is goinstallation.length - 6
-            executables.push path.normalize(goinstallation)
+          if fs.existsSync(goinstallation)
+            if fs.lstatSync(goinstallation)?.isDirectory()
+              executables.push path.normalize(path.join(goinstallation, 'bin', 'go'))
+            else if goinstallation.lastIndexOf(path.sep + 'go') is goinstallation.length - 3 or goinstallation.lastIndexOf(path.sep + 'goapp') is goinstallation.length - 6
+              executables.push path.normalize(goinstallation)
 
         # PATH
         if @env.PATH?
@@ -78,6 +81,9 @@ class GoExecutable
 
   introspect: (executable, outercallback) =>
     absoluteExecutable = path.resolve(executable)
+    if fs.lstatSync(absoluteExecutable)?.isDirectory()
+      outercallback(null)
+      return
 
     go = new Go(absoluteExecutable, @pathexpander)
     async.series([
@@ -173,10 +179,16 @@ class GoExecutable
       (callback) =>
         done = (exitcode, stdout, stderr) =>
           callback(null)
-        if go.goimports() isnt false and not updateExistingTools
+        if go.format() isnt false and not updateExistingTools
           done()
         else
-          @executor.exec(go.executable, false, gogetenv, done, ['get', '-u', 'code.google.com/p/go.tools/cmd/goimports'])
+          pkg = switch atom.config.get('go-plus.formatTool')
+            when 'goimports' then 'code.google.com/p/go.tools/cmd/goimports'
+            when 'goreturns' then 'sourcegraph.com/sqs/goreturns'
+            else false
+          console.log 'pkg: ' + pkg
+          done() unless pkg?
+          @executor.exec(go.executable, false, gogetenv, done, ['get', '-u', pkg])
       (callback) =>
         done = (exitcode, stdout, stderr) =>
           callback(null)
@@ -184,13 +196,13 @@ class GoExecutable
           done()
         else
           @executor.exec(go.executable, false, gogetenv, done, ['get', '-u', 'github.com/golang/lint/golint'])
-      (callback) =>
-        done = (exitcode, stdout, stderr) =>
-          callback(null)
-        if go.oracle() isnt false and not updateExistingTools
-          done()
-        else
-          @executor.exec(go.executable, false, gogetenv, done, ['get', '-u', 'code.google.com/p/go.tools/cmd/oracle'])
+      # (callback) =>
+      #   done = (exitcode, stdout, stderr) =>
+      #     callback(null)
+      #   if go.oracle() isnt false and not updateExistingTools
+      #     done()
+      #   else
+      #     @executor.exec(go.executable, false, gogetenv, done, ['get', '-u', 'code.google.com/p/go.tools/cmd/oracle'])
     ], (err, results) =>
       @emit 'gettools-complete'
     )

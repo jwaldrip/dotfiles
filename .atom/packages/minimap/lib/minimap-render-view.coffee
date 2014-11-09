@@ -359,7 +359,8 @@ class MinimapRenderView extends ScrollView
   # Returns a {String}.
   retrieveTokenColorFromDom: (token) ->
     # This is quite an expensive operation so results are cached in getTokenColor.
-    color = @retrieveStyleFromDom((token.scopeDescriptor or token.scopes), 'color')
+    scopes = (token.scopeDescriptor or token.scopes)
+    color = @retrieveStyleFromDom(scopes, 'color')
     @transparentize(color, @getTextOpacity())
 
   # Internal: Returns the background color for the passed-in decoration.
