@@ -2,8 +2,14 @@
 
 set -e
 
+# Remove Key Dirs
 rm -rf ./.git
 rm -rf ./.gitconfig
+rm -rf ./.private
+rm -rf ./.zprezto
+rm -rf ./solarized
+
+# Init
 git init
 git remote add origin https://github.com/jwaldrip/dotfiles.git
 git fetch
