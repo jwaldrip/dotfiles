@@ -1,5 +1,6 @@
 #! /bin/bash
 date=`date`
+git submodule foreach git checkout master
 git submodule foreach git add -A
 git submodule foreach git commit -m "dotfiles update on $date"
 git submodule foreach git push origin master

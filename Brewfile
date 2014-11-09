@@ -49,3 +49,7 @@ install icu4c
 install pkg-config
 install openssl
 install cmake
+install go
+install elixir
+install nimrod
+install dmd
