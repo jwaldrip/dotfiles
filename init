@@ -2,6 +2,8 @@
 
 set -e
 
+rm -rf .git
+rm -rf .gitconfig
 git init
 git remote add origin https://github.com/jwaldrip/dotfiles.git
 git fetch
