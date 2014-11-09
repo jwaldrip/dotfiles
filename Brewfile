@@ -20,13 +20,14 @@ cask install spotify
 cask install skype
 cask install google-hangouts
 cask install gitter
-cask install virtualbox
-cask install vagrant
+cask install mailbox
 
 #### Media
 cask install adobe-creative-cloud
 
 #### Development Tools
+cask install virtualbox
+cask install vagrant
 cask install iterm2
 cask install rubymine
 cask install charles
