@@ -13,9 +13,9 @@ if ! which brew &> /dev/null ; then
 fi
 
 # Fix Homebrew Directories
-mkdir -p /usr/local/include && sudo chown `whoami` /usr/local/include
-mkdir -p /usr/local/lib && sudo chown `whoami` /usr/local/lib
-mkdir -p /usr/local && sudo chown `whoami` /usr/local/lib
+sudo mkdir -p /usr/local/include && sudo chown `whoami` /usr/local/include
+sudo mkdir -p /usr/local/lib && sudo chown `whoami` /usr/local/lib
+sudo mkdir -p /usr/local && sudo chown `whoami` /usr/local/lib
 
 # Symlink Cloud Directories
 for folder in Documents Pictures Music Movies
