@@ -39,6 +39,7 @@ cask install iterm2
 cask install sequel-pro
 cask install postgres
 cask install node
+cask install boot2docker
 install git
 install hub
 install mysql
@@ -54,3 +55,4 @@ install go
 install elixir
 install nimrod
 install dmd
+
