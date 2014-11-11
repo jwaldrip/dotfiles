@@ -40,6 +40,8 @@ cask install sequel-pro
 cask install postgres
 cask install node
 cask install boot2docker
+cask install heroku-toolbelt
+cask install macdown
 install git
 install hub
 install mysql
@@ -55,4 +57,3 @@ install go
 install elixir
 install nimrod
 install dmd
-
