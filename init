@@ -6,8 +6,6 @@ set -e
 rm -rf ./.git
 rm -rf ./.gitconfig
 rm -rf ./.private
-rm -rf ./.zprezto
-rm -rf ./solarized
 
 # Init
 git init
