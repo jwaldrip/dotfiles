@@ -24,6 +24,7 @@ fi
 alias g=git
 alias twr=gittower
 alias reload!="exec $SHELL"
+alias e=$EDITOR
 
 ## PATH ASSIGNMENTS
 
