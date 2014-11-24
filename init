@@ -1,13 +1,10 @@
 #! /bin/bash
-
 set -e
 
 # Remove Key Dirs
 rm -rf ./.git
 rm -rf ./.gitconfig
 rm -rf ./.private
-rm -rf ./.zprezto
-rm -rf ./solarized
 
 # Init
 git init
