@@ -1,14 +1,17 @@
 # Path to your oh-my-zsh installation.
 export ZSH=$HOME/.oh-my-zsh
-zmodload zsh/complist
+# zmodload zsh/complist
 
 # Set name of the theme to load.
 # Look in ~/.oh-my-zsh/themes/
 # Optionally, if you set this to "random", it'll load a random theme each
 # time that oh-my-zsh is loaded.
 ZSH_THEME="steeef"
+ENABLE_CORRECTION="true"
+COMPLETION_WAITING_DOTS="true"
+HIST_STAMPS="mm/dd/yyyy"
 
-plugins=(git)
+plugins=(autojump brew bundler chruby docker gitfast lwd node npm osx rails redis-cli ruby)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -18,9 +21,6 @@ export VISUAL="atom -w"
 
 # Aliases
 alias zshconfig="e ~/.zshrc"
-if which hub > /dev/null ; then
-  alias git=hub
-fi
 alias g=git
 alias twr=gittower
 alias reload!="exec $SHELL"
@@ -31,6 +31,9 @@ alias e=$EDITOR
 # Add Homebrew PATH
 export PATH="/usr/local/bin:$PATH"
 
+# Add Homedir PATH
+export PATH="$HOME/bin:$PATH"
+
 # Add Current Directory Path
 export PATH="./bin:$PATH"
 
@@ -38,12 +41,15 @@ export PATH="./bin:$PATH"
 export PATH="/usr/local/heroku/bin:$PATH"
 
 # PG App
-PATH="/Applications/Postgres.app/Contents/Versions/9.3/bin:$PATH"
+export PATH="/Applications/Postgres.app/Contents/Versions/9.3/bin:$PATH"
 
 # Default Vagrant
 export VAGRANT_DEFAULT_PROVIDER=vmware_fusion
 
 ### Exports
+
+# Deis Ctl
+export DEISCTL_TUNNEL="deis.waldrip.do-nyc3.brandfolder.com"
 
 # Set the bundler editor
 export BUNDLER_EDITOR=mine
@@ -78,12 +84,12 @@ export PATH=$GOPATH/bin:$PATH
 # Locate Atom
 export ATOM_PATH=~/Applications
 
-### RBENV SETUP
-if which rbenv > /dev/null ; then
-  export RBENV_ROOT=/usr/local/var/rbenv
-  eval "$(rbenv init -)"
-else
-  echo "Warning, missing rbenv"
+### chruby
+if [ -f '/usr/local/share/chruby/chruby.sh' ] ; then
+source '/usr/local/share/chruby/chruby.sh'
+fi
+if [ -f '/usr/local/opt/chruby/share/chruby/auto.sh' ] ; then
+  source '/usr/local/opt/chruby/share/chruby/auto.sh'
 fi
 
 ### Goop Env

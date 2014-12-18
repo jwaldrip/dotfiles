@@ -55,6 +55,7 @@
 	ss = stash save
 	rmg = revert -m 1
 	lg = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
+	resolve = "!git branch --merged master | grep -v '\\* master' | xargs -n 1 git branch -d"
 [difftool "Kaleidoscope"]
 	cmd = ksdiff --partial-changeset --relative-path \"$MERGED\" -- \"$LOCAL\" \"$REMOTE\"
 [diff]
