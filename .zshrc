@@ -19,6 +19,9 @@ source $ZSH/oh-my-zsh.sh
 export EDITOR="vim"
 export VISUAL="atom -w"
 
+# Disable Auto Correct
+DISABLE_CORRECTION="true"
+
 # Aliases
 alias zshconfig="e ~/.zshrc"
 alias g=git
@@ -62,8 +65,15 @@ export VAGRANT_DEFAULT_PROVIDER=virtualbox
 
 # Set up boot2docker
 if which boot2docker > /dev/null ; then
-  if [ "$(boot2docker status)" != "running" ] ; then
-    echo "boot2docker is stopped, booting..."
+  boot2dockerstatus=$(boot2docker status)
+  if [ "$boot2dockerstatus" = "running" ] ; then
+    # Do nothing, boot2docker is running
+  elif [ "$boot2dockerstatus" = "poweroff" ] ; then
+    boot2docker start
+    boot2docker up
+  else 
+    echo "initializing boot2docker..."
+    boot2docker destroy
     rm -f .ssh/id_boot2docker
     rm -f .ssh/id_boot2docker.pub
     boot2docker init
