@@ -21,6 +21,7 @@ export VISUAL="atom -w"
 
 # Disable Auto Correct
 DISABLE_CORRECTION="true"
+unsetopt correct_all
 
 # Aliases
 alias zshconfig="e ~/.zshrc"
@@ -28,6 +29,9 @@ alias g=git
 alias twr=gittower
 alias reload!="exec $SHELL"
 alias e=$EDITOR
+
+## Shell init boot2docker
+eval `boot2docker shellinit 2> /dev/null` &> /dev/null || true
 
 ## PATH ASSIGNMENTS
 
@@ -44,7 +48,7 @@ export PATH="./bin:$PATH"
 export PATH="/usr/local/heroku/bin:$PATH"
 
 # PG App
-export PATH="/Applications/Postgres.app/Contents/Versions/9.3/bin:$PATH"
+export PATH="/Applications/Postgres.app/Contents/Versions/9.4/bin:$PATH"
 
 # Default Vagrant
 export VAGRANT_DEFAULT_PROVIDER=vmware_fusion
@@ -63,28 +67,7 @@ export ANDROID_HOME=/usr/local/opt/android-sdk
 # Set the default provider
 export VAGRANT_DEFAULT_PROVIDER=virtualbox
 
-# Set up boot2docker
-if which boot2docker > /dev/null ; then
-  boot2dockerstatus=$(boot2docker status)
-  if [ "$boot2dockerstatus" = "running" ] ; then
-    # Do nothing, boot2docker is running
-  elif [ "$boot2dockerstatus" = "poweroff" ] ; then
-    boot2docker start
-    boot2docker up
-  else 
-    echo "initializing boot2docker..."
-    boot2docker destroy
-    rm -f .ssh/id_boot2docker
-    rm -f .ssh/id_boot2docker.pub
-    boot2docker init
-    boot2docker start
-    boot2docker up
-  fi
-  # init the shell
-  $(boot2docker shellinit 2> /dev/null)
-fi
-
-# Set the Development PATH
+# Set the development path
 export DEVPATH=~/dev
 
 # Set the Go path
