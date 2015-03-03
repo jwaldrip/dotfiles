@@ -25,6 +25,7 @@ unsetopt correct_all
 
 # Aliases
 alias zshconfig="e ~/.zshrc"
+alias kiki="echo 'love of my life'"
 alias g=git
 alias twr=gittower
 alias reload!="exec $SHELL"
