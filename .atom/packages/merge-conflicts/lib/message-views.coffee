@@ -1,4 +1,4 @@
-{View} = require 'atom'
+{View} = require 'space-pen'
 
 class MessageView extends View
 

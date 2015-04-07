@@ -1,16 +1,4 @@
-// The ui-variables file is provided by base themes provided by Atom.
-//
-// See https://github.com/atom/atom-dark-ui/blob/master/stylesheets/ui-variables.less
-// for a full listing of what's available.
-@import "ui-variables";
-
-@ours-line-color: mix(@ui-site-color-1, @base-background-color);
-@ours-current-color: darken(@ours-line-color, 10%);
-@theirs-line-color: mix(@ui-site-color-2, @base-background-color);
-@theirs-current-color: darken(@theirs-line-color, 10%);
-@dirty-line-color: darken(@ui-site-color-5, 40%);
-@dirty-current-color: darken(@ui-site-color-5, 30%);
-@resolved-line-color: @background-color-highlight;
+@import "variables";
 
 .merge-conflicts {
   .navigate {
@@ -60,40 +48,14 @@
   .stage .text-success { display: none; }
 }
 
-// Temporary React editor workaround.
-.panes .pane .item-views > .react > .overlay.resolver {
-  left: 50%;
-  padding: 10px;
-  bottom: auto;
-}
-
-.editor {
-  .conflict-resolved {
-    background: @resolved-line-color;
-  }
-}
-
-.editor.conflicted {
-  .conflict-ours {
-    background: @ours-line-color;
-    &.cursor-line { background: @ours-current-color; }
-  }
-
-  .conflict-theirs {
-    background: @theirs-line-color;
-    &.cursor-line { background: @theirs-current-color; }
-  }
-
-  .conflict-dirty {
-    background: @dirty-line-color;
-    &.cursor-line { background: @dirty-current-color; }
-  }
-
+// This targetting is temporary until SideViews work as overlay decorations.
+// See https://github.com/smashwilson/merge-conflicts/pull/93 for progress.
+atom-overlay {
   .side {
     padding: 0 20px;
-    width: 100%;
-    position: absolute;
     left: 0;
+    right: 0;
+
     span {
       margin-left: 10px;
     }
@@ -110,7 +72,7 @@
       border-top-left-radius: 5px;
       border-top-right-radius: 5px;
       button {
-        margin-top: 5px;
+        margin-top: 1px;
       }
     }
 
@@ -118,7 +80,7 @@
       border-bottom-left-radius: 5px;
       border-bottom-right-radius: 5px;
       button {
-        margin-top: -35px;
+        margin-top: -1px;
       }
     }
 
@@ -133,10 +95,9 @@
 
   .navigation {
     padding: 0 20px;
-    background: @base-background-color;
-    width: 100%;
-    position: absolute;
     left: 0;
+    right: 0;
+    background: @base-background-color;
 
     span.pull-right {
       clear: right;

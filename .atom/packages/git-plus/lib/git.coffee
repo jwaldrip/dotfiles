@@ -1,4 +1,4 @@
-{BufferedProcess} = require 'atom'
+{BufferedProcess, GitRepository} = require 'atom'
 StatusView = require './views/status-view'
 
 # Public: Execute a git command.
@@ -15,7 +15,7 @@ gitCmd = ({args, options, stdout, stderr, exit}={}) ->
   command = _getGitPath()
   options ?= {}
   options.cwd ?= dir()
-  stderr ?= (data) -> new StatusView(type: 'alert', message: data.toString())
+  stderr ?= (data) -> new StatusView(type: 'error', message: data.toString())
 
   if stdout? and not exit?
     c_stdout = stdout
@@ -26,13 +26,16 @@ gitCmd = ({args, options, stdout, stderr, exit}={}) ->
       c_stdout @save ?= ''
       @save = null
 
-  new BufferedProcess
-    command: command
-    args: args
-    options: options
-    stdout: stdout
-    stderr: stderr
-    exit: exit
+  try
+    new BufferedProcess
+      command: command
+      args: args
+      options: options
+      stdout: stdout
+      stderr: stderr
+      exit: exit
+  catch error
+    new StatusView(type: 'error', message: 'Git Plus is unable to locate git command. Please ensure process.env.PATH can access git.')
 
 gitStatus = (stdout) ->
   gitCmd
@@ -50,7 +53,7 @@ gitStagedFiles = (stdout) ->
       if data.toString().contains "ambiguous argument 'HEAD'"
         files = [1]
       else
-        new StatusView(type: 'alert', message: data.toString())
+        new StatusView(type: 'error', message: data.toString())
         files = []
     exit: (code) -> stdout(files)
 
@@ -124,28 +127,47 @@ _prettifyDiff = (data) ->
   data[1..data.length] = ('@@' + line for line in data[1..])
   data
 
-# Returns the root directory for a git repo.
+# Returns the working directory for a git repo.
 # Will search for submodule first if currently
 #   in one or the project root
 #
-# @param submodules boolean determining whether to account for submodules
-dir = (submodules=true) ->
+# @param andSubmodules boolean determining whether to account for submodules
+dir = (andSubmodules=true) ->
   found = false
-  if submodules
+  if andSubmodules
     if submodule = getSubmodule()
-      found = submodule.getWorkingDirectory()
+      return submodule.getWorkingDirectory()
   if not found
-    found = atom.project.getRepo()?.getWorkingDirectory() ? atom.project.getPath()
-  found
+    return getRepo()?.getWorkingDirectory() ? atom.project.getPath()
 
-# returns filepath relativized for either a submodule, repository or a project
+# returns filepath relativized for either a submodule or repository
+#   otherwise just a full path
 relativize = (path) ->
-  getSubmodule(path)?.relativize(path) ? atom.project.getRepo()?.relativize(path) ? atom.project.relativize(path)
+  getSubmodule(path)?.relativize(path) ? atom.project.getRepo()?.relativize(path) ? path
 
 # returns submodule for given file or undefined
 getSubmodule = (path) ->
   path ?= atom.workspace.getActiveEditor()?.getPath()
   atom.project.getRepo()?.repo.submoduleForPath(path)
+
+# Public: Get the repository of the current file or project if no current file
+# Returns a {GitRepository}-like object or null if not found.
+getRepo = ->
+  repo = GitRepository.open(atom.workspace.getActiveEditor()?.getPath(), refreshOnWindowFocus: false)
+  if repo is not null
+    data = {
+      references: repo.getReferences()
+      shortHead: repo.getShortHead()
+      workingDirectory: repo.getWorkingDirectory()
+    }
+    repo.destroy()
+    return {
+      getReferences: -> data.references
+      getShortHead: -> data.shortHead
+      getWorkingDirectory: -> data.workingDirectory
+    }
+  else
+    return atom.project.getRepo()
 
 module.exports.cmd = gitCmd
 module.exports.stagedFiles = gitStagedFiles
@@ -158,3 +180,4 @@ module.exports.add = gitAdd
 module.exports.dir = dir
 module.exports.relativize = relativize
 module.exports.getSubmodule = getSubmodule
+module.exports.getRepo = getRepo

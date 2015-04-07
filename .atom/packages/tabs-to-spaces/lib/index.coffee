@@ -1,7 +1,3 @@
-#
-# Copyright (c) 2014 by Lifted Studios. All Rights Reserved.
-#
-
 TabsToSpaces = null
 tabsToSpaces = null
 
@@ -12,36 +8,44 @@ module.exports =
       default: 'none'
       enum: ['none', 'tabify', 'untabify']
 
+  # Public: Activates the package.
   activate: ->
-    atom.workspaceView.command 'tabs-to-spaces:tabify', ->
-      loadModule()
-      tabsToSpaces.tabify()
-
-    atom.workspaceView.command 'tabs-to-spaces:untabify', ->
-      loadModule()
-      tabsToSpaces.untabify()
-
-    atom.workspace.eachEditor (editor) ->
-      handleEvents(editor)
-
-# Internal: Sets up event handlers.
-#
-# editor - {Editor} to attach the event handlers to.
-handleEvents = (editor) ->
-  buffer = editor.getBuffer()
-  buffer.on 'will-be-saved', ->
-    return if editor.getPath() is atom.config.getUserConfigPath()
-
-    grammar = editor.getGrammar()
-    switch atom.config.get([".#{grammar.scopeName}"], 'tabs-to-spaces.onSave')
-      when 'untabify'
-        loadModule()
-        tabsToSpaces.untabify()
-      when 'tabify'
-        loadModule()
+    @commands = atom.commands.add 'atom-workspace',
+      'tabs-to-spaces:tabify': =>
+        @loadModule()
         tabsToSpaces.tabify()
 
-# Internal: Loads the module on-demand.
-loadModule = ->
-  TabsToSpaces ?= require './tabs-to-spaces'
-  tabsToSpaces ?= new TabsToSpaces()
+      'tabs-to-spaces:untabify': =>
+        @loadModule()
+        tabsToSpaces.untabify()
+
+      'tabs-to-spaces:untabify-all': =>
+        @loadModule()
+        tabsToSpaces.untabifyAll()
+
+    @editorObserver = atom.workspace.observeTextEditors (editor) =>
+      @handleEvents(editor)
+
+  deactivate: ->
+    @commands.dispose()
+    @editorObserver.dispose()
+
+  # Private: Creates event handlers.
+  #
+  # * `editor` {TextEditor} to attach the event handlers to
+  handleEvents: (editor) ->
+    editor.getBuffer().onWillSave =>
+      return if editor.getPath() is atom.config.getUserConfigPath()
+
+      switch atom.config.get('tabs-to-spaces.onSave', scope: editor.getRootScopeDescriptor())
+        when 'untabify'
+          @loadModule()
+          tabsToSpaces.untabify()
+        when 'tabify'
+          @loadModule()
+          tabsToSpaces.tabify()
+
+  # Private: Loads the module on-demand.
+  loadModule: ->
+    TabsToSpaces ?= require './tabs-to-spaces'
+    tabsToSpaces ?= new TabsToSpaces()

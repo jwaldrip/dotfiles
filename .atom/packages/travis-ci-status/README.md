@@ -1,8 +1,6 @@
-# Travis CI Status Package
+# Travis CI Status [![Build Status](https://travis-ci.org/tombell/travis-ci-status.svg?branch=master)](https://travis-ci.org/tombell/travis-ci-status)
 
 Add Travis CI status of the project to the Atom status bar.
-
-![Travis CI Status](https://raw.github.com/tombell/travis-ci-status/master/screenshots/travis-ci-status.png)
 
 ## Installing
 
@@ -38,13 +36,4 @@ The following commands are available for users to keymap.
 
 ## Coming Soon
 
-* Better icon for the status bar
-
 Feel free to open an issue to discuss potential features to add or improve.
-
-## Support
-
-If you wish to support this package and help further its development, feel free
-to tip via Gittip.
-
-[![Gittip](http://img.shields.io/gittip/tombell.png)](https://www.gittip.com/tombell/)

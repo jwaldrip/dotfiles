@@ -1,11 +1,12 @@
-{View} = require 'atom'
+{CompositeDisposable} = require 'atom'
+{View} = require 'space-pen'
 {GitBridge} = require './git-bridge'
 handleErr = require './error-view'
 
 module.exports =
 class ResolverView extends View
 
-  @content: (editor) ->
+  @content: (editor, pkg) ->
     @div class: 'overlay from-top resolver', =>
       @div class: 'block text-highlight', "We're done here"
       @div class: 'block', =>
@@ -19,14 +20,19 @@ class ResolverView extends View
       @div class: 'pull-right', =>
         @button class: 'btn btn-primary', click: 'resolve', 'Stage'
 
-  initialize: (@editor) ->
+  initialize: (@editor, @pkg) ->
+    @subs = new CompositeDisposable()
+
     @refresh()
-    @editor.getBuffer().on 'saved', => @refresh()
-    @subscribe atom, 'merge-conflicts:quit', (event) => @dismiss()
+    @subs.add @editor.onDidSave => @refresh()
+
+    @subs.add atom.commands.add @element, 'merge-conflicts:quit', => @dismiss()
+
+  detached: -> @subs.dispose()
 
   getModel: -> null
 
-  relativePath: -> atom.project.getRepo().relativize @editor.getUri()
+  relativePath: -> atom.project.getRepositories()[0].relativize @editor.getURI()
 
   refresh: ->
     GitBridge.isStaged @relativePath(), (err, staged) =>
@@ -39,7 +45,7 @@ class ResolverView extends View
 
       unless needsSaved or needsStaged
         @hide 'fast', -> @remove()
-        atom.emit 'merge-conflicts:staged', file: @editor.getUri()
+        @pkg.didStageFile file: @editor.getURI()
         return
 
       if needsSaved

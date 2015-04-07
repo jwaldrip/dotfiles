@@ -1,4 +1,4 @@
-{$} = require 'atom'
+{$} = require 'space-pen'
 SideView = require '../lib/side-view'
 Conflict = require '../lib/conflict'
 util = require './util'
@@ -6,22 +6,19 @@ util = require './util'
 describe 'SideView', ->
   [view, editorView, ours, theirs] = []
 
-  text = -> editorView.getEditor().getText()
+  text = -> editorView.getModel().getText()
 
   beforeEach ->
-    editorView = util.openPath("single-2way-diff.txt")
-    conflict = Conflict.all({ isRebase: false }, editorView.getEditor())[0]
-    [ours, theirs] = [conflict.ours, conflict.theirs]
-    view = new SideView(ours, editorView)
+    util.openPath "single-2way-diff.txt", (v) ->
+      editor = v.getModel()
+      editorView = v
+      conflict = Conflict.all({ isRebase: false }, editor)[0]
+      [ours, theirs] = [conflict.ours, conflict.theirs]
+      view = new SideView(ours, editor)
 
   it 'applies its position as a CSS class', ->
     expect(view.hasClass 'top').toBe(true)
     expect(view.hasClass 'bottom').toBe(false)
-
-  it 'positions itself over the banner line', ->
-    refBanner = editorView.find('.line:contains("<<<<<<<")').eq 0
-    expect(view.offset().top).toEqual(refBanner.offset().top)
-    expect(view.height()).toEqual(refBanner.height())
 
   it 'knows if its text is unaltered', ->
     expect(ours.isDirty).toBe(false)
@@ -31,7 +28,7 @@ describe 'SideView', ->
     [editor] = []
 
     beforeEach ->
-      editor = editorView.getEditor()
+      editor = editorView.getModel()
       editor.setCursorBufferPosition [1, 0]
       editor.insertText "I won't keep them, but "
       view.detectDirty()

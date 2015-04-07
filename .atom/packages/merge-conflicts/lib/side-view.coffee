@@ -1,9 +1,10 @@
+{CompositeDisposable} = require 'atom'
 {CoveringView} = require './covering-view'
 
 module.exports =
 class SideView extends CoveringView
 
-  @content: (side, editorView) ->
+  @content: (side, editor) ->
     @div class: "side #{side.klass()} #{side.position} ui-site-#{side.site()}", =>
       @div class: 'controls', =>
         @label class: 'text-highlight', side.ref
@@ -12,30 +13,41 @@ class SideView extends CoveringView
           @button class: 'btn btn-xs inline-block-tight revert', click: 'revert', outlet: 'revertBtn', 'Revert'
           @button class: 'btn btn-xs inline-block-tight', click: 'useMe', outlet: 'useMeBtn', 'Use Me'
 
-  initialize: (@side, editorView) ->
-    super editorView
+  initialize: (@side, editor) ->
+    @subs = new CompositeDisposable
+    @decoration = null
+
+    super editor
 
     @detectDirty()
     @prependKeystroke @side.eventName(), @useMeBtn
     @prependKeystroke 'merge-conflicts:revert-current', @revertBtn
 
-    @decoration = null
+  attached: ->
+    super
 
-    @side.conflict.on 'conflict:resolved', =>
+    @decorate()
+    @subs.add @side.conflict.onDidResolveConflict =>
       @deleteMarker @side.refBannerMarker
       @deleteMarker @side.marker unless @side.wasChosen()
       @remove()
+      @cleanup()
+
+  cleanup: ->
+    super
+    @subs.dispose()
 
   cover: -> @side.refBannerMarker
 
   decorate: ->
+    @decoration?.destroy()
+
+    return if @side.conflict.isResolved() && !@side.wasChosen()
+
     args =
       type: 'line'
       class: @side.lineClass()
-    if @decoration?
-      @decoration.update(args)
-    else
-      @decoration = @editor().decorateMarker(@side.marker, args)
+    @decoration = @editor.decorateMarker(@side.marker, args)
 
   conflict: -> @side.conflict
 
@@ -52,15 +64,16 @@ class SideView extends CoveringView
     @decorate()
 
   revert: ->
-    @editor().setTextInBufferRange @side.marker.getBufferRange(),
-      @side.originalText
+    @editor.setTextInBufferRange @side.marker.getBufferRange(), @side.originalText
     @decorate()
 
   detectDirty: ->
-    currentText = @editor().getTextInBufferRange @side.marker.getBufferRange()
+    currentText = @editor.getTextInBufferRange @side.marker.getBufferRange()
     @side.isDirty = currentText isnt @side.originalText
 
     @decorate()
 
     @removeClass 'dirty'
     @addClass 'dirty' if @side.isDirty
+
+  toString: -> "{SideView of: #{@side}}"

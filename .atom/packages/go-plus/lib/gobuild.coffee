@@ -1,18 +1,20 @@
-{spawn} = require 'child_process'
-fs = require 'fs-plus'
-glob = require 'glob'
-path = require 'path'
-temp = require 'temp'
-{Subscriber, Emitter} = require 'emissary'
-_ = require 'underscore-plus'
+{spawn} = require('child_process')
+fs = require('fs-plus')
+glob = require('glob')
+path = require('path')
+temp = require('temp')
+{Subscriber, Emitter} = require('emissary')
+_ = require('underscore-plus')
 
 module.exports =
 class Gobuild
   Subscriber.includeInto(this)
   Emitter.includeInto(this)
 
-  constructor: (@dispatch) ->
-    atom.workspaceView.command 'golang:gobuild', => @checkCurrentBuffer()
+  constructor: (dispatch) ->
+    @dispatch = dispatch
+    atom.commands.add 'atom-workspace',
+      'golang:gobuild': => @checkCurrentBuffer()
     @name = 'syntaxcheck'
 
   destroy: ->
@@ -20,35 +22,35 @@ class Gobuild
     @dispatch = null
 
   reset: (editor) ->
-    @emit 'reset', editor
+    @emit('reset', editor)
 
   checkCurrentBuffer: ->
     editor = atom?.workspace?.getActiveTextEditor()
     return unless @dispatch.isValidEditor(editor)
-    @reset editor
+    @reset(editor)
     done = (err, messages) =>
       @dispatch.resetAndDisplayMessages(editor, messages)
     @checkBuffer(editor, false, done)
 
-  checkBuffer: (editor, saving, callback = ->) ->
+  checkBuffer: (editor, saving, callback = -> ) ->
     unless @dispatch.isValidEditor(editor)
-      @emit @name + '-complete', editor, saving
+      @emit(@name + '-complete', editor, saving)
       callback(null)
       return
     if saving and not atom.config.get('go-plus.syntaxCheckOnSave')
-      @emit @name + '-complete', editor, saving
+      @emit(@name + '-complete', editor, saving)
       callback(null)
       return
     buffer = editor?.getBuffer()
     unless buffer?
-      @emit @name + '-complete', editor, saving
+      @emit(@name + '-complete', editor, saving)
       callback(null)
       return
 
     go = @dispatch.goexecutable.current()
     gopath = go.buildgopath()
     if not gopath? or gopath is ''
-      @emit @name + '-complete', editor, saving
+      @emit(@name + '-complete', editor, saving)
       callback(null)
       return
     splitgopath = go.splitgopath()
@@ -64,11 +66,11 @@ class Gobuild
     if buffer.getPath().match(/_test.go$/i)
       pre = /^\w*package ([\d\w]+){1}\w*$/img # Need To Support Unicode Letters Also
       match = pre.exec(buffer.getText())
-      testPackage = match[1]
+      testPackage = if match? and match.length > 0 then match[1] else ''
       testPackage = testPackage.replace(/_test$/i, '')
       output = testPackage + '.test' + go.exe
       outputPath = @tempDir
-      args = ['test', '-copybinary', '-outputdir', outputPath,'-c', '.']
+      args = ['test', '-copybinary', '-o', outputPath, '-c', '.']
       files = fs.readdirSync(fileDir)
     else
       output = '.go-plus-syntax-check'
@@ -76,13 +78,8 @@ class Gobuild
       args = ['build', '-o', outputPath, '.']
     cmd = go.executable
     done = (exitcode, stdout, stderr, messages) =>
-      console.log @name + ' - stdout: ' + stdout if stdout? and stdout.trim() isnt ''
+      console.log(@name + ' - stdout: ' + stdout) if stdout? and stdout.trim() isnt ''
       messages = @mapMessages(stderr, cwd, splitgopath) if stderr? and stderr isnt ''
-      pattern = cwd + '/*' + output
-      glob pattern, {mark: false, sync:true}, (er, files) ->
-        for file in files
-          do (file) ->
-            fs.unlinkSync(file)
       if fs.existsSync(outputPath)
         if fs.lstatSync(outputPath).isDirectory()
           fs.rmdirSync(outputPath)
@@ -93,15 +90,20 @@ class Gobuild
         for file in updatedFiles
           if _.endsWith(file, '.test' + go.exe)
             fs.unlinkSync(path.join(fileDir, file))
-      @emit @name + '-complete', editor, saving
+      pattern = cwd + '/*' + output
+      glob pattern, {mark: false}, (er, files) ->
+        for file in files
+          do (file) ->
+            fs.unlinkSync(file)
+      @emit(@name + '-complete', editor, saving)
       callback(null, messages)
     @dispatch.executor.exec(cmd, cwd, env, done, args)
 
-  mapMessages: (data, cwd, splitgopath) =>
+  mapMessages: (data, cwd, splitgopath) ->
     pattern = /^((#)\s(.*)?)|((.*?):(\d*?):((\d*?):)?\s((.*)?((\n\t.*)+)?))/img
     messages = []
     pkg = ''
-    extract = (matchLine) =>
+    extract = (matchLine) ->
       return unless matchLine?
       if matchLine[2]? and matchLine[2] is '#'
         # Found A Package Indicator, Skip For Now
@@ -109,7 +111,7 @@ class Gobuild
       else
         file = null
         if matchLine[5]? and matchLine[5] isnt ''
-          if matchLine[5].substring(0, 1) is '/' or matchLine[5].substring(1, 2) is ':\\'
+          if path.isAbsolute(matchLine[5])
             file = matchLine[5]
           else
             file = path.join(cwd, matchLine[5])
@@ -129,14 +131,14 @@ class Gobuild
             msg: matchLine[9]
             type: 'error'
             source: 'syntaxcheck'
-        messages.push message
+        messages.push(message)
     loop
       match = pattern.exec(data)
       extract(match)
       break unless match?
     return messages
 
-  absolutePathForPackage: (pkg, splitgopath) =>
+  absolutePathForPackage: (pkg, splitgopath) ->
     for gopath in splitgopath
       combinedpath = path.join(gopath, 'src', pkg)
       return fs.realpathSync(combinedpath) if fs.existsSync(combinedpath)

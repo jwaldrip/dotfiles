@@ -1,4 +1,3 @@
-{WorkspaceView} = require 'atom'
 __PackageName__ = require '../lib/__package-name__'
 
 # Use the command `window:run-package-specs` (cmd-alt-ctrl-p) to run specs.
@@ -7,28 +6,25 @@ __PackageName__ = require '../lib/__package-name__'
 # or `fdescribe`). Remove the `f` to unfocus the block.
 
 describe "__PackageName__", ->
+  [workspaceElement, editor] = []
 
   beforeEach ->
-    atom.workspaceView = new WorkspaceView
+    workspaceElement = atom.views.getView(atom.workspace)
+    jasmine.attachToDOM(workspaceElement)
 
-    waitsForPromise -> atom.workspaceView.open('sample.js')
+    waitsForPromise ->
+      atom.workspace.open('sample.js')
 
     runs ->
-      atom.workspaceView.simulateDomAttachment()
-      editorView = atom.workspaceView.getActiveView()
-      editorView.find('.lines').css('line-height', '14px')
-      editorView.height(50)
-      editorView.setText("This is the file content")
+      editor = atom.workspace.getActiveTextEditor()
+      editor.setText("This is the file content")
 
     waitsForPromise ->
       atom.packages.activatePackage('minimap')
-
-    runs ->
-      atom.workspaceView.trigger 'minimap:toggle'
 
     waitsForPromise ->
       atom.packages.activatePackage('__package-name__')
 
   describe "with an open editor that have a minimap", ->
-    it "creates and attaches the view to the minimap", ->
-      expect(atom.workspaceView.find('.minimap .__package-name__')).toExist()
+    it "lives", ->
+      expect('life').toBe('easy')

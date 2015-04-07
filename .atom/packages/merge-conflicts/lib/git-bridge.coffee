@@ -5,7 +5,12 @@ path = require 'path'
 class GitNotFoundError extends Error
 
   constructor: (message) ->
+    @name = 'GitNotFoundError'
     super(message)
+
+
+GitCmd = null
+
 
 class GitBridge
 
@@ -14,11 +19,51 @@ class GitBridge
 
   constructor: ->
 
-  @_gitCommand: -> atom.config.get 'merge-conflicts.gitPath'
+  @locateGitAnd: (callback) ->
+    # Use an explicitly provided path if one is available.
+    possiblePath = atom.config.get 'merge-conflicts.gitPath'
+    if possiblePath
+      GitCmd = possiblePath
+      callback(null)
+      return
 
-  @_repoWorkDir: -> atom.project.getRepo()?.getWorkingDirectory()
+    search = [
+      'git' # Search the inherited execution PATH. Unreliable on Macs.
+      '/usr/local/bin/git' # Homebrew
+      '"%PROGRAMFILES%\\Git\\bin\\git"' # Reasonable Windows default
+      '"%LOCALAPPDATA%\\Programs\\Git\\bin\\git"' # Contributed Windows path
+    ]
 
-  @_repoGitDir: -> atom.project.getRepo()?.getPath()
+    possiblePath = search.shift()
+
+    exitHandler = (code) =>
+      if code is 0
+        GitCmd = possiblePath
+        callback(null)
+        return
+
+      possiblePath = search.shift()
+
+      unless possiblePath?
+        callback(new GitNotFoundError("Please set the 'Git Path' correctly in the Atom settings "
+          "for the Merge Conflicts package."))
+        return
+
+      @process({
+        command: possiblePath,
+        args: ['--version'],
+        exit: exitHandler
+      })
+
+    @process({
+      command: possiblePath,
+      args: ['--version'],
+      exit: exitHandler
+    })
+
+  @_repoWorkDir: -> atom.project.getRepositories()[0].getWorkingDirectory()
+
+  @_repoGitDir: -> atom.project.getRepositories()[0].getPath()
 
   @_statusCodesFrom: (chunk, handler) ->
     for line in chunk.split("\n")
@@ -49,7 +94,7 @@ class GitBridge
         handler(new Error("abnormal git exit: #{code}\n" + errMessage.join("\n")), null)
 
     proc = @process({
-      command: @_gitCommand(),
+      command: GitCmd,
       args: ['status', '--porcelain'],
       options: { cwd: @_repoWorkDir() },
       stdout: stdoutHandler,
@@ -77,7 +122,7 @@ class GitBridge
         handler(new Error("git status exit: #{code}"), null)
 
     proc = @process({
-      command: @_gitCommand(),
+      command: GitCmd,
       args: ['status', '--porcelain', filepath],
       options: { cwd: @_repoWorkDir() },
       stdout: stdoutHandler,
@@ -90,7 +135,7 @@ class GitBridge
 
   @checkoutSide: (sideName, filepath, callback) ->
     proc = @process({
-      command: @_gitCommand(),
+      command: GitCmd,
       args: ['checkout', "--#{sideName}", filepath],
       options: { cwd: @_repoWorkDir() },
       stdout: (line) -> console.log line
@@ -107,7 +152,7 @@ class GitBridge
 
   @add: (filepath, callback) ->
     @process({
-      command: @_gitCommand(),
+      command: GitCmd,
       args: ['add', filepath],
       options: { cwd: @_repoWorkDir() },
       stdout: (line) -> console.log line

@@ -100,3 +100,9 @@ function brew-bundle(){
 if which autojump > /dev/null ; then
     [[ -s `brew --prefix`/etc/autojump.sh ]] && . `brew --prefix`/etc/autojump.sh
 fi
+
+### Proxy Config
+function enable-charles(){
+  export http_proxy=http://localhost:8888
+  echo -e "Proxy environment variable set to ON. Quit Terminal, logout, or reboot to reset it back to Apple's defaults."
+}

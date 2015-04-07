@@ -1,14 +1,16 @@
-{View, Point} = require 'atom'
+{Point} = require 'atom'
+{View} = require 'space-pen'
+
+_ = require 'lodash'
 
 # Status Bar View
 class StatusBarView extends View
 
   @content: ->
-    @div class: 'tool-panel panel-bottom padded text-smaller', =>
+    @div class: 'padded text-smaller', =>
       @dl class: 'linter-statusbar', outlet: 'violations',
 
-  show: ->
-    super
+  initialize: ->
     # Bind `.copy` to copy the text on click
     @on 'click', '.copy', ->
       el = @parentElement.getElementsByClassName('error-message')[0]
@@ -28,12 +30,9 @@ class StatusBarView extends View
     # If the selected line contains an error message, highlight the error
     $line?.addClass('message-highlighted')
 
-  hide: ->
-    # Remove registred events before hidding the status bar
-    # Avoid memory leaks after long usage
+  detached: ->
     @off 'click', '.copy'
     @off 'click', '.goToError'
-    super
 
   computeMessages: (messages, position, currentLine, limitOnErrorRange) ->
     # Clear `violations` div
@@ -53,6 +52,7 @@ class StatusBarView extends View
       if showInRange or showOnLine or @showAllErrors
         pos = "line: #{item.line}"
         if item.col? then pos = "#{pos} / col: #{item.col}"
+        message = _.escape(item.message)
         violation =
           """
             <dt>
@@ -61,7 +61,7 @@ class StatusBarView extends View
             <dd>
               <span class='copy icon-clippy'></span>
               <span class='goToError' data-line='#{item.line - 1}' data-col='#{item.col - 1 or 0}'>
-                <span class='error-message linter-line-#{item.line - 1}'>#{item.message}</span>
+                <span class='error-message linter-line-#{item.line - 1}'>#{message}</span>
                 <span class='pos'>#{pos}</span>
               </span>
             </dd>
@@ -75,19 +75,24 @@ class StatusBarView extends View
       @show()
       @highlightLines(currentLine)
 
+  filterInfoMessages: (messages, config) ->
+    showInfoMessages = config.get 'linter.showInfoMessages'
+    return messages if showInfoMessages
+    return (msg for msg in messages when msg.level != 'info')
+
   # Render the view
   render: (messages, editor) ->
-    # preppend this view the bottom
-    atom.workspaceView.prependToBottom this
-
+    statusBarConfig = atom.config.get 'linter.statusBar'
     # Config value if you want to limit the status bar report
     # if your cursor is in the range or error, or on the line
-    limitOnErrorRange = atom.config.get 'linter.showStatusBarWhenCursorIsInErrorRange'
+    limitOnErrorRange = statusBarConfig == 'Show error if the cursor is in range'
     # Display all errors in the file if it set to true
-    @showAllErrors = atom.config.get 'linter.showAllErrorsInStatusBar'
+    @showAllErrors = statusBarConfig == 'Show all errors'
 
     # Hide the last version of this view
     @hide()
+
+    messages = @filterInfoMessages messages, atom.config
 
     # No more errors on the file, return
     return unless messages.length > 0
@@ -101,5 +106,9 @@ class StatusBarView extends View
     # TODO: why not have computeMessages get currentLine from position?
     currentLine = position.row
     @computeMessages messages, position, currentLine, limitOnErrorRange
+
+    unless @added
+      atom.workspace.addBottomPanel item: this
+      @added = true
 
 module.exports = StatusBarView
