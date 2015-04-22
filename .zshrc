@@ -14,6 +14,7 @@ HIST_STAMPS="mm/dd/yyyy"
 plugins=(autojump brew bundler chruby docker gitfast lwd node npm osx rails redis-cli ruby)
 
 source $ZSH/oh-my-zsh.sh
+source ~/.private/vars.sh
 
 # Editors
 export EDITOR="vim"
@@ -55,9 +56,6 @@ export PATH="/Applications/Postgres.app/Contents/Versions/9.4/bin:$PATH"
 export VAGRANT_DEFAULT_PROVIDER=vmware_fusion
 
 ### Exports
-
-# Deis Ctl
-export DEISCTL_TUNNEL="deis.waldrip.do-nyc3.brandfolder.com"
 
 # Set the bundler editor
 export BUNDLER_EDITOR=mine
@@ -104,5 +102,8 @@ fi
 ### Proxy Config
 function enable-charles(){
   export http_proxy=http://localhost:8888
-  echo -e "Proxy environment variable set to ON. Quit Terminal, logout, or reboot to reset it back to Apple's defaults."
+}
+
+function disable-charles(){
+  export http_proxy=
 }

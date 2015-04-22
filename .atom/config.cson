@@ -19,6 +19,7 @@
   editor:
     showIndentGuide: true
     invisibles: {}
+    fontSize: 17
   "recent-files":
     updated: false
   "linter-rubocop":
@@ -26,3 +27,6 @@
   whitespace:
     ensureSingleTrailingNewline: false
   linter: {}
+  minimap:
+    plugins:
+      bookmarks: true
