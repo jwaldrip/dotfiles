@@ -2,10 +2,10 @@ git = require '../git'
 LogListView = require '../views/log-list-view'
 
 amountOfCommitsToShow = ->
-  atom.config.getPositiveInt('git-plus.amountOfCommitsToShow') ? (atom.config.getDefault 'git-plus.amountOfCommitsToShow')
+  atom.config.get('git-plus.amountOfCommitsToShow')
 
 gitLog = (onlyCurrentFile=false) ->
-  currentFile = git.relativize(atom.workspace.getActiveEditor()?.getPath())
+  currentFile = git.relativize(atom.workspace.getActiveTextEditor()?.getPath())
 
   args = ['log', "--pretty='%h;|%aN <%aE>;|%s;|%ar (%aD)'", '-s', "-n#{amountOfCommitsToShow()}"]
   args.push currentFile if onlyCurrentFile and currentFile?

@@ -2,7 +2,7 @@
   'targets': [{
     'target_name': 'pty',
     'include_dirs' : [
-      '<!(node -e "require(\'nan\')")',
+      '<!(node -e "require(\'nan\')")'
     ],
     'conditions': [
       ['OS=="win"', {
@@ -18,9 +18,9 @@
         'sources' : [
           'src/win/pty.cc'
         ],
-		'libraries': [
-			'shlwapi.lib'
-		],
+        'libraries': [
+          'shlwapi.lib'
+        ],
       }, { # OS!="win"
         'sources': [
           'src/unix/pty.cc'

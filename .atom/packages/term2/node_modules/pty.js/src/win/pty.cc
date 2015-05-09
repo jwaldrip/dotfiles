@@ -1,6 +1,6 @@
 /**
 * pty.js
-* Copyright (c) 2013, Christopher Jeffrey, Peter Sunde (MIT License)
+* Copyright (c) 2013-2015, Christopher Jeffrey, Peter Sunde (MIT License)
 *
 * pty.cc:
 *   This file is responsible for starting processes
@@ -118,7 +118,8 @@ static std::wstring get_shell_path(std::wstring filename)  {
 
   const wchar_t *filename_ = filename.c_str();
 
-  for(wstring path : paths) {
+  for (int i = 0; i < paths.size(); ++i) {
+    wstring path = paths[i];
     wchar_t searchPath[MAX_PATH];
     ::PathCombineW(searchPath, const_cast<wchar_t*>(path.c_str()), filename_);
 
@@ -209,8 +210,6 @@ static NAN_METHOD(PtyOpen) {
   marshal->Set(NanNew<String>("pid"), NanNew<Number>((int)pc->controlPipe));
   marshal->Set(NanNew<String>("pty"), NanNew<Number>(InterlockedIncrement(&ptyCounter)));
   marshal->Set(NanNew<String>("fd"), NanNew<Number>(-1));
-
-  delete pipeName;
 
   NanReturnValue(marshal);
 }

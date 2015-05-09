@@ -50,7 +50,7 @@ gitStagedFiles = (stdout) ->
       files = _prettify(data)
     stderr: (data) ->
       # edge case of no HEAD at initial commit
-      if data.toString().contains "ambiguous argument 'HEAD'"
+      if data.toString().includes "ambiguous argument 'HEAD'"
         files = [1]
       else
         new StatusView(type: 'error', message: data.toString())
@@ -77,7 +77,15 @@ gitDiff = (stdout, path) ->
     args: ['diff', '-p', '-U1', path]
     stdout: (data) -> stdout _prettifyDiff(data)
 
+# Two-fold, refresh index as well as status
 gitRefreshIndex = ->
+  repo = GitRepository.open(atom.workspace.getActiveTextEditor()?.getPath(), refreshOnWindowFocus: false)
+  if repo is not null
+    repo.refreshStatus()
+    repo.destroy()
+  else
+    if repo = atom.project.getRepositories()[0]
+      repo.refreshStatus()
   gitCmd
     args: ['add', '--refresh', '--', '.']
     stderr: (data) -> # don't really need to flash an error
@@ -133,28 +141,26 @@ _prettifyDiff = (data) ->
 #
 # @param andSubmodules boolean determining whether to account for submodules
 dir = (andSubmodules=true) ->
-  found = false
   if andSubmodules
     if submodule = getSubmodule()
       return submodule.getWorkingDirectory()
-  if not found
-    return getRepo()?.getWorkingDirectory() ? atom.project.getPath()
+  return getRepo()?.getWorkingDirectory() ? atom.project.getPath()
 
 # returns filepath relativized for either a submodule or repository
 #   otherwise just a full path
 relativize = (path) ->
-  getSubmodule(path)?.relativize(path) ? atom.project.getRepo()?.relativize(path) ? path
+  getSubmodule(path)?.relativize(path) ? atom.project.getRepositories()[0]?.relativize(path) ? path
 
 # returns submodule for given file or undefined
 getSubmodule = (path) ->
-  path ?= atom.workspace.getActiveEditor()?.getPath()
-  atom.project.getRepo()?.repo.submoduleForPath(path)
+  path ?= atom.workspace.getActiveTextEditor()?.getPath()
+  atom.project.getRepositories()[0]?.repo.submoduleForPath(path)
 
 # Public: Get the repository of the current file or project if no current file
 # Returns a {GitRepository}-like object or null if not found.
 getRepo = ->
-  repo = GitRepository.open(atom.workspace.getActiveEditor()?.getPath(), refreshOnWindowFocus: false)
-  if repo is not null
+  repo = GitRepository.open(atom.workspace.getActiveTextEditor()?.getPath(), refreshOnWindowFocus: false)
+  if repo isnt null
     data = {
       references: repo.getReferences()
       shortHead: repo.getShortHead()
@@ -167,7 +173,7 @@ getRepo = ->
       getWorkingDirectory: -> data.workingDirectory
     }
   else
-    return atom.project.getRepo()
+    return atom.project.getRepositories()[0]
 
 module.exports.cmd = gitCmd
 module.exports.stagedFiles = gitStagedFiles

@@ -2,8 +2,8 @@
   core:
     disabledPackages: [
       "autosave"
-      "git-diff"
       "linter-rubocop"
+      "git-diff-details"
     ]
   "exception-reporting":
     userId: "67040a04-f265-d6b0-1d85-ada881d2b3ee"
@@ -30,3 +30,4 @@
   minimap:
     plugins:
       bookmarks: true
+      "git-diff": true

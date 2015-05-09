@@ -13,22 +13,22 @@
     "go fmt",
     "go vet"
   ],
-  "version": "3.3.1",
+  "version": "3.3.8",
   "main": "./lib/go-plus",
   "license": "Apache-2.0",
   "engines": {
-    "atom": ">=0.177.0",
+    "atom": ">=0.192.0 <2.0.0",
     "node": "*"
   },
   "author": {
     "name": "Joe Fitzgerald",
-    "email": "jfitzgerald@gopivotal.com",
+    "email": "jfitzgerald@pivotal.io",
     "url": "http://github.com/joefitzgerald"
   },
   "homepage": "https://atom.io/packages/go-plus",
   "repository": {
     "type": "git",
-    "url": "https://github.com/joefitzgerald/go-plus.git"
+    "url": "https://github.com/joefitzgerald/go-plus"
   },
   "bugs": {
     "url": "https://github.com/joefitzgerald/go-plus/issues"
@@ -55,10 +55,10 @@
   },
   "readme": "# go-plus – Improved Go Experience In Atom\n\n[![Gitter](https://badges.gitter.im/Join Chat.svg)](https://gitter.im/joefitzgerald/go-plus?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)\n\n[![OSX Build Status](https://travis-ci.org/joefitzgerald/go-plus.svg?branch=master)](https://travis-ci.org/joefitzgerald/go-plus)\n[![Windows Build status](https://ci.appveyor.com/api/projects/status/d0cekvaprt9wo1et)](https://ci.appveyor.com/project/joefitzgerald/go-plus)\n\n## Installing\n\n1. Install `autocomplete-plus`: `apm install autocomplete-plus` or open Atom and go to `Preferences > Packages`, search for `autocomplete-plus`, and install it\n1. Install `go-plus`: `apm install go-plus` or open Atom and go to `Preferences > Packages`, search for `go-plus`, and install it\n\n## Overview\n\nThis package adds extra Atom functionality for the go language:\n\n* Autocomplete using `gocode` (you _must_ have the `autocomplete-plus` package installed for this to work)\n* Formatting source using `gofmt`\n* Formatting and managing imports using `goimports`, `goreturns`, or `gofmt`\n* Code quality inspection using `go vet`\n* Linting using `golint`\n* Syntax checking using `go build` and `go test`\n* Display of test coverage using `go test -coverprofile`\n\n## Example\n\n![A screenshot of go-plus in action](http://cl.ly/image/392z2L0f0E41/go-plus-example.gif)\n\n## Platforms\n\nThe package is currently known to work on OS X, Windows (7+) and Ubuntu. CI jobs exist for OS X and Windows; Ubuntu CI is still in-progress.\n\n## Configuration\n\n### Defaults\n\n| Display Name                            | Name                                        | Default     | Description                                                                                                                                                                                                                            |\n|:----------------------------------------|:--------------------------------------------|:------------|:---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|\n| Environment Overrides Config            | `go-plus.environmentOverridesConfiguration` | `true`      | Use the environment's value for GOPATH (if set) instead of the configured value for GOPATH (below)                                                                                                                                     |\n| GOPATH                                  | `go-plus.goPath`                            | `unset`     | You should set your GOPATH in the environment, and launch Atom using the `atom` command line tool; if you would like to set it explicitly, you can do so here (e.g. ~/go)                                                              |\n| Go Installation Path                    | `go-plus.goInstallation`                    | `unset`     | You should not normally set this; if you have a non-standard go installation path and `go` is not available on your PATH, you can use this to configure the location to `go` (e.g. /usr/local/othergo/bin/go or c:\\othergo\\bin\\go.exe) |\n| Run Format Tool On Save                 | `go-plus.formatOnSave`                      | `true`      | Run the configured format tool each time a file is saved                                                                                                                                                                               |\n| Format Tool                             | `go-plus.formatTool`                        | `goimports` | Choose one: goimports, goreturns, or gofmt                                                                                                                                                                                             |\n| Format Arguments                        | `go-plus.formatArgs`                        | `-w -e`     | `-w` will always be used; you can specify additional arguments for the format tool if desired                                                                                                                                          |\n| Run Lint Tool On Save                   | `go-plus.lintOnSave`                        | `true`      | Run `golint` each time a file is saved                                                                                                                                                                                                 |\n| Lint Arguments                          | `go-plus.golintArgs`                        | `unset`     | Arguments to pass to `golint` (these are not usually needed)                                                                                                                                                                           |\n| Run Coverage Tool On Save               | `go-plus.runCoverageOnSave`                 | `false`     | Run `go test -coverprofile` each time a file is saved                                                                                                                                                                                  |\n| Run Syntax Check On Save                | `go-plus.syntaxCheckOnSave`                 | `true`      | Run `go build` / `go test` each time a file is saved                                                                                                                                                                                   |\n| Run Vet Tool On Save                    | `go-plus.vetOnSave`                         | `true`      | Run `go vet` each time a file is saved                                                                                                                                                                                                 |\n| Vet Arguments                           | `go-plus.vetArgs`                           | `unset`     | Arguments to pass to `go vet` (these are not usually needed)                                                                                                                                                                           |\n| Automatically Get Missing Tools         | `go-plus.getMissingTools`                   | `true`      | Run `go get -u` to retrieve any tools that are required but not currently available in the go tool directory, the PATH, or your GOPATH                                                                                                 |\n| Show Message Panel                      | `go-plus.showPanel`                         | `true`      | Show the go-plus message panel to provide information about issues with your source                                                                                                                                                    |\n| Show Message Panel When No Issues Exist | `go-plus.showPanelWhenNoIssuesExist`        | `false`     | Show the go-plus message panel even when no issues exist                                                                                                                                                                               |\n\n### Detection Of Your Go Installation\n\nThe package will search the following locations (in order) for a `go` executable:\n\n* All directories specified in the PATH environment variable\n* OS X: `/usr/local/go/bin` (package installer)\n* OS X: `/usr/local/bin` (Homebrew)\n* Windows: `C:\\go\\bin` (package installer)\n* Windows: `C:\\tools\\go\\bin` (Chocolatey)\n\nIf you have go installed somewhere else, and *not available on the path*, specify the full path to the go executable in the `Go Installation` preference.\n\n### GOPATH\n\nLove it or hate it, `GOPATH` is very important in `go` land.\n\nSyntax checking requires a valid `GOPATH` for the files you are checking. You\ncan set your `GOPATH` using one of two mechanisms:\n\n* Using the environment: set the `$GOPATH` environment variable to the correct\n  value\n* Using `go-plus` preferences: set the `Go Path` preference\n\nThe environment (if set) is preferred over the `Go Path` preference by default.\nYou can change this by updating the `Environment Overrides Configuration`\npreference.\n\nThe most common reason `GOPATH` might not be set in the environment is due to the\nway OS X launches processes. When you launch Atom via processes created by\n`launchd` (e.g. using Finder, the Dock, or Spotlight) it likely will not have\naccess to your `$GOPATH` if you set it in your shell initialization files (e.g.\n`.bash_profile`, `.bashrc`, `.zshrc`, etc).\n\nConsider launching Atom via your shell – using the Atom Shell Commands – where\nAtom should inherit your environment. Alternatively, try one of the suggestions\nat http://apple.stackexchange.com/a/87283 to set the `GOPATH` for processes\nlaunched by `launchd` (and their children, which will include Atom).\n\nSetting the `Go Path` preference will ensure that you have a sensible fallback\nfor GOPATH if you have launched Atom without the `$GOPATH` environment variable\nset.\n\nIf both the `Go Path` preference and the `$GOPATH` / `%GOPATH%` environment variable are\nempty, `go-plus` will display a warning and will not perform `go build` / `go\ntest` powered syntax checking.\n\n## Planned Features\n\nThe following features will be added soon:\n\n* `go oracle` / `godef` integration ([#11](https://github.com/joefitzgerald/go-plus/issues/11))\n* `godoc` integration ([#12](https://github.com/joefitzgerald/go-plus/issues/12))\n* ... and others: https://github.com/joefitzgerald/go-plus/issues\n\n\n## Troubleshooting\n\n### Missing Tools\n\n> <b>Question:</b> Why are some of the tools found, not `cover`, `goimports`, or `vet`?\n\n> <b>Answer:</b> Do you have Mercurial Installed?\n\nMany `go` tools live at https://code.google.com/p/go.tools. This repository is a Mercurial repository. If you have the `Get Missing Tools` option enabled, `go-plus` will attempt to install required tools from this repository. If you do not have Mercurial (`hg`) installed, `go-plus` will not succeed in installing `cover`, `goimports`, or `vet`.\n\nTo resolve issues installing cover or vet, install Mercurial:\n\n* OS X: Run `brew install mercurial`\n* Windows + Others: http://mercurial.selenic.com/wiki/Download\n\n### GOPATH\n\n> <b>Question:</b> Why can't Atom see my GOPATH? I have set it and I see it in terminal?\n\n> <b>Answer:</b> Did You Launch Atom Using The Shell Command?\n\n(From Above):\n\nThe most common reason `GOPATH` might not be set in the environment on OS X is due to the way OS X launches processes. When you launch Atom via processes created by `launchd` (e.g. using Finder, the Dock, or Spotlight) it likely will not have access to your `$GOPATH` if you set it in your shell initialization files (e.g. `.bash_profile`, `.bashrc`, `.zshrc`, etc).\n\nConsider launching Atom via your shell – using the Atom Shell Commands – where Atom should inherit your environment. Alternatively, try one of the suggestions at http://apple.stackexchange.com/a/87283 to set the `GOPATH` for processes launched by `launchd` (and their children, which will include Atom).\n\n### Still Having Issues?\n\nIf you are having issues and the information above isn't helping, feel free to create an issue at https://github.com/joefitzgerald/go-plus/issues. When you create the issue, please be sure to paste the information from `Packages > Go Plus > Display Go Information` to help us form a response that is targeted to your situation. This looks something like:\n\n```\nGo: go1.3.3 darwin/amd64 (@/usr/local/bin/go)\nGOPATH: /Users/jfitzgerald/go\nCover Tool: /usr/local/Cellar/go/1.3.3/libexec/pkg/tool/darwin_amd64/cover\nVet Tool: /usr/local/Cellar/go/1.3.3/libexec/pkg/tool/darwin_amd64/vet\nFormat Tool: /Users/jfitzgerald/go/bin/goimports\nLint Tool: /Users/jfitzgerald/go/bin/golint\nGit: /usr/bin/git\nMercurial: /usr/local/Cellar/mercurial/3.1.2/bin/hg\nPATH: /Users/jfitzgerald/go/bin:/usr/local/bin:/Users/jfitzgerald/.rbenv/shims:/usr/local/bin:/usr/local/sbin:/Users/jfitzgerald/go/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/MacGPG2/bin:/usr/texbin\nAtom: 0.143.0 (darwin x64 14.0.0)\n```\n\n## Contributors\n\nA list of contributors can be found at https://github.com/joefitzgerald/go-plus/graphs/contributors. Joe Fitzgerald ([@joefitzgerald](https://github.com/joefitzgerald)) is the maintainer of this project.\n\n## Contributing\n\nContributions are greatly appreciated. Please fork this repository, make your\nchanges, and open a pull request. See [Contributing](https://github.com/joefitzgerald/go-plus/wiki/Contributing) for detailed instructions.\n",
   "readmeFilename": "README.md",
-  "_id": "go-plus@3.3.1",
-  "_shasum": "9942d08d24bef9f1819ad92bec12c5f7e05cb38f",
-  "_resolved": "file:../d-115220-21081-1ij4och/package.tgz",
-  "_from": "../d-115220-21081-1ij4och/package.tgz",
+  "_id": "go-plus@3.3.8",
+  "_shasum": "0b6f744de5ce1428361bfbfd464fb1f4c914383d",
+  "_resolved": "file:../d-115327-12610-hub0sp/package.tgz",
+  "_from": "../d-115327-12610-hub0sp/package.tgz",
   "_atomModuleCache": {
     "version": 1,
     "dependencies": [
@@ -79,7 +79,7 @@
       },
       {
         "name": "grim",
-        "version": "1.2.0",
+        "version": "1.2.2",
         "path": "node_modules/atom-message-panel/node_modules/space-pen/node_modules/grim/lib/grim.js"
       },
       {
@@ -114,7 +114,7 @@
       },
       {
         "name": "es6-weak-map",
-        "version": "0.1.2",
+        "version": "0.1.4",
         "path": "node_modules/emissary/node_modules/es6-weak-map/index.js"
       },
       {
@@ -124,13 +124,8 @@
       },
       {
         "name": "es5-ext",
-        "version": "0.10.6",
+        "version": "0.10.7",
         "path": "node_modules/emissary/node_modules/es6-weak-map/node_modules/es5-ext/index.js"
-      },
-      {
-        "name": "es6-symbol",
-        "version": "2.0.1",
-        "path": "node_modules/emissary/node_modules/es6-weak-map/node_modules/es5-ext/node_modules/es6-symbol/index.js"
       },
       {
         "name": "es6-iterator",
@@ -140,11 +135,6 @@
       {
         "name": "es6-symbol",
         "version": "2.0.1",
-        "path": "node_modules/emissary/node_modules/es6-weak-map/node_modules/es6-iterator/node_modules/es6-symbol/index.js"
-      },
-      {
-        "name": "es6-symbol",
-        "version": "0.1.1",
         "path": "node_modules/emissary/node_modules/es6-weak-map/node_modules/es6-symbol/index.js"
       },
       {
@@ -159,12 +149,12 @@
       },
       {
         "name": "event-kit",
-        "version": "1.0.3",
+        "version": "1.1.0",
         "path": "node_modules/event-kit/lib/event-kit.js"
       },
       {
         "name": "grim",
-        "version": "1.2.0",
+        "version": "1.2.2",
         "path": "node_modules/event-kit/node_modules/grim/lib/grim.js"
       },
       {
@@ -194,7 +184,7 @@
       },
       {
         "name": "fs-plus",
-        "version": "2.6.0",
+        "version": "2.7.1",
         "path": "node_modules/fs-plus/lib/fs-plus.js"
       },
       {
@@ -214,7 +204,7 @@
       },
       {
         "name": "glob",
-        "version": "5.0.3",
+        "version": "5.0.5",
         "path": "node_modules/glob/glob.js"
       },
       {
@@ -263,6 +253,11 @@
         "path": "node_modules/glob/node_modules/once/node_modules/wrappy/wrappy.js"
       },
       {
+        "name": "path-is-absolute",
+        "version": "1.0.0",
+        "path": "node_modules/glob/node_modules/path-is-absolute/index.js"
+      },
+      {
         "name": "temp",
         "version": "0.8.1",
         "path": "node_modules/temp/lib/temp.js"
@@ -298,9 +293,7 @@
         "node_modules/atom-message-panel/node_modules/space-pen/package.json",
         "node_modules/atom-message-panel/package.json",
         "node_modules/emissary/node_modules/es6-weak-map/node_modules/d/package.json",
-        "node_modules/emissary/node_modules/es6-weak-map/node_modules/es5-ext/node_modules/es6-symbol/package.json",
         "node_modules/emissary/node_modules/es6-weak-map/node_modules/es5-ext/package.json",
-        "node_modules/emissary/node_modules/es6-weak-map/node_modules/es6-iterator/node_modules/es6-symbol/package.json",
         "node_modules/emissary/node_modules/es6-weak-map/node_modules/es6-iterator/package.json",
         "node_modules/emissary/node_modules/es6-weak-map/node_modules/es6-symbol/package.json",
         "node_modules/emissary/node_modules/es6-weak-map/package.json",
@@ -329,6 +322,7 @@
         "node_modules/glob/node_modules/minimatch/package.json",
         "node_modules/glob/node_modules/once/node_modules/wrappy/package.json",
         "node_modules/glob/node_modules/once/package.json",
+        "node_modules/glob/node_modules/path-is-absolute/package.json",
         "node_modules/glob/package.json",
         "node_modules/temp/node_modules/rimraf/package.json",
         "node_modules/temp/package.json",
@@ -551,6 +545,11 @@
         "node_modules/emissary/node_modules/es6-weak-map/node_modules/es5-ext/function/valid-function.js",
         "node_modules/emissary/node_modules/es6-weak-map/node_modules/es5-ext/global.js",
         "node_modules/emissary/node_modules/es6-weak-map/node_modules/es5-ext/index.js",
+        "node_modules/emissary/node_modules/es6-weak-map/node_modules/es5-ext/iterable/for-each.js",
+        "node_modules/emissary/node_modules/es6-weak-map/node_modules/es5-ext/iterable/index.js",
+        "node_modules/emissary/node_modules/es6-weak-map/node_modules/es5-ext/iterable/is.js",
+        "node_modules/emissary/node_modules/es6-weak-map/node_modules/es5-ext/iterable/validate-object.js",
+        "node_modules/emissary/node_modules/es6-weak-map/node_modules/es5-ext/iterable/validate.js",
         "node_modules/emissary/node_modules/es6-weak-map/node_modules/es5-ext/math/_pack-ieee754.js",
         "node_modules/emissary/node_modules/es6-weak-map/node_modules/es5-ext/math/_unpack-ieee754.js",
         "node_modules/emissary/node_modules/es6-weak-map/node_modules/es5-ext/math/acosh/implement.js",
@@ -622,13 +621,6 @@
         "node_modules/emissary/node_modules/es6-weak-map/node_modules/es5-ext/math/trunc/index.js",
         "node_modules/emissary/node_modules/es6-weak-map/node_modules/es5-ext/math/trunc/is-implemented.js",
         "node_modules/emissary/node_modules/es6-weak-map/node_modules/es5-ext/math/trunc/shim.js",
-        "node_modules/emissary/node_modules/es6-weak-map/node_modules/es5-ext/node_modules/es6-symbol/implement.js",
-        "node_modules/emissary/node_modules/es6-weak-map/node_modules/es5-ext/node_modules/es6-symbol/index.js",
-        "node_modules/emissary/node_modules/es6-weak-map/node_modules/es5-ext/node_modules/es6-symbol/is-implemented.js",
-        "node_modules/emissary/node_modules/es6-weak-map/node_modules/es5-ext/node_modules/es6-symbol/is-native-implemented.js",
-        "node_modules/emissary/node_modules/es6-weak-map/node_modules/es5-ext/node_modules/es6-symbol/is-symbol.js",
-        "node_modules/emissary/node_modules/es6-weak-map/node_modules/es5-ext/node_modules/es6-symbol/polyfill.js",
-        "node_modules/emissary/node_modules/es6-weak-map/node_modules/es5-ext/node_modules/es6-symbol/validate-symbol.js",
         "node_modules/emissary/node_modules/es6-weak-map/node_modules/es5-ext/number/#/index.js",
         "node_modules/emissary/node_modules/es6-weak-map/node_modules/es5-ext/number/#/pad.js",
         "node_modules/emissary/node_modules/es6-weak-map/node_modules/es5-ext/number/epsilon/implement.js",
@@ -712,6 +704,10 @@
         "node_modules/emissary/node_modules/es6-weak-map/node_modules/es5-ext/object/valid-callable.js",
         "node_modules/emissary/node_modules/es6-weak-map/node_modules/es5-ext/object/valid-object.js",
         "node_modules/emissary/node_modules/es6-weak-map/node_modules/es5-ext/object/valid-value.js",
+        "node_modules/emissary/node_modules/es6-weak-map/node_modules/es5-ext/object/validate-array-like-object.js",
+        "node_modules/emissary/node_modules/es6-weak-map/node_modules/es5-ext/object/validate-array-like.js",
+        "node_modules/emissary/node_modules/es6-weak-map/node_modules/es5-ext/object/validate-stringifiable-value.js",
+        "node_modules/emissary/node_modules/es6-weak-map/node_modules/es5-ext/object/validate-stringifiable.js",
         "node_modules/emissary/node_modules/es6-weak-map/node_modules/es5-ext/reg-exp/#/index.js",
         "node_modules/emissary/node_modules/es6-weak-map/node_modules/es5-ext/reg-exp/#/is-sticky.js",
         "node_modules/emissary/node_modules/es6-weak-map/node_modules/es5-ext/reg-exp/#/is-unicode.js",
@@ -797,13 +793,6 @@
         "node_modules/emissary/node_modules/es6-weak-map/node_modules/es6-iterator/get.js",
         "node_modules/emissary/node_modules/es6-weak-map/node_modules/es6-iterator/index.js",
         "node_modules/emissary/node_modules/es6-weak-map/node_modules/es6-iterator/is-iterable.js",
-        "node_modules/emissary/node_modules/es6-weak-map/node_modules/es6-iterator/node_modules/es6-symbol/implement.js",
-        "node_modules/emissary/node_modules/es6-weak-map/node_modules/es6-iterator/node_modules/es6-symbol/index.js",
-        "node_modules/emissary/node_modules/es6-weak-map/node_modules/es6-iterator/node_modules/es6-symbol/is-implemented.js",
-        "node_modules/emissary/node_modules/es6-weak-map/node_modules/es6-iterator/node_modules/es6-symbol/is-native-implemented.js",
-        "node_modules/emissary/node_modules/es6-weak-map/node_modules/es6-iterator/node_modules/es6-symbol/is-symbol.js",
-        "node_modules/emissary/node_modules/es6-weak-map/node_modules/es6-iterator/node_modules/es6-symbol/polyfill.js",
-        "node_modules/emissary/node_modules/es6-weak-map/node_modules/es6-iterator/node_modules/es6-symbol/validate-symbol.js",
         "node_modules/emissary/node_modules/es6-weak-map/node_modules/es6-iterator/string.js",
         "node_modules/emissary/node_modules/es6-weak-map/node_modules/es6-iterator/valid-iterable.js",
         "node_modules/emissary/node_modules/es6-weak-map/node_modules/es6-symbol/implement.js",
@@ -812,7 +801,7 @@
         "node_modules/emissary/node_modules/es6-weak-map/node_modules/es6-symbol/is-native-implemented.js",
         "node_modules/emissary/node_modules/es6-weak-map/node_modules/es6-symbol/is-symbol.js",
         "node_modules/emissary/node_modules/es6-weak-map/node_modules/es6-symbol/polyfill.js",
-        "node_modules/emissary/node_modules/es6-weak-map/node_modules/es6-symbol/valid-symbol.js",
+        "node_modules/emissary/node_modules/es6-weak-map/node_modules/es6-symbol/validate-symbol.js",
         "node_modules/emissary/node_modules/es6-weak-map/polyfill.js",
         "node_modules/emissary/node_modules/es6-weak-map/valid-weak-map.js",
         "node_modules/emissary/node_modules/mixto/lib/mixin.js",
@@ -886,6 +875,7 @@
         "node_modules/glob/node_modules/minimatch/node_modules/brace-expansion/node_modules/concat-map/index.js",
         "node_modules/glob/node_modules/once/node_modules/wrappy/wrappy.js",
         "node_modules/glob/node_modules/once/once.js",
+        "node_modules/glob/node_modules/path-is-absolute/index.js",
         "node_modules/glob/sync.js",
         "node_modules/temp/examples/grepcount.js",
         "node_modules/temp/examples/pdfcreator.js",
@@ -1002,9 +992,9 @@
         ],
         "dependencies": {
           "d": "~0.1.1",
-          "es5-ext": "~0.10.4",
-          "es6-iterator": "~0.1.1",
-          "es6-symbol": "0.1.x"
+          "es5-ext": "~0.10.6",
+          "es6-iterator": "~0.1.3",
+          "es6-symbol": "~2.0.1"
         }
       },
       {
@@ -1043,6 +1033,7 @@
           "node_modules/emissary/node_modules/es6-weak-map/node_modules/es5-ext/function/#",
           "node_modules/emissary/node_modules/es6-weak-map/node_modules/es5-ext/function",
           "node_modules/emissary/node_modules/es6-weak-map/node_modules/es5-ext",
+          "node_modules/emissary/node_modules/es6-weak-map/node_modules/es5-ext/iterable",
           "node_modules/emissary/node_modules/es6-weak-map/node_modules/es5-ext/math",
           "node_modules/emissary/node_modules/es6-weak-map/node_modules/es5-ext/math/acosh",
           "node_modules/emissary/node_modules/es6-weak-map/node_modules/es5-ext/math/asinh",
@@ -1118,6 +1109,7 @@
           "node_modules/emissary/node_modules/es6-weak-map/node_modules/es5-ext/test/error",
           "node_modules/emissary/node_modules/es6-weak-map/node_modules/es5-ext/test/function/#",
           "node_modules/emissary/node_modules/es6-weak-map/node_modules/es5-ext/test/function",
+          "node_modules/emissary/node_modules/es6-weak-map/node_modules/es5-ext/test/iterable",
           "node_modules/emissary/node_modules/es6-weak-map/node_modules/es5-ext/test/math",
           "node_modules/emissary/node_modules/es6-weak-map/node_modules/es5-ext/test/math/acosh",
           "node_modules/emissary/node_modules/es6-weak-map/node_modules/es5-ext/test/math/asinh",
@@ -1176,16 +1168,6 @@
       },
       {
         "paths": [
-          "node_modules/emissary/node_modules/es6-weak-map/node_modules/es5-ext/node_modules/es6-symbol",
-          "node_modules/emissary/node_modules/es6-weak-map/node_modules/es5-ext/node_modules/es6-symbol/test"
-        ],
-        "dependencies": {
-          "d": "~0.1.1",
-          "es5-ext": "~0.10.5"
-        }
-      },
-      {
-        "paths": [
           "node_modules/emissary/node_modules/es6-weak-map/node_modules/es6-iterator/#",
           "node_modules/emissary/node_modules/es6-weak-map/node_modules/es6-iterator",
           "node_modules/emissary/node_modules/es6-weak-map/node_modules/es6-iterator/test/#",
@@ -1199,22 +1181,12 @@
       },
       {
         "paths": [
-          "node_modules/emissary/node_modules/es6-weak-map/node_modules/es6-iterator/node_modules/es6-symbol",
-          "node_modules/emissary/node_modules/es6-weak-map/node_modules/es6-iterator/node_modules/es6-symbol/test"
-        ],
-        "dependencies": {
-          "d": "~0.1.1",
-          "es5-ext": "~0.10.5"
-        }
-      },
-      {
-        "paths": [
           "node_modules/emissary/node_modules/es6-weak-map/node_modules/es6-symbol",
           "node_modules/emissary/node_modules/es6-weak-map/node_modules/es6-symbol/test"
         ],
         "dependencies": {
           "d": "~0.1.1",
-          "es5-ext": "~0.10.4"
+          "es5-ext": "~0.10.5"
         }
       },
       {
@@ -1233,7 +1205,7 @@
           "node_modules/event-kit/lib"
         ],
         "dependencies": {
-          "grim": "^1.0.0"
+          "grim": "^1.2.1"
         }
       },
       {
@@ -1298,7 +1270,8 @@
           "inflight": "^1.0.4",
           "inherits": "2",
           "minimatch": "^2.0.1",
-          "once": "^1.3.0"
+          "once": "^1.3.0",
+          "path-is-absolute": "^1.0.0"
         }
       },
       {

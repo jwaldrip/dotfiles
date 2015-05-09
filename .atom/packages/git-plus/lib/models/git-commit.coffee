@@ -1,14 +1,14 @@
+{CompositeDisposable} = require 'atom'
 fs = require 'fs-plus'
 path = require 'path'
 os = require 'os'
 
 git = require '../git'
 StatusView = require '../views/status-view'
+GitPush = require './git-push'
 
 module.exports =
 class GitCommit
-  subscriptions: []
-
   # Public: Helper method to set the commentchar to be used in
   #   the commit message
   setCommentChar: (char) ->
@@ -32,7 +32,9 @@ class GitCommit
 
   currentPane: atom.workspace.getActivePane()
 
-  constructor: (@amend='') ->
+  constructor: (@amend='',@andPush=false) ->
+    @disposables = new CompositeDisposable
+
     # Check if we are amending right now.
     @isAmending = @amend.length > 0
 
@@ -77,8 +79,8 @@ class GitCommit
       .open(@filePath(), split: split, searchAllPanes: true)
       .done (textBuffer) =>
         if textBuffer?
-          @subscriptions.push textBuffer.onDidSave => @commit()
-          @subscriptions.push textBuffer.onDidDestroy =>
+          @disposables.add textBuffer.onDidSave => @commit()
+          @disposables.add textBuffer.onDidDestroy =>
             if @isAmending then @undoAmend() else @cleanup()
 
   # Public: When the user is done editing the commit message an saves the file
@@ -91,13 +93,15 @@ class GitCommit
         cwd: @dir()
       stdout: (data) =>
         new StatusView(type: 'success', message: data)
+        if @andPush
+          new GitPush()
         # Set @isAmending to false since it succeeded.
         @isAmending = false
         # Destroying the active EditorView will trigger our cleanup method.
         @destroyActiveEditorView()
         # Refreshing the atom repo status to refresh things like TreeView and
         # diff gutter.
-        atom.project.getRepo()?.refreshStatus()
+        git.getRepo()?.refreshStatus?()
         # Activate the former active pane.
         @currentPane.activate() if @currentPane.alive
         # Refresh git index to prevent bugs on our methods.
@@ -134,5 +138,5 @@ class GitCommit
   # Public: Cleans up after the EditorView gets destroyed.
   cleanup: ->
     @currentPane.activate() if @currentPane.alive
-    s.dispose() for s in @subscriptions
+    @disposables.dispose()
     try fs.unlinkSync @filePath()

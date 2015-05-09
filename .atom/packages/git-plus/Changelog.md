@@ -1,5 +1,34 @@
 ## Changelog
 
+### 4.5.0
+
+- Remove some more deprecations (@Azakur4)
+- New command `Git Add All And Push` (@TwanoO67)
+
+### 4.4.13
+
+- bug fix for those using 1.0.0 preview
+
+### 4.4.12
+
+- bug fix, issue #175
+
+### 4.4.11
+
+- Remove deprecated api code
+- Add keywords to package.json
+- Fix refreshing git status after commands to update ui
+- Remove 'emissary' module because it does not work in helping Status and Output views listen for global events
+
+### 4.4.10
+
+- Remove uses of `atom.project.getRepo()`
+
+### 4.4.9
+
+- Refactoring
+- Fixes issue #173
+
 ### 4.4.8
 
 - Proper fix for GitRepository trying to refresh on window focus by setting `refreshOnWindowFocus` to false

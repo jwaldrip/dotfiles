@@ -2,11 +2,11 @@ git = require '../git'
 StatusView = require '../views/status-view'
 
 gitCheckoutCurrentFile = ->
-  currentFile = git.relativize(atom.workspace.getActiveEditor()?.getPath())
+  currentFile = git.relativize(atom.workspace.getActiveTextEditor()?.getPath())
   git.cmd
     args: ['checkout', '--', currentFile],
     stdout: (data) ->
       new StatusView(type: 'success', message: data.toString())
-      atom.project.getRepo()?.refreshStatus()
+      git.getRepo()?.refreshStatus?()
 
 module.exports = gitCheckoutCurrentFile

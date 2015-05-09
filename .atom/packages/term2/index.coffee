@@ -28,6 +28,8 @@ module.exports =
         brightPurple: '#ad7fa8'
         brightCyan  : '#34e2e2'
         brightWhite : '#eeeeec'
+        background  : '#000000'
+        foreground  : '#f0f0f0'
 
       scrollback: 1000
       cursorBlink: yes
@@ -41,24 +43,28 @@ module.exports =
     activate: (@state)->
 
       ['up', 'right', 'down', 'left'].forEach (direction)=>
-        atom.workspaceView.command "term2:open-split-#{direction}", @splitTerm.bind(this, direction)
+        atom.commands.add "atom-workspace", "term2:open-split-#{direction}", @splitTerm.bind(this, direction)
 
-      atom.workspaceView.command "term2:open", @newTerm.bind(this)
-      atom.workspaceView.command "term2:pipe-path", @pipeTerm.bind(this, 'path')
-      atom.workspaceView.command "term2:pipe-selection", @pipeTerm.bind(this, 'selection')
+      atom.commands.add "atom-workspace", "term2:open", @newTerm.bind(this)
+      atom.commands.add "atom-workspace", "term2:pipe-path", @pipeTerm.bind(this, 'path')
+      atom.commands.add "atom-workspace", "term2:pipe-selection", @pipeTerm.bind(this, 'selection')
 
     getColors: ->
-      {colors: {
+      console.log atom.config.get 'term2.colors.normalBlack'
+      console.log atom.config.getAll 'term2.colors'
+      {
         normalBlack, normalRed, normalGreen, normalYellow
         normalBlue, normalPurple, normalCyan, normalWhite
         brightBlack, brightRed, brightGreen, brightYellow
         brightBlue, brightPurple, brightCyan, brightWhite
-      }} = atom.config.getSettings().term2
+        background, foreground
+      } = (atom.config.getAll 'term2.colors')[0].value
       [
         normalBlack, normalRed, normalGreen, normalYellow
         normalBlue, normalPurple, normalCyan, normalWhite
         brightBlack, brightRed, brightGreen, brightYellow
         brightBlue, brightPurple, brightCyan, brightWhite
+        background, foreground
       ]
 
     createTermView:->
@@ -106,7 +112,7 @@ module.exports =
       pane.activateItem item
 
     pipeTerm: (action)->
-      editor = atom.workspace.getActiveEditor()
+      editor = @getActiveEditor()
       stream = switch action
         when 'path'
           editor.getBuffer().file.path
