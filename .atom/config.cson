@@ -1,9 +1,9 @@
 "*":
   core:
     disabledPackages: [
-      "autosave"
       "linter-rubocop"
       "git-diff-details"
+      "autosave"
     ]
   "exception-reporting":
     userId: "67040a04-f265-d6b0-1d85-ada881d2b3ee"
