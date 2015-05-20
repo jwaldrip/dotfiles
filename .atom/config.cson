@@ -18,7 +18,8 @@
     showPanelWhenNoIssuesExist: true
   editor:
     showIndentGuide: true
-    invisibles: {}
+    invisibles:
+      {}
     fontSize: 17
   "recent-files":
     updated: false
@@ -26,7 +27,8 @@
     rubocopExecutablePath: "/usr/local/var/rbenv/shims/rubocop"
   whitespace:
     ensureSingleTrailingNewline: false
-  linter: {}
+  linter:
+    {}
   minimap:
     plugins:
       bookmarks: true
