@@ -33,3 +33,7 @@
     plugins:
       bookmarks: true
       "git-diff": true
+  "circle-ci":
+    {}
+  "linter-ruby":
+    rubyExecutablePath: "~/.rubies/ruby-2.2.2/bin/ruby"

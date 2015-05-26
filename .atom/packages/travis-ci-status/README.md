@@ -19,6 +19,12 @@ then on whenever the "status" of the project repository changes. The handling of
 these events was borrowed from the `git-view.coffee` part of the `status-bar`
 package.
 
+### Remote Name
+
+If the remote repository Travis is configured to build is named something other
+than `origin`, you can specify a different name in the **Travis Ci Remote Name**
+field in the settings view.
+
 ### Travis Pro
 
 You are able to use this with Travis Pro if you enable it in the settings view.

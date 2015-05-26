@@ -16,6 +16,9 @@ module.exports =
     personalAccessToken:
         type: 'string'
         default: '<Your personal GitHub access token>'
+    travisCiRemoteName:
+        type: 'string'
+        default: 'origin'
 
   # Internal: The build matrix bottom panel view.
   buildMatrixView: null
@@ -55,9 +58,9 @@ module.exports =
   # Returns true if the repository has a GitHub remote, else false
   hasGitHubRepo: (repos) ->
     return false if repos.length is 0
-
+    name = atom.config.get('travis-ci-status.travisCiRemoteName')
     for repo in repos
-      return true if /(.)*github\.com/i.test(repo.getOriginUrl())
+      return true if /(.)*github\.com/i.test(repo.getConfigValue("remote.#{name}.url"))
 
     false
 
@@ -66,8 +69,9 @@ module.exports =
   # Returns a string of the name with owner, or null if the origin URL doesn't
   # exist.
   getNameWithOwner: ->
-    repo = atom.project.getRepo()
-    url  = repo.getOriginUrl()
+    repo = atom.project.getRepositories()[0]
+    name = atom.config.get('travis-ci-status.travisCiRemoteName')
+    url  = repo.getConfigValue("remote.#{name}.url")
 
     return null unless url?
 
@@ -80,7 +84,7 @@ module.exports =
   isTravisProject: (callback) ->
     return unless callback instanceof Function
 
-    projPath = atom.project.getPath()
+    projPath = atom.project.getPaths()[0]
     return callback(false) unless projPath?
 
     conf = path.join(projPath, '.travis.yml')

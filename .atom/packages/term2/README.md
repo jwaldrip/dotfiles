@@ -5,6 +5,14 @@ It's based on `pty.js` as shell spawner, and `term.js` as xterm, with the power 
 
 It's a fork and rebuilt version of "[Term][1]" package.
 
+## What about this fork ?!
+My fork just adds a 'ShellOverride' configuration option which allows to override the shell Term2 is using (your default shell).
+
+If, like me, your default shell is zsh you see that it's not yet fully compatible with Term2 (scrolling do not work): setting ShellOverride 
+to i.e. 'bash' let you use Term2 with another (working) shell without messing up with your default shell configuration. 
+Thats all :)
+
+
 To install **Term2** easily into your Atom;
 
 ```bash
@@ -22,11 +30,18 @@ apm install term2
 | `ctrl + alt + right`| `term2:open-split-right` | Opens new terminal tab pane in right split |
 | `ctrl + alt + down`| `term2:open-split-down` | Opens new terminal tab pane in down split |
 | `ctrl + alt + left`| `term2:open-split-left` | Opens new terminal tab pane in left split |
+| `ctrl + k, t, t` | `term2:open` | Opens new terminal tab pane |
+| `ctrl + k, t, up`| `term2:open-split-up` | Opens new terminal tab pane in up split |
+| `ctrl + k, t, right`| `term2:open-split-right` | Opens new terminal tab pane in right split |
+| `ctrl + k, t, down`| `term2:open-split-down` | Opens new terminal tab pane in down split |
+| `ctrl + k, t, left`| `term2:open-split-left` | Opens new terminal tab pane in left split |
 | `cmd + k, t, t` | `term2:open` | Opens new terminal tab pane |
 | `cmd + k, t, up`| `term2:open-split-up` | Opens new terminal tab pane in up split |
 | `cmd + k, t, right`| `term2:open-split-right` | Opens new terminal tab pane in right split |
 | `cmd + k, t, down`| `term2:open-split-down` | Opens new terminal tab pane in down split |
 | `cmd + k, t, left`| `term2:open-split-left` | Opens new terminal tab pane in left split |
+| `ctrl + insert | `term2:copy` | Copy text (if `ctrl + c` is not working) |
+| `shift + insert | `term2:paste` | Paste text (if `ctrl + v` is not working) |
 
 ## Customize Title
 
@@ -47,7 +62,7 @@ Terminal ({{ bashName }})
 
 ## Additional Features
 
-  - You can define **Terminal Colors** in settings.
+  - You can define **Terminal Colors** in `config.cson`.
   - **Run a defined command automatically** when shell session starts.
   - Turn on or off **blinking cursor**
   - Change **scrollback** limit
