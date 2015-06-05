@@ -1,9 +1,32 @@
 ## Changelog
 
+### 5.0.4
+
+- Fix typo of 'notifer' to 'notifier'
+- Fix issue #139
+
+### 5.0.3
+
+- Treeview and StatusBar should update after git commands
+- No longer opening blank file on `Git show` if given an invalid object
+
+### 5.0.2
+
+- Fix typo of 'notifer' to 'notifier'
+- Brought back the `messageTimeout` setting for remaining StatusViews
+
+### 5.0.1
+
+- Major release to be compatible with atom 1.0.0
+- If a window has more than one project with a git repository and a command is attempted,
+  then you can choose which repo to manipulate.
+- New layout for commits in `Git log` command
+- Most StatusViews of command output have been moved to the new notificaton system in atom
+
 ### 4.5.0
 
 - Remove some more deprecations (@Azakur4)
-- New command `Git Add All And Push` (@TwanoO67)
+- New command `Git Add All Commit And Push` (@TwanoO67)
 
 ### 4.4.13
 

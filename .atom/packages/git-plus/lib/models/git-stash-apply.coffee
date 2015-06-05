@@ -1,12 +1,18 @@
 git = require '../git'
-StatusView = require '../views/status-view'
+notifier = require '../notifier'
 
-gitStashApply = ->
+gitStashApply = (repo) ->
   git.cmd
-    args: ['stash', 'apply'],
+    args: ['stash', 'apply']
+    cwd: repo.getWorkingDirectory()
     options: {
       env: process.env.NODE_ENV
     }
-    stdout: (data) -> new StatusView(type: 'success', message: data)
+    stdout: (data) ->
+      notifier.addSuccess(data) if data.toString().length > 0
+      repo.destroy() if repo.destroyable
+    stderr: (data) ->
+      notifier.addError(data.toString())
+      repo.destroy() if repo.destroyable
 
 module.exports = gitStashApply

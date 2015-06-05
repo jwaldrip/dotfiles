@@ -7,8 +7,9 @@ PullBranchListView = require './pull-branch-list-view'
 
 module.exports =
 class ListView extends SelectListView
-  initialize: (@data, @mode, @setUpstream=false, @tag='') ->
+  initialize: (@repo, @data, {@mode, @tag}) ->
     super
+    @tag ?= ''
     @show()
     @parseData()
 
@@ -34,7 +35,7 @@ class ListView extends SelectListView
   cancelled: -> @hide()
 
   hide: ->
-    @panel?.hide()
+    @panel?.destroy()
 
   viewForItem: ({name}) ->
     $$ ->
@@ -42,15 +43,26 @@ class ListView extends SelectListView
 
   confirmed: ({name}) ->
     if @mode is 'pull'
-      new PullBranchListView(name)
+      git.cmd
+        args: ['branch', '-r'],
+        cwd: @repo.getWorkingDirectory()
+        stdout: (data) => new PullBranchListView(@repo, data, name)
+    else if @mode is 'fetch-prune'
+      @mode = 'fecth'
+      @execute name, '--prune'
     else
       @execute name
     @cancel()
 
-  execute: (remote) ->
+  execute: (remote, extraArgs='') ->
     view = new OutputView()
+    args = [@mode]
+    if extraArgs.length > 0
+      args.push extraArgs
+    args = args.concat([remote, @tag])
     git.cmd
-      args: [@mode, remote, @tag]
+      args: args
+      cwd: @repo.getWorkingDirectory()
       stdout: (data) -> view.addLine(data.toString())
       stderr: (data) -> view.addLine(data.toString())
       exit: (code) =>
@@ -58,6 +70,7 @@ class ListView extends SelectListView
           view.reset()
           git.cmd
             args: [@mode, '-u', remote, 'HEAD']
+            cwd: @repo.getWorkingDirectory()
             stdout: (data) -> view.addLine(data.toString())
             stderr: (data) -> view.addLine(data.toString())
             exit: (code) -> view.finish()

@@ -1,11 +1,11 @@
 fs = require 'fs-plus'
 {$$, SelectListView} = require 'atom-space-pen-views'
 git = require '../git'
-StatusView = require './status-view'
+notifier = require '../notifier'
 
 module.exports =
 class ListView extends SelectListView
-  initialize: (@data) ->
+  initialize: (@repo, @data) ->
     super
     @show()
     @parseData()
@@ -25,13 +25,12 @@ class ListView extends SelectListView
   show: ->
     @panel ?= atom.workspace.addModalPanel(item: this)
     @panel.show()
-
     @storeFocusedElement()
 
   cancelled: -> @hide()
 
   hide: ->
-    @panel?.hide()
+    @panel?.destroy()
 
   viewForItem: ({name}) ->
     current = false
@@ -43,16 +42,16 @@ class ListView extends SelectListView
         @div class: 'pull-right', =>
           @span('Current') if current
 
-
   confirmed: ({name}) ->
-    @checkout name.match(/\*?(.*)/)[1]
+    @merge name.match(/\*?(.*)/)[1]
     @cancel()
 
-  checkout: (branch) ->
+  merge: (branch) ->
     git.cmd
-      args: ['merge', branch],
-      stdout: (data) ->
-        new StatusView(type: 'success', message: data.toString())
-        atom.workspace.eachEditor (editor) ->
+      args: ['merge', branch]
+      cwd: @repo.getWorkingDirectory()
+      stdout: (data) =>
+        notifier.addSuccess data.toString()
+        atom.workspace.getTextEditors().forEach (editor) ->
           fs.exists editor.getPath(), (exist) -> editor.destroy() if not exist
-        git.getRepo()?.refreshStatus?()
+        git.refresh @repo

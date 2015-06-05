@@ -7,11 +7,12 @@ fs = require 'fs-plus'
 
 git = require '../git'
 
-showCommitFilePath = ->
-  Path.join Os.tmpDir(), "atom_git_plus_commit.diff"
+showCommitFilePath = (objectHash) ->
+  Path.join Os.tmpDir(), "#{objectHash}.diff"
 
-showObject = (objectHash, file) ->
+showObject = (repo, objectHash, file) ->
   args = ['show']
+  args.push '--format=full'
   args.push '--word-diff' if atom.config.get 'git-plus.wordDiff'
   args.push objectHash
   if file?
@@ -19,24 +20,31 @@ showObject = (objectHash, file) ->
     args.push file
 
   git.cmd
-    args: args,
-    stdout: (data) -> prepFile data
+    args: args
+    cwd: repo.getWorkingDirectory()
+    stdout: (data) -> prepFile(data, objectHash) if data.length > 0
 
-prepFile = (text) ->
-  fs.writeFileSync showCommitFilePath(), text, flag: 'w+'
-  showFile()
+prepFile = (text, objectHash) ->
+  fs.writeFileSync showCommitFilePath(objectHash), text, flag: 'w+'
+  showFile(objectHash)
 
-showFile = ->
+showFile = (objectHash) ->
+  disposables = new CompositeDisposable
   split = if atom.config.get('git-plus.openInPane') then atom.config.get('git-plus.splitPane')
   atom.workspace
-    .open(showCommitFilePath(), split: split, activatePane: true)
+    .open(showCommitFilePath(objectHash), split: split, activatePane: true)
+    .done (textBuffer) =>
+      if textBuffer?
+        disposables.add textBuffer.onDidDestroy =>
+          disposables.dispose()
+          try fs.unlinkSync showCommitFilePath(objectHash)
 
 class InputView extends View
   @content: ->
     @div =>
       @subview 'objectHash', new TextEditorView(mini: true, placeholderText: 'Commit hash to show')
 
-  initialize: (callback) ->
+  initialize: (@repo) ->
     @disposables = new CompositeDisposable
     @currentPane = atom.workspace.getActivePane()
     @panel ?= atom.workspace.addModalPanel(item: this)
@@ -46,14 +54,15 @@ class InputView extends View
     @disposables.add atom.commands.add 'atom-text-editor', 'core:confirm': =>
       text = @objectHash.getModel().getText().split(' ')
       name = if text.length is 2 then text[1] else text[0]
-      callback text
+      showObject(@repo, text)
       @destroy()
 
   destroy: ->
-    @panel.destroy()
+    @disposables?.dispose()
+    @panel?.destroy()
 
-module.exports = (objectHash, file) ->
+module.exports = (repo, objectHash, file) ->
   if not objectHash?
-    new InputView(showObject)
+    new InputView(repo)
   else
-    showObject(objectHash, file)
+    showObject(repo, objectHash, file)

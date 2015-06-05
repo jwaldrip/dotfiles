@@ -2,16 +2,15 @@
 
 git = require '../git'
 OutputView = require './output-view'
-StatusView = require './status-view'
+notifier = require '../notifier'
 SelectListMultipleView = require './select-list-multiple-view'
 
 module.exports =
 class SelectStageFilesView extends SelectListMultipleView
 
-  initialize: (items) ->
+  initialize: (@repo, items) ->
     super
     @show()
-
     @setItems items
     @focusFilterEditor()
 
@@ -40,7 +39,7 @@ class SelectStageFilesView extends SelectListMultipleView
   cancelled: -> @hide()
 
   hide: ->
-    @panel?.hide()
+    @panel?.destroy()
 
   viewForItem: (item, matchedStr) ->
     $$ ->
@@ -54,5 +53,8 @@ class SelectStageFilesView extends SelectListMultipleView
     @cancel()
 
     git.cmd
-      args: ['add', '-f'].concat(files),
-      stdout: (data) -> new StatusView(type: 'success', message: data)
+      args: ['add', '-f'].concat(files)
+      cwd: @repo.getWorkingDirectory()
+      stdout: (data) =>
+        notifier.addSuccess data
+        @repo.destroy() if @repo.destroyable

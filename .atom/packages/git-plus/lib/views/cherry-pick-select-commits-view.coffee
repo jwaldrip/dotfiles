@@ -2,13 +2,13 @@
 
 git = require '../git'
 OutputView = require './output-view'
-StatusView = require './status-view'
+notifier = require '../notifier'
 SelectListMultipleView = require './select-list-multiple-view'
 
 module.exports =
 class CherryPickSelectCommits extends SelectListMultipleView
 
-  initialize: (data) ->
+  initialize: (@repo, data) ->
     super
     @show()
     @setItems(
@@ -40,10 +40,11 @@ class CherryPickSelectCommits extends SelectListMultipleView
 
     @storeFocusedElement()
 
-  cancelled: -> @hide()
+  cancelled: ->
+    @hide()
 
   hide: ->
-    @panel?.hide()
+    @panel?.destroy()
 
   viewForItem: (item, matchedStr) ->
     $$ ->
@@ -57,6 +58,8 @@ class CherryPickSelectCommits extends SelectListMultipleView
     @cancel()
     commits = (item.hash for item in items)
     git.cmd
-      args: ['cherry-pick'].concat(commits),
-      stdout: (data) ->
-        new StatusView(type: 'success', message: data)
+      args: ['cherry-pick'].concat(commits)
+      cwd: @repo.getWorkingDirectory()
+      stdout: (data) =>
+        notifier.addSuccess data
+        @repo.destroy() if @repo.destroyable

@@ -3,17 +3,15 @@ fs = require 'fs'
 Path = require 'path'
 git = require '../git'
 GitDiff = require '../models/git-diff'
-StatusView = require '../views/status-view'
+notifier = require '../notifier'
 
 module.exports =
 class StatusListView extends SelectListView
-
-  initialize: (@data, @onlyCurrentFile) ->
+  initialize: (@repo, @data, {@onlyCurrentFile}={}) ->
     super
     @show()
     @branch = @data[0]
     @setItems @parseData @data[...-1]
-
     @focusFilterEditor()
 
   parseData: (files) ->
@@ -26,13 +24,11 @@ class StatusListView extends SelectListView
   show: ->
     @panel ?= atom.workspace.addModalPanel(item: this)
     @panel.show()
-
     @storeFocusedElement()
 
   cancelled: -> @hide()
 
-  hide: ->
-    @panel?.hide()
+  hide: -> @panel?.destroy()
 
   viewForItem: ({type, path}) ->
     getIcon = (s) ->
@@ -54,14 +50,14 @@ class StatusListView extends SelectListView
   confirmed: ({type, path}) ->
     @cancel()
     if type is '??'
-      git.add file: path
+      git.add @repo, file: path
     else
       openFile = confirm("Open #{path}?")
-      fullPath = Path.join(git.getRepo().getWorkingDirectory(), path)
+      fullPath = Path.join(@repo.getWorkingDirectory(), path)
 
-      fs.stat fullPath, (err, stat) ->
+      fs.stat fullPath, (err, stat) =>
         if err
-          new StatusView(type: 'error', message: err.message)
+          notifier.addError(err.message)
         else
           isDirectory = stat?.isDirectory()
           if openFile
@@ -70,4 +66,4 @@ class StatusListView extends SelectListView
             else
               atom.workspace.open(fullPath)
           else
-            GitDiff(file: path)
+            GitDiff(@repo, file: path)

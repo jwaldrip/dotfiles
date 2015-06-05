@@ -4,12 +4,11 @@ fs = require 'fs-plus'
 
 {BufferedProcess, CompositeDisposable} = require 'atom'
 {$, TextEditorView, View} = require 'atom-space-pen-views'
-StatusView = require './status-view'
+notifier = require '../notifier'
 git = require '../git'
 
 module.exports=
 class TagCreateView extends View
-
   @content: ->
     @div =>
       @div class: 'block', =>
@@ -22,7 +21,7 @@ class TagCreateView extends View
         @span class: 'pull-right', =>
           @button class: 'btn btn-error inline-block-tight gp-cancel-button', click: 'destroy', 'Cancel'
 
-  initialize: ->
+  initialize: (@repo) ->
     @disposables = new CompositeDisposable
     @currentPane = atom.workspace.getActivePane()
     @panel ?= atom.workspace.addModalPanel(item: this)
@@ -33,18 +32,16 @@ class TagCreateView extends View
 
   createTag: ->
     tag = name: @tagName.getModel().getText(), message: @tagMessage.getModel().getText()
-    new BufferedProcess
-      command: 'git'
+    git.cmd
       args: ['tag', '-a', tag.name, '-m', tag.message]
-      options:
-        cwd: git.dir()
+      cwd: @repo.getWorkingDirectory()
       stderr: (data) ->
-        new StatusView(type: 'error', message: data.toString())
+        notifier.addError(data.toString())
       exit: (code) ->
-        new StatusView(type: 'success', message: "Tag '#{tag.name}' has been created successfully!") if code is 0
+        notifier.addSuccess("Tag '#{tag.name}' has been created successfully!") if code is 0
     @destroy()
 
   destroy: ->
-    @panel.destroy()
+    @panel?.destroy()
     @disposables.dispose()
     @currentPane.activate()

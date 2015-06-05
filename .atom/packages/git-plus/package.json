@@ -1,7 +1,7 @@
 {
   "name": "git-plus",
   "main": "./lib/git-plus",
-  "version": "4.5.0",
+  "version": "5.0.4",
   "description": "Do git things without the terminal",
   "keywords": [
     "git"
@@ -59,16 +59,16 @@
     "underscore-plus": "1.x",
     "atom-space-pen-views": "^2.0.3"
   },
-  "readme": "# git-plus package\n\n# ATTENTION!\n  I no longer use atom and don't have time to continue developing features on this project but I will do my best to fix issues and bugs that arise. If anyone is willing to pick it up that is great but at the least, pull requests are more than welcome.\n\n[![endorse](https://api.coderwall.com/akonwi/endorsecount.png)](https://coderwall.com/akonwi)\n\nvim-fugitive like package for atom. make commits and other git things without the terminal\n\n![A screenshot of your spankin' package](https://raw.githubusercontent.com/akonwi/git-plus/master/commit.gif)\n\n## Usage\n\n### Git-Plus Palette\n>- `Cmd-Shift-H` on MacOS\n>- `Ctrl-Shift-H` on Windows + Linux\n>- `Git Plus: Menu` on the atom command palette.\n\n### Commands\n1. `Git add [all]`\n\n  Git add will add the current file and 'add all' will add all changed files\n  Default key binding: `Cmd-Shift-A`\n\n2. `Git commit`\n\n  Will pull up a commit message file. The commit will be made when the file is saved NOT when the pane is closed. You can just cancel by closing the tab.\n  Default key binding: `Cmd-Shift-C`(*`Ctrl-Shift-X`* on Windows + Linux)\n\n3. `Git commit amend`\n\n  Will amend the changes to previous commit.\n\n4. `Git checkout current file`\n\n  Undo changes and checkout current file.\n\n5. `Git [checkout]`\n\n  Change branches\n\n6. `Git Diff [All]`\n\n  Shows diff for current file or All the files. Diff can either be with staged or unstaged as selected in options.\n\n7. `Git new branch`\n\n  Create a new branch\n\n8. `Git [push|pull]`\n\n  When Pushing, if you have multiple remote repos, you can choose which to push to.\n9. `Git Add and Commit`\n\n  Add the current file and pull up the commit message file. Similar to `Git add` and `Git commit` in succession.\n  Default key binding: `Cmd-Shift-A c`\n\n10. `Git Add All and Commit`\n\n  Add all changed files and pull up the commit message file. Similar to `Git add all` and `Git commit` in succession.\n  Default key binding: `Cmd-Shift-A a`\n\n11. `Git rm [current file]`\n\n  Git rm the current file or open an selector to select the files to remove. You can select multiple files at once.\n\n12. `Git Log [Current File]`\n\n  Show the commit history [for the current file] and show display the selected commit.\n\n13. `Git Show`\n\n  Show the specified object, for example `HEAD`, `HEAD~2`, `3925a0d`, `origin/master` or `v2.7.3`.\n\n## Contributing\n\n1. Fork it\n2. Create your feature branch (`git checkout -b my-new-feature`)\n3. Commit your changes (`git commit -am 'Add some feature'`)\n4. Push to the branch (`git push origin my-new-feature`)\n5. Create new Pull Request\n",
+  "readme": "# Git-Plus package\n\n[![endorse](https://api.coderwall.com/akonwi/endorsecount.png)](https://coderwall.com/akonwi)\n\nvim-fugitive like package for atom. make commits and other git things without the terminal\n\n![A screenshot of your spankin' package](https://raw.githubusercontent.com/akonwi/git-plus/master/commit.gif)\n\n## Usage\n\n### Git-Plus Palette\n>- `Cmd-Shift-H` on MacOS\n>- `Ctrl-Shift-H` on Windows + Linux\n>- `Git Plus: Menu` on the atom command palette.\n\n### Commands (All commands are available for keymapping)\n  __Note: This list is not exclusive__\n1. `Git add [all]`\n\n  Git add will add the current file and 'add all' will add all changed files\n  Default key binding: `Cmd-Shift-A`\n\n2. `Git add all commit and push`\n\n  `Cmd-Shift-A P`\n\n3. `Git commit`\n\n  Will pull up a commit message file. The commit will be made when the file is saved NOT when the pane is closed. You can just cancel by closing the tab.\n  Default key binding: `Cmd-Shift-C`(*`Ctrl-Shift-X`* on Windows + Linux)\n\n4. `Git commit amend`\n\n  Will amend the changes to previous commit.\n\n5. `Git checkout current file`\n\n  Undo changes and checkout current file.\n\n6. `Git [checkout]`\n\n  Change branches\n\n7. `Git Diff [All]`\n\n  Shows diff for current file or All the files. Diff can either be with staged or unstaged as selected in options.\n\n8. `Git new branch`\n\n  Create a new branch\n\n9. `Git [push|pull]`\n\n  When Pushing, if you have multiple remote repos, you can choose which to push to.\n10. `Git Add and Commit`\n\n  Add the current file and pull up the commit message file. Similar to `Git add` and `Git commit` in succession.\n  Default key binding: `Cmd-Shift-A c`\n\n11. `Git Add All and Commit`\n\n  Add all changed files and pull up the commit message file. Similar to `Git add all` and `Git commit` in succession.\n  Default key binding: `Cmd-Shift-A a`\n\n12. `Git rm [current file]`\n\n  Git rm the current file or open an selector to select the files to remove. You can select multiple files at once.\n\n13. `Git Log [Current File]`\n\n  Show the commit history [for the current file] and show display the selected commit.\n\n13. `Git Show`\n\n  Show the specified object, for example `HEAD`, `HEAD~2`, `3925a0d`, `origin/master` or `v2.7.3`.\n\n## Contributing\n\n1. Fork it\n2. Create your feature branch (`git checkout -b my-new-feature`)\n3. Commit your changes (`git commit -am 'Add some feature'`)\n4. Push to the branch (`git push origin my-new-feature`)\n5. Create new Pull Request\n",
   "readmeFilename": "README.md",
   "bugs": {
     "url": "https://github.com/akonwi/git-plus/issues"
   },
   "homepage": "https://github.com/akonwi/git-plus",
-  "_id": "git-plus@4.5.0",
-  "_shasum": "aaaa1538701ea4bde1137100a1dbe5345bf69242",
-  "_resolved": "file:../d-115327-12602-1d5j859/package.tgz",
-  "_from": "../d-115327-12602-1d5j859/package.tgz",
+  "_id": "git-plus@5.0.4",
+  "_shasum": "76508121e09f4d76fe4751c24c0228c1b82e0fb9",
+  "_resolved": "file:../d-11552-43854-1ag7eu0/package.tgz",
+  "_from": "../d-11552-43854-1ag7eu0/package.tgz",
   "_atomModuleCache": {
     "version": 1,
     "dependencies": [
@@ -89,12 +89,12 @@
       },
       {
         "name": "grim",
-        "version": "1.2.2",
+        "version": "1.4.1",
         "path": "node_modules/atom-space-pen-views/node_modules/space-pen/node_modules/grim/lib/grim.js"
       },
       {
         "name": "coffeestack",
-        "version": "1.1.1",
+        "version": "1.1.2",
         "path": "node_modules/atom-space-pen-views/node_modules/space-pen/node_modules/grim/node_modules/coffeestack/index.js"
       },
       {
@@ -159,12 +159,12 @@
       },
       {
         "name": "jquery",
-        "version": "2.1.3",
+        "version": "2.1.4",
         "path": "node_modules/atom-space-pen-views/node_modules/space-pen/node_modules/jquery/dist/jquery.js"
       },
       {
         "name": "fs-plus",
-        "version": "2.7.1",
+        "version": "2.8.1",
         "path": "node_modules/fs-plus/lib/fs-plus.js"
       },
       {
@@ -214,8 +214,11 @@
         "lib/models/git-cherry-pick.coffee",
         "lib/models/git-commit-amend.coffee",
         "lib/models/git-commit.coffee",
+        "lib/models/git-delete-local-branch.coffee",
+        "lib/models/git-delete-remote-branch.coffee",
         "lib/models/git-diff-all.coffee",
         "lib/models/git-diff.coffee",
+        "lib/models/git-fetch-prune.coffee",
         "lib/models/git-fetch.coffee",
         "lib/models/git-init.coffee",
         "lib/models/git-log.coffee",
@@ -234,16 +237,20 @@
         "lib/models/git-status.coffee",
         "lib/models/git-tags.coffee",
         "lib/models/git-unstage-files.coffee",
+        "lib/notifier.coffee",
         "lib/views/branch-list-view.coffee",
         "lib/views/cherry-pick-select-branch-view.coffee",
         "lib/views/cherry-pick-select-commits-view.coffee",
+        "lib/views/delete-branch-view.coffee",
         "lib/views/git-palette-view.coffee",
         "lib/views/log-list-view.coffee",
         "lib/views/merge-list-view.coffee",
         "lib/views/output-view.coffee",
+        "lib/views/projects-list-view.coffee",
         "lib/views/pull-branch-list-view.coffee",
         "lib/views/remote-list-view.coffee",
         "lib/views/remove-list-view.coffee",
+        "lib/views/repo-list-view.coffee",
         "lib/views/select-list-multiple-view.coffee",
         "lib/views/select-stage-files-view.coffee",
         "lib/views/select-stage-hunk-file-view.coffee",
@@ -714,8 +721,6 @@
         "node_modules/atom-space-pen-views/node_modules/space-pen/node_modules/grim/node_modules/emissary/node_modules/es6-weak-map/valid-weak-map.js",
         "node_modules/atom-space-pen-views/node_modules/space-pen/node_modules/grim/node_modules/emissary/node_modules/mixto/lib/mixin.js",
         "node_modules/atom-space-pen-views/node_modules/space-pen/node_modules/grim/node_modules/emissary/node_modules/property-accessors/lib/property-accessors.js",
-        "node_modules/atom-space-pen-views/node_modules/space-pen/node_modules/jquery/dist/cdn/jquery-2.1.3.js",
-        "node_modules/atom-space-pen-views/node_modules/space-pen/node_modules/jquery/dist/cdn/jquery-2.1.3.min.js",
         "node_modules/atom-space-pen-views/node_modules/space-pen/node_modules/jquery/dist/jquery.js",
         "node_modules/atom-space-pen-views/node_modules/space-pen/node_modules/jquery/dist/jquery.min.js",
         "node_modules/atom-space-pen-views/node_modules/space-pen/node_modules/jquery/src/ajax/jsonp.js",
@@ -853,7 +858,8 @@
           "lib",
           "lib/models",
           "lib/views",
-          ""
+          "",
+          "spec"
         ],
         "dependencies": {
           "fs-plus": "^2.2.0",

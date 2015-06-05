@@ -2,6 +2,7 @@ _ = require 'underscore-plus'
 {$, $$, SelectListView} = require 'atom-space-pen-views'
 git = require '../git'
 GitPlusCommands = require '../git-plus-commands'
+GitInit = require '../models/git-init'
 fuzzy = require('../models/fuzzy').filter
 
 module.exports =
@@ -25,7 +26,6 @@ class GitPaletteView extends SelectListView
 
   show: ->
     @panel ?= atom.workspace.addModalPanel(item: this)
-    @panel.show()
 
     @storeFocusedElement()
 
@@ -35,13 +35,18 @@ class GitPaletteView extends SelectListView
       @commandElement = atom.views.getView(atom.workspace)
     @keyBindings = atom.keymaps.findKeyBindings(target: @commandElement[0])
 
-    commands = []
-    for command in GitPlusCommands()
-      commands.push({name: command[0], description: command[1], func: command[2]})
-    commands = _.sortBy(commands, 'name')
-    @setItems(commands)
-
-    @focusFilterEditor()
+    GitPlusCommands()
+      .then (commands) =>
+        commands = commands.map (c) -> { name: c[0], description: c[1], func: c[2] }
+        commands = _.sortBy(commands, 'name')
+        @setItems(commands)
+        @panel.show()
+        @focusFilterEditor()
+      .catch =>
+        (commands = []).push { name: 'git-plus:init', description: 'Init', func: -> GitInit() }
+        @setItems(commands)
+        @panel.show()
+        @focusFilterEditor()
 
   populateList: ->
     return unless @items?
