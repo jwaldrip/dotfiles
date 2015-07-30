@@ -5,6 +5,8 @@ notifier = require '../notifier'
 
 module.exports =
 class ListView extends SelectListView
+  args: ['checkout']
+
   initialize: (@repo, @data) ->
     super
     @show()
@@ -50,14 +52,14 @@ class ListView extends SelectListView
 
   checkout: (branch) ->
     git.cmd
-      args: ['checkout', branch]
       cwd: @repo.getWorkingDirectory()
+      args: @args.concat(branch)
       # using `stderr` for success here
       stderr: (data) =>
         notifier.addSuccess data.toString()
         atom.workspace.observeTextEditors (editor) =>
-          fs.exists editor.getPath().toString(), (exists) =>
-            editor.destroy() if not exists
-            @repo.destroy() if @repo.destroyable
-        git.refresh @repo
+          if filepath = editor.getPath()
+            fs.exists filepath, (exists) =>
+              editor.destroy() if not exists
+        git.refresh()
         @currentPane.activate()

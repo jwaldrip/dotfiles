@@ -4,6 +4,14 @@
       "linter-rubocop"
       "git-diff-details"
       "autosave"
+      "minimap"
+      "recent-files"
+      "recent-files"
+      "recent-files"
+      "recent-files"
+      "recent-files"
+      "recent-files"
+      "floobits"
     ]
   "exception-reporting":
     userId: "67040a04-f265-d6b0-1d85-ada881d2b3ee"
@@ -18,8 +26,7 @@
     showPanelWhenNoIssuesExist: true
   editor:
     showIndentGuide: true
-    invisibles:
-      {}
+    invisibles: {}
     fontSize: 17
   "recent-files":
     updated: false
@@ -27,13 +34,15 @@
     rubocopExecutablePath: "/usr/local/var/rbenv/shims/rubocop"
   whitespace:
     ensureSingleTrailingNewline: false
-  linter:
-    {}
+  linter: {}
   minimap:
     plugins:
       bookmarks: true
       "git-diff": true
-  "circle-ci":
-    {}
+  "circle-ci": {}
   "linter-ruby":
     rubyExecutablePath: "~/.rubies/ruby-2.2.2/bin/ruby"
+  floobits: {}
+  "spell-check": {}
+  "linter-shellcheck":
+    shellcheckExecutablePath: "/usr/local/bin/shellcheck"

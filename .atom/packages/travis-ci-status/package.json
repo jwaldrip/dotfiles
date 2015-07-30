@@ -1,7 +1,7 @@
 {
   "name": "travis-ci-status",
   "main": "./lib/travis-ci-status",
-  "version": "0.15.0",
+  "version": "0.15.1",
   "description": "Add Travis CI status of the project to the Atom status bar. ",
   "repository": {
     "type": "git",
@@ -33,10 +33,10 @@
     "url": "https://github.com/tombell/travis-ci-status/issues"
   },
   "homepage": "https://github.com/tombell/travis-ci-status",
-  "_id": "travis-ci-status@0.15.0",
-  "_shasum": "ecf05d6f9657d9286e19a8af43c7243198076b77",
-  "_resolved": "file:../d-115426-92540-2tdpyx/package.tgz",
-  "_from": "../d-115426-92540-2tdpyx/package.tgz",
+  "_id": "travis-ci-status@0.15.1",
+  "_shasum": "386a74a4772a97eaf9465bdc97c1802f86628cfe",
+  "_resolved": "file:../d-115516-95138-nuzd34/package.tgz",
+  "_from": "../d-115516-95138-nuzd34/package.tgz",
   "_atomModuleCache": {
     "version": 1,
     "dependencies": [
@@ -102,7 +102,7 @@
       },
       {
         "name": "amdefine",
-        "version": "0.1.0",
+        "version": "0.1.1",
         "path": "node_modules/atom-space-pen-views/node_modules/space-pen/node_modules/grim/node_modules/coffeestack/node_modules/source-map/node_modules/amdefine/amdefine.js"
       },
       {

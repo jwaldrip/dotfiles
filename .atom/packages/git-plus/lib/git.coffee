@@ -83,41 +83,19 @@ gitDiff = (repo, path, stdout) ->
     cwd: repo.getWorkingDirectory()
     stdout: (data) -> stdout _prettifyDiff(data)
 
-# Two-fold, refresh index as well as status
-gitRefreshIndex = (repo=null)->
-  if repo is null
-    repo = GitRepository.open(atom.workspace.getActiveTextEditor()?.getPath(), refreshOnWindowFocus: false)
-    repo.refreshStatus?()
-    repo.destroy?()
-  else
-    repo.refreshStatus()
-    atom.project.getRepositories()
-      .filter (r) ->
-        r.path is repo.path
-      .forEach (r) ->
-        r.refreshStatus()
+gitRefresh = ->
+  atom.project.getRepositories().forEach (r) -> r?.refreshStatus()
   gitCmd
     args: ['add', '--refresh', '--', '.']
     stderr: (data) -> # don't really need to flash an error
 
 gitAdd = (repo, {file, stdout, stderr, exit}={}) ->
   exit ?= (code) ->
-    repo.destroy() if repo.destroyable
     if code is 0
       notifier.addSuccess "Added #{file ? 'all files'}"
   gitCmd
     args: ['add', '--all', file ? '.']
     cwd: repo.getWorkingDirectory()
-    stdout: stdout if stdout?
-    stderr: stderr if stderr?
-    exit: exit
-
-gitMerge = ({branchName, stdout, stderr, exit}={}) ->
-  exit ?= (code) ->
-    if code is 0
-      notifier.addSuccess 'Git merged branch #{branchName} successfully'
-  gitCmd
-    args: ['merge', branchName],
     stdout: stdout if stdout?
     stderr: stderr if stderr?
     exit: exit
@@ -128,10 +106,11 @@ gitResetHead = (repo) ->
     cwd: repo.getWorkingDirectory()
     stdout: (data) ->
       notifier.addSuccess 'All changes unstaged'
-      repo.destroy() if repo.destroyable
 
 _getGitPath = ->
-  atom.config.get('git-plus.gitPath') ? 'git'
+  p = atom.config.get('git-plus.gitPath') ? 'git'
+  console.log "Git-plus: Using git at", p
+  return p
 
 _prettify = (data) ->
   data = data.split('\0')[...-1]
@@ -178,24 +157,35 @@ getSubmodule = (path) ->
 # Returns a {Promise} that resolves to a repository like object
 getRepo = ->
   new Promise (resolve, reject) ->
-    repo = GitRepository.open(atom.workspace.getActiveTextEditor()?.getPath(), refreshOnWindowFocus: false)
-    if repo isnt null
-      repo.destroyable = true
-      resolve(repo)
-    else
+    getRepoForCurrentFile().then (repo) -> resolve(repo)
+    .catch (e) ->
       repos = atom.project.getRepositories().filter (r) -> r?
       if repos.length is 0
         reject("No repos found")
       else if repos.length > 1
-        resolve(new RepoListView(atom.project.getRepositories()).result)
+        resolve(new RepoListView(repos).result)
       else
         resolve(repos[0])
+
+getRepoForCurrentFile = ->
+  new Promise (resolve, reject) ->
+    project = atom.project
+    path = atom.workspace.getActiveTextEditor()?.getPath()
+    directory = project.getDirectories().filter((d) -> d.contains(path))[0]
+    if directory?
+      project.repositoryForDirectory(directory).then (repo) ->
+        submodule = repo.repo.submoduleForPath(path)
+        if submodule? then resolve(submodule) else resolve(repo)
+      .catch (e) ->
+        reject(e)
+    else
+      reject "no current file"
 
 module.exports.cmd = gitCmd
 module.exports.stagedFiles = gitStagedFiles
 module.exports.unstagedFiles = gitUnstagedFiles
 module.exports.diff = gitDiff
-module.exports.refresh = gitRefreshIndex
+module.exports.refresh = gitRefresh
 module.exports.status = gitStatus
 module.exports.reset = gitResetHead
 module.exports.add = gitAdd

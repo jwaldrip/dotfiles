@@ -35,16 +35,10 @@ getCommands = ->
   GitRun                 = require './models/git-run'
   GitMerge               = require './models/git-merge'
 
-  #     # If no file open and if no repo for project
-  #     noOpenFile = not atom.workspace.getActiveTextEditor()?.getPath()?
-  # noRepoHere = noOpenFile and atom.project.getRepositories().length is 0
-  # if noRepoHere
-  #   commands.push ['git-plus:init', 'Init', -> GitInit()]
-  #   return new Promise (resolve, reject) -> resolve(commands)
   git.getRepo()
     .then (repo) ->
+      git.refresh()
       commands = []
-      git.refresh repo
       commands.push ['git-plus:add', 'Add', -> GitAdd(repo)]
       commands.push ['git-plus:add-all', 'Add All', -> GitAdd(repo, addAll: true)]
       commands.push ['git-plus:log', 'Log', -> GitLog(repo)]
@@ -58,6 +52,7 @@ getCommands = ->
       commands.push ['git-plus:add-all-and-commit', 'Add All And Commit', -> GitAddAllAndCommit(repo)]
       commands.push ['git-plus:add-all-commit-and-push', 'Add All Commit And Push', -> GitAddAllCommitAndPush(repo)]
       commands.push ['git-plus:checkout', 'Checkout', -> GitBranch.gitBranches(repo)]
+      commands.push ['git-plus:checkout-remote', 'Checkout Remote', -> GitBranch.gitRemoteBranches(repo)]
       commands.push ['git-plus:new-branch', 'Checkout New Branch', -> GitBranch.newBranch(repo)]
       commands.push ['git-plus:delete-local-branch', 'Delete Local Branch', -> GitDeleteLocalBranch(repo)]
       commands.push ['git-plus:delete-remote-branch', 'Delete Remote Branch', -> GitDeleteRemoteBranch(repo)]
@@ -67,6 +62,7 @@ getCommands = ->
       commands.push ['git-plus:fetch', 'Fetch', -> GitFetch(repo)]
       commands.push ['git-plus:fetch-prune', 'Fetch Prune', -> GitFetchPrune(repo)]
       commands.push ['git-plus:pull', 'Pull', -> GitPull(repo)]
+      commands.push ['git-plus:pull-using-rebase', 'Pull Using Rebase', -> GitPull(repo, rebase: true)]
       commands.push ['git-plus:push', 'Push', -> GitPush(repo)]
       commands.push ['git-plus:remove', 'Remove', -> GitRemove(repo, showSelector: true)]
       commands.push ['git-plus:reset', 'Reset HEAD', -> git.reset(repo)]

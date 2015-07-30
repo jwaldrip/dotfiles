@@ -1,7 +1,7 @@
 {
   "name": "term2",
   "main": "./index",
-  "version": "0.9.8",
+  "version": "0.9.9",
   "description": "You can run shell sessions within Atom Editor using Term 2 package. You can run **Vim, Emacs, Htop, etc.** in your Atom. It's based on `pty.js` as shell spawner, and `term.js` as xterm, with the power of Atom Package environment.",
   "activationCommands": {
     "atom-workspace": [
@@ -34,10 +34,10 @@
     "url": "https://github.com/webBoxio/atom-term2/issues"
   },
   "homepage": "https://github.com/webBoxio/atom-term2",
-  "_id": "term2@0.9.8",
-  "_shasum": "ce04c1c59ddad3d19634254568322f202cd2b290",
-  "_resolved": "file:../d-115426-92533-1etzp3f/package.tgz",
-  "_from": "../d-115426-92533-1etzp3f/package.tgz",
+  "_id": "term2@0.9.9",
+  "_shasum": "887fc8931eb1519e77f6ed8ea7c68bb253520ae6",
+  "_resolved": "file:../d-115516-95131-1eoivlb/package.tgz",
+  "_from": "../d-115516-95131-1eoivlb/package.tgz",
   "_atomModuleCache": {
     "version": 1,
     "dependencies": [
@@ -83,7 +83,7 @@
       },
       {
         "name": "amdefine",
-        "version": "0.1.0",
+        "version": "0.1.1",
         "path": "node_modules/atom-space-pen-views/node_modules/space-pen/node_modules/grim/node_modules/coffeestack/node_modules/source-map/node_modules/amdefine/amdefine.js"
       },
       {

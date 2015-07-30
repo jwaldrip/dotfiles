@@ -11,7 +11,7 @@ ENABLE_CORRECTION="true"
 COMPLETION_WAITING_DOTS="true"
 HIST_STAMPS="mm/dd/yyyy"
 
-plugins=(autojump brew bundler chruby docker gitfast lwd node npm osx rails redis-cli ruby)
+plugins=(autojump brew bundler chruby docker lwd node npm osx rails redis-cli ruby)
 
 source $ZSH/oh-my-zsh.sh
 source ~/.private/vars.sh

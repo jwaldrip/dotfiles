@@ -1,5 +1,36 @@
 ## Changelog
 
+### 5.2.1
+
+- add support for Git pull using rebase (@maxcnunes)
+- Git diff opens panes with respect to the 'open in pane' setting
+- Commit and diff won't explode if you don't have the spit panes option selected
+
+### 5.1.7
+
+- Git log command now works with submodules and different repos
+- new command: `Remote Checkout`
+
+### 5.1.2
+
+- #206: Fix for commit file syntax highlighting not working sometimes. (@Gwasanaethau)
+
+### 5.1.1
+
+- Fix for commands not working in submodules
+- Fix typos with 'Git Fetch Prune' (@Azakur4)
+
+### 5.1.0
+
+- The Split Pane direction setting actually works now.
+  > Possible choices are [right up down left]. Defaults to right.
+
+### 5.0.7
+
+- Fix #199
+- Fix #198
+- Fix #197
+
 ### 5.0.4
 
 - Fix typo of 'notifer' to 'notifier'

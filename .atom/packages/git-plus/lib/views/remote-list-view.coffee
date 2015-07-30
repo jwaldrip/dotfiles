@@ -7,9 +7,10 @@ PullBranchListView = require './pull-branch-list-view'
 
 module.exports =
 class ListView extends SelectListView
-  initialize: (@repo, @data, {@mode, @tag}) ->
+  initialize: (@repo, @data, {@mode, @tag, @extraArgs}) ->
     super
     @tag ?= ''
+    @extraArgs ?= []
     @show()
     @parseData()
 
@@ -46,9 +47,9 @@ class ListView extends SelectListView
       git.cmd
         args: ['branch', '-r'],
         cwd: @repo.getWorkingDirectory()
-        stdout: (data) => new PullBranchListView(@repo, data, name)
+        stdout: (data) => new PullBranchListView(@repo, data, name, @extraArgs)
     else if @mode is 'fetch-prune'
-      @mode = 'fecth'
+      @mode = 'fetch'
       @execute name, '--prune'
     else
       @execute name

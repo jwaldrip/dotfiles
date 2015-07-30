@@ -1,14 +1,11 @@
 {
   "name": "auto-indent",
   "main": "./lib/auto-indent",
-  "version": "0.1.0",
+  "version": "0.5.0",
   "description": "This package will allow you to auto-indent your current file",
-  "activationEvents": [
-    "auto-indent:apply"
-  ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/atom/auto-indent"
+    "url": "https://github.com/griiin/atom-auto-indent"
   },
   "license": "MIT",
   "engines": {
@@ -18,13 +15,25 @@
   "readme": "# auto-indent package\n\nThis package will allow you to auto-indent your current file. Use the auto-indent:apply command.\n",
   "readmeFilename": "README.md",
   "bugs": {
-    "url": "https://github.com/atom/auto-indent/issues"
+    "url": "https://github.com/griiin/atom-auto-indent/issues"
   },
-  "homepage": "https://github.com/atom/auto-indent",
-  "_id": "auto-indent@0.1.0",
-  "dist": {
-    "shasum": "5448b51a00614175cd92ffe894b170e8b0616f20"
-  },
-  "_resolved": "/private/var/folders/r2/8wz692wn38115859g50vb3t00000gn/T/d-11496-20297-1u28hho/package.tgz",
-  "_from": "/private/var/folders/r2/8wz692wn38115859g50vb3t00000gn/T/d-11496-20297-1u28hho/package.tgz"
+  "homepage": "https://github.com/griiin/atom-auto-indent",
+  "_id": "auto-indent@0.5.0",
+  "_shasum": "c76fd4efa38ff3c143da927c0173d8547365b6a6",
+  "_resolved": "file:../d-115516-95089-153yniy/package.tgz",
+  "_from": "../d-115516-95089-153yniy/package.tgz",
+  "_atomModuleCache": {
+    "version": 1,
+    "dependencies": [],
+    "extensions": {
+      ".coffee": [
+        "lib/auto-indent-view.coffee",
+        "lib/auto-indent.coffee"
+      ],
+      ".json": [
+        "package.json"
+      ]
+    },
+    "folders": []
+  }
 }

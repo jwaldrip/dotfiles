@@ -62,7 +62,7 @@ class GitCommit
   # status - The current status as {String}.
   prepFile: (status) ->
     # format the status to be ignored in the commit message
-    status = status.replace(/\s*\(.*\)\n/g, '')
+    status = status.replace(/\s*\(.*\)\n/g, "\n")
     status = status.trim().replace(/\n/g, "\n#{@commentchar} ")
     fs.writeFileSync @filePath(),
       """#{@amend}
@@ -75,14 +75,39 @@ class GitCommit
   # Public: Helper method to open the commit message file and to subscribe the
   #         'saved' and `destroyed` events of the underlaying text-buffer.
   showFile: ->
-    split = if atom.config.get('git-plus.openInPane') then atom.config.get('git-plus.splitPane')
     atom.workspace
-      .open(@filePath(), split: split, searchAllPanes: true)
-      .done (textBuffer) =>
-        if textBuffer?
-          @disposables.add textBuffer.onDidSave => @commit()
-          @disposables.add textBuffer.onDidDestroy =>
+      .open(@filePath(), searchAllPanes: true)
+      .done (textEditor) =>
+        if atom.config.get('git-plus.openInPane')
+          @splitPane(atom.config.get('git-plus.splitPane'), textEditor)
+        else
+          @disposables.add textEditor.onDidSave => @commit()
+          @disposables.add textEditor.onDidDestroy =>
             if @isAmending then @undoAmend() else @cleanup()
+
+  splitPane: (splitDir, oldEditor) ->
+    pane = atom.workspace.paneForURI(@filePath())
+    options = { copyActiveItem: true }
+    hookEvents = (textEditor) =>
+      oldEditor.destroy()
+      @disposables.add textEditor.onDidSave => @commit()
+      @disposables.add textEditor.onDidDestroy =>
+        if @isAmending then @undoAmend() else @cleanup()
+
+    directions =
+      left: =>
+        pane = pane.splitLeft options
+        hookEvents(pane.getActiveEditor())
+      right: ->
+        pane = pane.splitRight options
+        hookEvents(pane.getActiveEditor())
+      up: ->
+        pane = pane.splitUp options
+        hookEvents(pane.getActiveEditor())
+      down: ->
+        pane = pane.splitDown options
+        hookEvents(pane.getActiveEditor())
+    directions[splitDir]()
 
   # Public: When the user is done editing the commit message an saves the file
   #         this method gets invoked and commits the changes.
@@ -96,15 +121,11 @@ class GitCommit
         notifier.addSuccess data
         if @andPush
           new GitPush(@repo)
-        # Set @isAmending to false since it succeeded.
         @isAmending = false
-        # Destroying the active EditorView will trigger our cleanup method.
         @destroyActiveEditorView()
         # Activate the former active pane.
         @currentPane.activate() if @currentPane.alive
-        # Refreshing the atom repo status to refresh things like TreeView and diff gutter.
-        # Refresh git index to prevent bugs on our methods.
-        git.refresh @repo
+        git.refresh()
 
       stderr: (err) =>
         # Destroying the active EditorView will trigger our cleanup method.
@@ -139,5 +160,4 @@ class GitCommit
   cleanup: ->
     @currentPane.activate() if @currentPane.alive
     @disposables.dispose()
-    @repo.destroy if @repo.destroyable
     try fs.unlinkSync @filePath()

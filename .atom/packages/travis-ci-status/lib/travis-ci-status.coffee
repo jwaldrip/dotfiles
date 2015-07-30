@@ -30,9 +30,6 @@ module.exports =
   #
   # Returns nothing.
   activate: ->
-    BuildStatusView ?= require './build-status-view'
-    BuildMatrixView ?= require './build-matrix-view'
-
     Promise.all(
       atom.project.getDirectories().map(
         atom.project.repositoryForDirectory.bind(atom.project)
@@ -105,6 +102,9 @@ module.exports =
       @openOnTravis()
 
     createStatusEntry = =>
+      BuildStatusView ?= require './build-status-view'
+      BuildMatrixView ?= require './build-matrix-view'
+
       nwo = @getNameWithOwner()
       @buildMatrixView = new BuildMatrixView(nwo)
       @buildStatusView = new BuildStatusView(nwo, @buildMatrixView)

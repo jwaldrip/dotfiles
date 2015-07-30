@@ -1,7 +1,7 @@
 {
   "name": "deepsea",
   "theme": "syntax",
-  "version": "0.3.0",
+  "version": "0.4.1",
   "description": "DeepSea syntax theme",
   "repository": {
     "type": "git",
@@ -17,10 +17,10 @@
     "url": "https://github.com/skcf/atom-deepsea-syntax/issues"
   },
   "homepage": "https://github.com/skcf/atom-deepsea-syntax",
-  "_id": "deepsea@0.3.0",
-  "_shasum": "699038e0e7467b553dc3aa337a26ebcf0b783b1d",
-  "_resolved": "file:../d-115327-12594-w6jmd7/package.tgz",
-  "_from": "../d-115327-12594-w6jmd7/package.tgz",
+  "_id": "deepsea@0.4.1",
+  "_shasum": "d368bdba0709e6d538225617104471ed1dcb3f22",
+  "_resolved": "file:../d-115516-95096-1n71mbs/package.tgz",
+  "_from": "../d-115516-95096-1n71mbs/package.tgz",
   "_atomModuleCache": {
     "version": 1,
     "dependencies": [],
