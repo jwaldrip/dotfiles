@@ -1,7 +1,7 @@
 {
   "name": "git-plus",
   "main": "./lib/git-plus",
-  "version": "5.2.1",
+  "version": "5.3.4",
   "description": "Do git things without the terminal",
   "keywords": [
     "git"
@@ -59,7 +59,8 @@
     "fs-plus": "^2.2.0",
     "fuzzaldrin": "^1.2.0",
     "underscore-plus": "1.x",
-    "atom-space-pen-views": "^2.0.3"
+    "atom-space-pen-views": "^2.0.3",
+    "flavored-path": "0.0.8"
   },
   "readme": "# Git-Plus package\n\n[![endorse](https://api.coderwall.com/akonwi/endorsecount.png)](https://coderwall.com/akonwi)\n\nvim-fugitive like package for atom. make commits and other git things without the terminal\n\n![A screenshot of your spankin' package](https://raw.githubusercontent.com/akonwi/git-plus/master/commit.gif)\n\n## Usage\n\n# IMPORTANT: Make sure your gitconfig file is configured or at least your `user.email` and `user.name` variables are initialized\n\n### Git-Plus Palette\n>- `Cmd-Shift-H` on MacOS\n>- `Ctrl-Shift-H` on Windows + Linux\n>- `Git Plus: Menu` on the atom command palette.\n\n### Commands (All commands are available for keymapping)\n  __Note: This list is not exclusive__\n1. `Git add [all]`\n\n  Git add will add the current file and 'add all' will add all changed files\n  Default key binding: `Cmd-Shift-A`\n\n2. `Git add all commit and push`\n\n  `Cmd-Shift-A P`\n\n3. `Git commit`\n\n  Will pull up a commit message file. The commit will be made when the file is saved NOT when the pane is closed. You can just cancel by closing the tab.\n  Default key binding: `Cmd-Shift-C`(*`Ctrl-Shift-X`* on Windows + Linux)\n\n4. `Git commit amend`\n\n  Will amend the changes to previous commit.\n\n5. `Git checkout current file`\n\n  Undo changes and checkout current file.\n\n6. `Git [checkout]`\n\n  Change branches\n\n7. `Git Diff [All]`\n\n  Shows diff for current file or All the files. Diff can either be with staged or unstaged as selected in options.\n\n8. `Git new branch`\n\n  Create a new branch\n\n9. `Git [push|pull]`\n\n  When Pushing, if you have multiple remote repos, you can choose which to push to.\n10. `Git Add and Commit`\n\n  Add the current file and pull up the commit message file. Similar to `Git add` and `Git commit` in succession.\n  Default key binding: `Cmd-Shift-A c`\n\n11. `Git Add All and Commit`\n\n  Add all changed files and pull up the commit message file. Similar to `Git add all` and `Git commit` in succession.\n  Default key binding: `Cmd-Shift-A a`\n\n12. `Git rm [current file]`\n\n  Git rm the current file or open an selector to select the files to remove. You can select multiple files at once.\n\n13. `Git Log [Current File]`\n\n  Show the commit history [for the current file] and show display the selected commit.\n\n13. `Git Show`\n\n  Show the specified object, for example `HEAD`, `HEAD~2`, `3925a0d`, `origin/master` or `v2.7.3`.\n\n## Contributing\n\n1. Fork it\n2. Create your feature branch (`git checkout -b my-new-feature`)\n3. Commit your changes (`git commit -am 'Add some feature'`)\n4. Push to the branch (`git push origin my-new-feature`)\n5. Create new Pull Request\n",
   "readmeFilename": "README.md",
@@ -67,16 +68,16 @@
     "url": "https://github.com/akonwi/git-plus/issues"
   },
   "homepage": "https://github.com/akonwi/git-plus",
-  "_id": "git-plus@5.2.1",
-  "_shasum": "24c6394d1cf0b76199df2d220b77f7e6a6e7b7e3",
-  "_resolved": "file:../d-115526-69700-12p5bms/package.tgz",
-  "_from": "../d-115526-69700-12p5bms/package.tgz",
+  "_id": "git-plus@5.3.4",
+  "_shasum": "63e63d0e54e9466e89f12d565b43025262a68a3f",
+  "_resolved": "file:../d-115712-8938-89y1ao/package.tgz",
+  "_from": "../d-115712-8938-89y1ao/package.tgz",
   "_atomModuleCache": {
     "version": 1,
     "dependencies": [
       {
         "name": "atom-space-pen-views",
-        "version": "2.0.5",
+        "version": "2.1.0",
         "path": "node_modules/atom-space-pen-views/lib/main.js"
       },
       {
@@ -116,7 +117,7 @@
       },
       {
         "name": "amdefine",
-        "version": "0.1.1",
+        "version": "1.0.0",
         "path": "node_modules/atom-space-pen-views/node_modules/space-pen/node_modules/grim/node_modules/coffeestack/node_modules/source-map/node_modules/amdefine/amdefine.js"
       },
       {
@@ -163,6 +164,21 @@
         "name": "jquery",
         "version": "2.1.4",
         "path": "node_modules/atom-space-pen-views/node_modules/space-pen/node_modules/jquery/dist/jquery.js"
+      },
+      {
+        "name": "flavored-path",
+        "version": "0.0.8",
+        "path": "node_modules/flavored-path/lib/flavored-path.js"
+      },
+      {
+        "name": "meta-path",
+        "version": "0.0.8",
+        "path": "node_modules/flavored-path/node_modules/meta-path/lib/meta-path.js"
+      },
+      {
+        "name": "is-global",
+        "version": "0.1.0",
+        "path": "node_modules/flavored-path/node_modules/meta-path/node_modules/is-global/lib/index.js"
       },
       {
         "name": "fs-plus",
@@ -809,6 +825,9 @@
         "node_modules/atom-space-pen-views/node_modules/space-pen/node_modules/jquery/src/var/support.js",
         "node_modules/atom-space-pen-views/node_modules/space-pen/node_modules/jquery/src/var/toString.js",
         "node_modules/atom-space-pen-views/node_modules/space-pen/node_modules/jquery/src/wrap.js",
+        "node_modules/flavored-path/lib/flavored-path.js",
+        "node_modules/flavored-path/node_modules/meta-path/lib/meta-path.js",
+        "node_modules/flavored-path/node_modules/meta-path/node_modules/is-global/lib/index.js",
         "node_modules/fs-plus/lib/fs-plus.js",
         "node_modules/fs-plus/node_modules/async/lib/async.js",
         "node_modules/fs-plus/node_modules/mkdirp/examples/pow.js",
@@ -844,6 +863,9 @@
         "node_modules/atom-space-pen-views/node_modules/space-pen/node_modules/jquery/package.json",
         "node_modules/atom-space-pen-views/node_modules/space-pen/package.json",
         "node_modules/atom-space-pen-views/package.json",
+        "node_modules/flavored-path/node_modules/meta-path/node_modules/is-global/package.json",
+        "node_modules/flavored-path/node_modules/meta-path/package.json",
+        "node_modules/flavored-path/package.json",
         "node_modules/fs-plus/node_modules/async/component.json",
         "node_modules/fs-plus/node_modules/async/package.json",
         "node_modules/fs-plus/node_modules/mkdirp/package.json",
@@ -868,7 +890,8 @@
           "fs-plus": "^2.2.0",
           "fuzzaldrin": "^1.2.0",
           "underscore-plus": "1.x",
-          "atom-space-pen-views": "^2.0.3"
+          "atom-space-pen-views": "^2.0.3",
+          "flavored-path": "0.0.8"
         }
       },
       {
@@ -1158,6 +1181,24 @@
         "dependencies": {
           "mixto": "1.x",
           "es6-weak-map": "^0.1.2"
+        }
+      },
+      {
+        "paths": [
+          "node_modules/flavored-path/lib",
+          "node_modules/flavored-path"
+        ],
+        "dependencies": {
+          "meta-path": "*"
+        }
+      },
+      {
+        "paths": [
+          "node_modules/flavored-path/node_modules/meta-path/lib",
+          "node_modules/flavored-path/node_modules/meta-path"
+        ],
+        "dependencies": {
+          "is-global": "*"
         }
       },
       {

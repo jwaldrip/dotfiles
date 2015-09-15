@@ -42,6 +42,15 @@ class GitBridge
         callback(null)
         return
 
+      errorHandler()
+
+    errorHandler = (e) =>
+      if e?
+        e.handle()
+
+        # Suppress the default ENOENT handler
+        e.error.code = "NOTENOENT"
+
       possiblePath = search.shift()
 
       unless possiblePath?
@@ -53,17 +62,29 @@ class GitBridge
         command: possiblePath,
         args: ['--version'],
         exit: exitHandler
-      })
+      }).onWillThrowError errorHandler
 
     @process({
       command: possiblePath,
       args: ['--version'],
       exit: exitHandler
-    })
+    }).onWillThrowError errorHandler
 
-  @_repoWorkDir: -> atom.project.getRepositories()[0].getWorkingDirectory()
+  @_getActivePath: ->
+    atom.workspace.getActivePaneItem()?.getPath?()
 
-  @_repoGitDir: -> atom.project.getRepositories()[0].getPath()
+  @getActiveRepo: (filepath) ->
+    [rootDir] = atom.project.relativizePath(filepath or @_getActivePath())
+    if rootDir?
+      rootDirIndex = atom.project.getPaths().indexOf(rootDir)
+      repo = atom.project.getRepositories()[rootDirIndex]
+    else
+      repo = atom.project.getRepositories()[0]
+    return repo
+
+  @_repoWorkDir: (filepath) -> @getActiveRepo(filepath).getWorkingDirectory()
+
+  @_repoGitDir: (filepath) -> @getActiveRepo(filepath).getPath()
 
   @_statusCodesFrom: (chunk, handler) ->
     for line in chunk.split("\n")
@@ -72,7 +93,17 @@ class GitBridge
         [__, indexCode, workCode, p] = m
         handler(indexCode, workCode, p)
 
-  @withConflicts: (handler) ->
+  @_checkHealth: (callback) ->
+    unless GitCmd
+      console.trace("GitBridge method called before locateGitAnd")
+      callback(new Error("GitBridge.locateGitAnd has not been called yet"))
+      return false
+
+    return true
+
+  @withConflicts: (repo, handler) ->
+    return unless @_checkHealth(handler)
+
     conflicts = []
     errMessage = []
 
@@ -96,7 +127,7 @@ class GitBridge
     proc = @process({
       command: GitCmd,
       args: ['status', '--porcelain'],
-      options: { cwd: @_repoWorkDir() },
+      options: { cwd: repo.getWorkingDirectory() },
       stdout: stdoutHandler,
       stderr: stderrHandler,
       exit: exitHandler
@@ -105,7 +136,9 @@ class GitBridge
     proc.process.on 'error', (err) ->
       handler(new GitNotFoundError(errMessage.join("\n")), null)
 
-  @isStaged: (filepath, handler) ->
+  @isStaged: (repo, filepath, handler) ->
+    return unless @_checkHealth(handler)
+
     staged = true
 
     stdoutHandler = (chunk) =>
@@ -124,7 +157,7 @@ class GitBridge
     proc = @process({
       command: GitCmd,
       args: ['status', '--porcelain', filepath],
-      options: { cwd: @_repoWorkDir() },
+      options: { cwd: repo.getWorkingDirectory() },
       stdout: stdoutHandler,
       stderr: stderrHandler,
       exit: exitHandler
@@ -133,11 +166,13 @@ class GitBridge
     proc.process.on 'error', (err) ->
       handler(new GitNotFoundError, null)
 
-  @checkoutSide: (sideName, filepath, callback) ->
+  @checkoutSide: (repo, sideName, filepath, callback) ->
+    return unless @_checkHealth(callback)
+
     proc = @process({
       command: GitCmd,
       args: ['checkout', "--#{sideName}", filepath],
-      options: { cwd: @_repoWorkDir() },
+      options: { cwd: repo.getWorkingDirectory() },
       stdout: (line) -> console.log line
       stderr: (line) -> console.log line
       exit: (code) ->
@@ -150,11 +185,13 @@ class GitBridge
     proc.process.on 'error', (err) ->
       callback(new GitNotFoundError)
 
-  @add: (filepath, callback) ->
+  @add: (repo, filepath, callback) ->
+    return unless @_checkHealth(callback)
+
     @process({
       command: GitCmd,
       args: ['add', filepath],
-      options: { cwd: @_repoWorkDir() },
+      options: { cwd: repo.getWorkingDirectory() },
       stdout: (line) -> console.log line
       stderr: (line) -> console.log line
       exit: (code) ->
@@ -165,6 +202,9 @@ class GitBridge
     })
 
   @isRebasing: ->
+    return unless @_checkHealth (e) ->
+      atom.notifications.addError e.message
+
     root = @_repoGitDir()
     return false unless root?
 

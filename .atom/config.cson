@@ -24,6 +24,7 @@
   "go-plus":
     goPath: "~/dev"
     showPanelWhenNoIssuesExist: true
+    goInstallation: "/usr/local/bin/go"
   editor:
     showIndentGuide: true
     invisibles: {}
@@ -41,8 +42,11 @@
       "git-diff": true
   "circle-ci": {}
   "linter-ruby":
-    rubyExecutablePath: "~/.rubies/ruby-2.2.2/bin/ruby"
+    rubyExecutablePath: "/Users/jwaldrip/.rubies/ruby-2.2.2/bin/ruby"
   floobits: {}
   "spell-check": {}
   "linter-shellcheck":
     shellcheckExecutablePath: "/usr/local/bin/shellcheck"
+  "linter-crystal":
+    compilerExecPath: "/usr/local/bin/crystal"
+  "copy-as-rtf": {}

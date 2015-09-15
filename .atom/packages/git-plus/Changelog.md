@@ -1,5 +1,33 @@
 ## Changelog
 
+### 5.3.4
+- unlink COMMIT_EDITMSG file after commits
+- Respect no 'open pane' setting with commit window
+
+### 5.3.3
+- #231: Shift-Enter confirms stage/unstage in dialogs
+
+### 5.3.2
+- Fix #226: remove COMMIT_EDITMSG file from repo when committing
+- Fix #228: Don't show color codes in diff when `color.ui=always`
+
+### 5.3.0
+- Fix #233 (@hotoiledgoblins)
+- Add 'Git checkout remote' to atom command palette
+- Respect `commit.template` config option
+
+### 5.2.4
+- Fix #243
+- Fix #42
+- Add 'push' command to context menu
+
+### 5.2.3
+- Make git-diff highlighting non-greedy. Thanks to @Victorystick
+
+### 5.2.2
+
+- fix 'Git log current file'
+
 ### 5.2.1
 
 - add support for Git pull using rebase (@maxcnunes)

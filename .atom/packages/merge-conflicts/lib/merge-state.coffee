@@ -1,25 +1,24 @@
 {GitBridge} = require './git-bridge'
 
-module.exports =
 class MergeState
 
-  constructor: (@conflicts, @isRebase) ->
+  constructor: (@conflicts, @repo, @isRebase) ->
 
   conflictPaths: -> c.path for c in @conflicts
 
   reread: (callback) ->
-    GitBridge.withConflicts (err, @conflicts) =>
-      if err?
-        callback(err, null)
-      else
-        callback(null, this)
+    GitBridge.withConflicts @repo, (err, @conflicts) =>
+      callback(err, this)
 
   isEmpty: -> @conflicts.length is 0
 
-  @read: (callback) ->
+  @read: (repo, callback) ->
     isr = GitBridge.isRebasing()
-    GitBridge.withConflicts (err, cs) ->
+    GitBridge.withConflicts repo, (err, cs) ->
       if err?
         callback(err, null)
       else
-        callback(null, new MergeState(cs, isr))
+        callback(null, new MergeState(cs, repo, isr))
+
+module.exports =
+  MergeState: MergeState

@@ -33,7 +33,7 @@ alias reload!="exec $SHELL"
 alias e=$EDITOR
 
 ## Shell init boot2docker
-eval `boot2docker shellinit 2> /dev/null` &> /dev/null || true
+eval `docker-machine env default 2> /dev/null` &> /dev/null || true
 
 ## PATH ASSIGNMENTS
 
@@ -44,7 +44,7 @@ export PATH="/usr/local/bin:$PATH"
 export PATH="$HOME/bin:$PATH"
 
 # Add Current Directory Path
-export PATH="./bin:$PATH"
+# export PATH="./bin:$PATH"
 
 # Added by the Heroku Toolbelt
 export PATH="/usr/local/heroku/bin:$PATH"
