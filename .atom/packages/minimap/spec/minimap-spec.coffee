@@ -220,10 +220,12 @@ describe 'Minimap', ->
     [marker, decoration, changeSpy] = []
 
     beforeEach ->
+      editor.setText(largeSample)
+
       changeSpy = jasmine.createSpy('didChange')
       minimap.onDidChange(changeSpy)
 
-      marker = minimap.markBufferRange [[0,6], [0,11]]
+      marker = minimap.markBufferRange [[0,6], [1,11]]
       decoration = minimap.decorateMarker marker, type: 'highlight', class: 'dummy'
 
     it 'creates a decoration for the given marker', ->
@@ -232,7 +234,20 @@ describe 'Minimap', ->
     it 'creates a change corresponding to the marker range', ->
       expect(changeSpy).toHaveBeenCalled()
       expect(changeSpy.calls[0].args[0].start).toEqual(0)
-      expect(changeSpy.calls[0].args[0].end).toEqual(0)
+      expect(changeSpy.calls[0].args[0].end).toEqual(1)
+
+    describe 'when the marker range changes', ->
+      beforeEach ->
+        markerChangeSpy = jasmine.createSpy('marker-did-change')
+        marker.onDidChange(markerChangeSpy)
+        marker.setBufferRange [[0,6], [3,11]]
+
+        waitsFor -> markerChangeSpy.calls.length > 0
+
+      it 'creates a change only for the dif between the two ranges', ->
+        expect(changeSpy).toHaveBeenCalled()
+        expect(changeSpy.calls[1].args[0].start).toEqual(1)
+        expect(changeSpy.calls[1].args[0].end).toEqual(3)
 
     describe 'destroying the marker', ->
       beforeEach ->
@@ -243,7 +258,7 @@ describe 'Minimap', ->
 
       it 'creates a change corresponding to the marker range', ->
         expect(changeSpy.calls[1].args[0].start).toEqual(0)
-        expect(changeSpy.calls[1].args[0].end).toEqual(0)
+        expect(changeSpy.calls[1].args[0].end).toEqual(1)
 
     describe 'destroying the decoration', ->
       beforeEach ->
@@ -254,7 +269,7 @@ describe 'Minimap', ->
 
       it 'creates a change corresponding to the marker range', ->
         expect(changeSpy.calls[1].args[0].start).toEqual(0)
-        expect(changeSpy.calls[1].args[0].end).toEqual(0)
+        expect(changeSpy.calls[1].args[0].end).toEqual(1)
 
     describe 'destroying all the decorations for the marker', ->
       beforeEach ->
@@ -265,7 +280,7 @@ describe 'Minimap', ->
 
       it 'creates a change corresponding to the marker range', ->
         expect(changeSpy.calls[1].args[0].start).toEqual(0)
-        expect(changeSpy.calls[1].args[0].end).toEqual(0)
+        expect(changeSpy.calls[1].args[0].end).toEqual(1)
 
     describe 'destroying the minimap', ->
       beforeEach ->
@@ -281,7 +296,7 @@ describe 'Minimap', ->
 
         expect(decoration).toBeUndefined()
 
-  describe '::decorationsForScreenRowRangeByTypeThenRows', ->
+  describe '::decorationsByTypeThenRows', ->
     [decorations] = []
 
     beforeEach ->
@@ -298,7 +313,7 @@ describe 'Minimap', ->
       createDecoration 'line', [[12,0], [12,0]]
       createDecoration 'highlight-under', [[0,0], [10,1]]
 
-      decorations = minimap.decorationsForScreenRowRangeByTypeThenRows(0, 12)
+      decorations = minimap.decorationsByTypeThenRows(0, 12)
 
     it 'returns an object whose keys are the decorations types', ->
       expect(Object.keys(decorations).sort()).toEqual(['highlight-over', 'highlight-under', 'line'])
@@ -319,3 +334,146 @@ describe 'Minimap', ->
       expect(decorations['line']['3'].length).toEqual(1)
 
       expect(decorations['highlight-under']['5'].length).toEqual(1)
+
+#     ######  ########    ###    ##    ## ########
+#    ##    ##    ##      ## ##   ###   ## ##     ##
+#    ##          ##     ##   ##  ####  ## ##     ##
+#     ######     ##    ##     ## ## ## ## ##     ##
+#          ##    ##    ######### ##  #### ##     ##
+#    ##    ##    ##    ##     ## ##   ### ##     ##
+#     ######     ##    ##     ## ##    ## ########
+#
+#       ###    ##        #######  ##    ## ########
+#      ## ##   ##       ##     ## ###   ## ##
+#     ##   ##  ##       ##     ## ####  ## ##
+#    ##     ## ##       ##     ## ## ## ## ######
+#    ######### ##       ##     ## ##  #### ##
+#    ##     ## ##       ##     ## ##   ### ##
+#    ##     ## ########  #######  ##    ## ########
+
+describe 'Stand alone minimap', ->
+  [editor, minimap, largeSample, smallSample] = []
+
+  beforeEach ->
+    atom.config.set 'minimap.charHeight', 4
+    atom.config.set 'minimap.charWidth', 2
+    atom.config.set 'minimap.interline', 1
+
+    editor = new TextEditor({})
+    editor.setLineHeightInPixels(10)
+    editor.setHeight(50)
+    editor.setWidth(200)
+
+    dir = atom.project.getDirectories()[0]
+
+    minimap = new Minimap({
+      textEditor: editor
+      standAlone: true
+    })
+
+    largeSample = fs.readFileSync(dir.resolve('large-file.coffee')).toString()
+    smallSample = fs.readFileSync(dir.resolve('sample.coffee')).toString()
+
+  it 'has an associated editor', ->
+    expect(minimap.getTextEditor()).toEqual(editor)
+
+  it 'measures the minimap size based on the current editor content', ->
+    editor.setText(smallSample)
+    expect(minimap.getHeight()).toEqual(editor.getScreenLineCount() * 5)
+
+    editor.setText(largeSample)
+    expect(minimap.getHeight()).toEqual(editor.getScreenLineCount() * 5)
+
+  it 'measures the scaling factor between the editor and the minimap', ->
+    expect(minimap.getVerticalScaleFactor()).toEqual(0.5)
+    expect(minimap.getHorizontalScaleFactor()).toEqual(2 / editor.getDefaultCharWidth())
+
+  it 'measures the editor visible area size at minimap scale', ->
+    editor.setText(largeSample)
+    expect(minimap.getTextEditorScaledHeight()).toEqual(25)
+
+  it 'has a visible height based on the passed-in options', ->
+    expect(minimap.getVisibleHeight()).toEqual(5)
+
+    editor.setText(smallSample)
+    expect(minimap.getVisibleHeight()).toEqual(20)
+
+    editor.setText(largeSample)
+    expect(minimap.getVisibleHeight()).toEqual(editor.getScreenLineCount() * 5)
+
+    minimap.height = 100
+    expect(minimap.getVisibleHeight()).toEqual(100)
+
+  it 'has a visible width based on the passed-in options', ->
+    expect(minimap.getVisibleWidth()).toEqual(0)
+
+    editor.setText(smallSample)
+    expect(minimap.getVisibleWidth()).toEqual(36)
+
+    editor.setText(largeSample)
+    expect(minimap.getVisibleWidth()).toEqual(editor.getMaxScreenLineLength() * 2)
+
+    minimap.width = 50
+    expect(minimap.getVisibleWidth()).toEqual(50)
+
+  it 'measures the available minimap scroll', ->
+    editor.setText(largeSample)
+    largeLineCount = editor.getScreenLineCount()
+
+    expect(minimap.getMaxScrollTop()).toEqual(0)
+    expect(minimap.canScroll()).toBeFalsy()
+
+    minimap.height = 100
+
+    expect(minimap.getMaxScrollTop()).toEqual(largeLineCount * 5 - 100)
+    expect(minimap.canScroll()).toBeTruthy()
+
+  it 'computes the first visible row in the minimap', ->
+    expect(minimap.getFirstVisibleScreenRow()).toEqual(0)
+
+  it 'computes the last visible row in the minimap', ->
+    editor.setText(largeSample)
+
+    expect(minimap.getLastVisibleScreenRow()).toEqual(editor.getScreenLineCount())
+
+    minimap.height = 100
+    expect(minimap.getLastVisibleScreenRow()).toEqual(20)
+
+  it 'does not relay scroll top events from the editor', ->
+    editor.setText(largeSample)
+
+    scrollSpy = jasmine.createSpy('didScroll')
+    minimap.onDidChangeScrollTop(scrollSpy)
+
+    editor.setScrollTop(100)
+
+    expect(scrollSpy).not.toHaveBeenCalled()
+
+  it 'does not relay scroll left events from the editor', ->
+    editor.setText(largeSample)
+
+    scrollSpy = jasmine.createSpy('didScroll')
+    minimap.onDidChangeScrollLeft(scrollSpy)
+
+    # Seems like text without a view aren't able to scroll horizontally
+    # even when its width was set.
+    spyOn(editor.displayBuffer, 'getScrollWidth').andReturn(10000)
+
+    editor.setScrollLeft(100)
+
+    expect(scrollSpy).not.toHaveBeenCalled()
+
+  it 'has a scroll top that is not bound to the text editor', ->
+    scrollSpy = jasmine.createSpy('didScroll')
+    minimap.onDidChangeScrollTop(scrollSpy)
+
+    editor.setText(largeSample)
+    editor.setScrollTop(1000)
+
+    expect(minimap.getScrollTop()).toEqual(0)
+    expect(scrollSpy).not.toHaveBeenCalled()
+
+    minimap.setScrollTop(10)
+
+    expect(minimap.getScrollTop()).toEqual(10)
+    expect(scrollSpy).toHaveBeenCalled()

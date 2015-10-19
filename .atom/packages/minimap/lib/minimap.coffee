@@ -20,7 +20,7 @@ class Minimap
   # options - An {Object} with the following properties:
   #           :textEditor - A `TextEditor` instance.
   constructor: (options={}) ->
-    {@textEditor} = options
+    {@textEditor, @standAlone, @width, @height} = options
     unless @textEditor?
       throw new Error('Cannot create a minimap without an editor')
 
@@ -28,6 +28,9 @@ class Minimap
     @emitter = new Emitter
     @subscriptions = subs = new CompositeDisposable
     @initializeDecorations()
+
+    if @standAlone
+      @scrollTop = 0
 
     subs.add atom.config.observe 'editor.scrollPastEnd', (@scrollPastEnd) =>
       @emitter.emit('did-change-config', {
@@ -52,10 +55,10 @@ class Minimap
 
     subs.add @textEditor.onDidChange (changes) =>
       @emitChanges(changes)
-    subs.add @textEditor.onDidChangeScrollTop (scrollTop) =>
-      @emitter.emit('did-change-scroll-top', scrollTop)
-    subs.add @textEditor.onDidChangeScrollLeft (scrollLeft) =>
-      @emitter.emit('did-change-scroll-left', scrollLeft)
+    subs.add @textEditor.onDidChangeScrollTop =>
+      @emitter.emit('did-change-scroll-top', this) unless @standAlone
+    subs.add @textEditor.onDidChangeScrollLeft =>
+      @emitter.emit('did-change-scroll-left', this) unless @standAlone
     subs.add @textEditor.onDidDestroy =>
       @destroy()
 
@@ -69,10 +72,14 @@ class Minimap
 
   # Destroys the model.
   destroy: ->
-    @subscriptions.dispose()
+    return if @destroyed
+
     @removeAllDecorations()
+    @subscriptions.dispose()
+    @subscriptions = null
     @textEditor = null
     @emitter.emit 'did-destroy'
+    @emitter.dispose()
     @destroyed = true
 
   isDestroyed: -> @destroyed
@@ -104,7 +111,8 @@ class Minimap
     @emitter.on 'did-change-config', callback
 
   # Calls the `callback` when the text editor `scrollTop` value have been
-  # changed.
+  # changed or when the minimap scroll top have been changed in stand-alone
+  # mode.
   #
   # callback - The callback {Function}. The event the callback will receive
   #            the new `scrollTop` {Number} value.
@@ -123,6 +131,16 @@ class Minimap
   onDidChangeScrollLeft: (callback) ->
     @emitter.on 'did-change-scroll-left', callback
 
+  # Calls the `callback` when the text editor stand-alone mode is modified
+  #
+  # callback - The callback {Function}. The event the callback will receive
+  #            the {Minimap} as the sole argument.
+  #
+  # Returns a `Disposable`.
+  onDidChangeStandAlone: (callback) ->
+    @emitter.on 'did-change-stand-alone', callback
+
+
   # Calls the `callback` when this {Minimap} was destroyed.
   #
   # callback - The callback {Function}.
@@ -130,6 +148,23 @@ class Minimap
   # Returns a `Disposable`.
   onDidDestroy: (callback) ->
     @emitter.on 'did-destroy', callback
+
+  # Returns `true` when the minimap is in stand-alone mode.
+  #
+  # The stand-alone mode means that the minimap size won't be tied
+  # to the `TextEditor` but based on the specified options instead.
+  #
+  # Returns a {Boolean}.
+  isStandAlone: -> @standAlone
+
+  # Sets the stand-alone mode for this minimap.
+  #
+  # standAlone - A {Boolean} of whether the minimap operates in stand-alone
+  #              mode or not.
+  setStandAlone: (standAlone) ->
+    if standAlone isnt @standAlone
+      @standAlone = standAlone
+      @emitter.emit('did-change-stand-alone', this)
 
   # Returns the `TextEditor` that this minimap represents.
   #
@@ -139,7 +174,8 @@ class Minimap
   # Returns the height of the `TextEditor` at the {Minimap} scale.
   #
   # Returns a {Number}.
-  getTextEditorScaledHeight: -> @textEditor.getHeight() * @getVerticalScaleFactor()
+  getTextEditorScaledHeight: ->
+    @textEditor.getHeight() * @getVerticalScaleFactor()
 
   # Returns the `TextEditor::getScrollTop` value at the {Minimap} scale.
   #
@@ -192,14 +228,52 @@ class Minimap
   # Returns a {Number}.
   getHeight: -> @textEditor.getScreenLineCount() * @getLineHeight()
 
-  # Returns the height the {Minimap} will take on screen.
+  # Returns the width of the whole minimap in pixels based on the `minimap`
+  # settings.
+  #
+  # Returns a {Number}.
+  getWidth: -> @textEditor.getMaxScreenLineLength() * @getCharWidth()
+
+  # Returns the height the {Minimap} content will take on screen.
   #
   # When the {Minimap} height is greater than the `TextEditor` height, the
   # `TextEditor` height is returned instead.
   #
   # Returns a {Number}.
-  getVisibleHeight: ->
-    Math.min(@textEditor.getHeight(), @getHeight())
+  getVisibleHeight: -> Math.min(@getScreenHeight(), @getHeight())
+
+  # Returns the height the minimap should take once displayed, it's either the
+  # height of the `TextEditor` or the provided `height` when in standAlone mode.
+  #
+  # Returns a {Number}.
+  getScreenHeight: ->
+    if @isStandAlone()
+      if @height? then @height else @getHeight()
+    else
+      @textEditor.getHeight()
+
+  # Returns the width the whole {Minimap} will take on screen.
+  #
+  # Returns a {Number}.
+  getVisibleWidth: ->
+    Math.min(@getScreenWidth(), @getWidth())
+
+  # Returns the width the minimap should take once displayed, it's either the
+  # width of the minimap content or the provided `width` when in standAlone
+  # mode.
+  #
+  # Returns a {Number}.
+  getScreenWidth: ->
+    if @isStandAlone() and @width? then @width else @getWidth()
+
+  # Internal: Sets the preferred height and width when in stand-alone mode.
+  #
+  # This method is called by the {MinimapElement} for this {Minimap} so that
+  # the model is kept in sync with the view.
+  #
+  # height - The height {Number} of pixels.
+  # width - The width {Number} of pixels.
+  setScreenHeightAndWidth: (@height, @width) ->
 
   # Returns the vertical scaling factor when converting coordinates from the
   # `TextEditor` to the {Minimap}.
@@ -245,7 +319,7 @@ class Minimap
   #
   # Returns a {Number}.
   getLastVisibleScreenRow: ->
-    Math.ceil((@getScrollTop() + @textEditor.getHeight()) / @getLineHeight())
+    Math.ceil((@getScrollTop() + @getScreenHeight()) / @getLineHeight())
 
   # Returns the current scroll of the {Minimap}.
   #
@@ -254,12 +328,22 @@ class Minimap
   #
   # Returns a {Number}.
   getScrollTop: ->
-    Math.abs(@getCapedTextEditorScrollRatio() * @getMaxScrollTop())
+    if @standAlone
+      @scrollTop
+    else
+      Math.abs(@getCapedTextEditorScrollRatio() * @getMaxScrollTop())
+
+  # Sets the minimap scroll top value when in stand-alone mode.
+  #
+  # scrollTop - The {Number} of pixels of vertical scroll.
+  setScrollTop: (@scrollTop) ->
+    @emitter.emit('did-change-scroll-top', this) if @standAlone
 
   # Returns the maximum scroll value of the {Minimap}.
   #
   # Returns a {Number}.
-  getMaxScrollTop: -> Math.max(0, @getHeight() - @textEditor.getHeight())
+  getMaxScrollTop: ->
+    Math.max(0, @getHeight() - @getScreenHeight())
 
   # Returns `true` when the {Minimap} can scroll.
   #

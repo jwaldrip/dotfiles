@@ -1,13 +1,17 @@
 {
   "name": "minimap",
   "main": "./lib/main",
-  "version": "4.10.0",
+  "version": "4.13.3",
   "private": true,
   "description": "A preview of the full source code.",
   "author": {
     "name": "Fangdun Cai",
     "email": "cfddream@gmail.com"
   },
+  "keywords": [
+    "minimap",
+    "overview"
+  ],
   "contributors": [
     {
       "name": "Fangdun Cai",
@@ -20,11 +24,11 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/atom-minimap/minimap"
+    "url": "git+https://github.com/atom-minimap/minimap.git"
   },
   "license": "MIT",
   "engines": {
-    "atom": ">=0.184.0"
+    "atom": ">=0.208.0"
   },
   "providedServices": {
     "minimap": {
@@ -43,16 +47,16 @@
     "semver": "^4.3.0",
     "underscore-plus": "1.x"
   },
-  "readme": "# Minimap package [![Build Status](https://travis-ci.org/atom-minimap/minimap.svg?branch=master)](https://travis-ci.org/atom-minimap/minimap)\n\nA preview of the full source code.\n\n![Minimap Screenshot](https://github.com/atom-minimap/minimap/blob/master/screenshot.png?raw=true)\n\n### Installation\n\n```\napm install minimap\n```\n\n### Features\n\n* Service-based Plugin API: Use the plugin generation command and start developing your plugin right away.\n* Decoration API: Use the same API to manage `TextEditor` and `Minimap` decorations.\n* Canvas-based Rendering: Simple, fast and flexible.\n\n\n### Available Plugins\n\nBelow is the list of available plugins so far:\n\n  * [Find And Replace](https://atom.io/packages/minimap-find-and-replace)\n  * [Git Diff](https://atom.io/packages/minimap-git-diff)\n  * [Color Highlight](https://atom.io/packages/minimap-color-highlight)\n  * [Highlight Selected](https://atom.io/packages/minimap-highlight-selected)\n  * [Selection](https://atom.io/packages/minimap-selection)\n  * [Bookmarks](https://atom.io/packages/minimap-bookmarks)\n  * [Auto-Hide](https://atom.io/packages/minimap-autohide)\n  * [Pigments](https://atom.io/packages/minimap-pigments)\n\n\n### Settings\n\n* `Auto Toggle`: If checked the Minimap is toggled on at startup. (default=true)\n* `Display Code Highlights`: If checked the code will be highlighted using the grammar tokens. (default=true)\n* `Display Minimap On Left`: If checked the Minimap appears on the left side of editors, otherwise it appears on the right side. (default=false)\n* `Char Height`: The height of a character in the Minimap in pixels. (default=2)\n* `Char Width`: The width of a character in the Minimap in pixels. (default=1)\n* `Interline`: The space between lines in the Minimap in pixels. (default=1)\n* `Text Opacity`: The opacity used to render the line text in the Minimap. (default=0.6)\n* `Display Plugins Controls`: If checked, the Minimap plugins can be activated/deactivated from the Minimap settings view and a quick settings dropdown will be available on the top right corner of the Minimap. **You need to restart Atom for this setting to be effective.** (default=true)\n* `Minimap Scroll Indicator`: Toggles the display of a side line showing which part of the buffer is currently displayed by the Minimap. The side line appear only if the Minimap height is bigger than the editor view height. (default=true)\n* `Plugins *`: When plugins are installed, a setting is created for each to enable/disable them directly from the Minimap settings view.\n* `Scroll Animation`: Enable animations when scrolling the editor by clicking on the Minimap.\n* `Scroll Animation Duration`: Duration of the scroll animation when clicking on the Minimap.\n* `Use Hardware Acceleration`: If checked the Minimap scroll is done using a `translate3d` transform, otherwise the `translate` transform is used. (default=true)\n* `Absolute Mode`: When enabled the minimap uses an absolute positioning, letting the editor's content flow below the minimap.\n  Note that this setting will do nothing if `Display Minimap On Left` is also enabled.\n\nFor instance the following result is obtained by setting a `Char Height` of `1px`:\n\n![Minimap Screenshot](https://github.com/atom-minimap/minimap/blob/master/screenshot-alternate.png?raw=true)\n\n### Key Bindings\n\nCustomizing Key Bindings:\n\n```cson\n'atom-workspace':\n  'cmd-m': 'minimap:toggle'\n  'ctrl-alt-cmd-m': 'minimap:generate-plugin'\n```\n\n### Plugins\n\n#### Plugin Generation Command\n\nUse the `Minimap: Generate Plugin` command available in the command palette or add a binding to the `minimap:generate-plugin` event:\n\n```cson\n'atom-workspace':\n  'ctrl-alt-cmd-m': 'minimap:generate-plugin'\n```\n\n#### Plugins Controls\n\nWhen the `displayPluginsControls` setting is toggled on, plugins activation can be managed directly from the Minimap package settings or by using the quick settings dropdown available on the Mimimap itself:\n\n![Minimap Screenshot](https://github.com/atom-minimap/minimap/blob/master/plugins-list.gif?raw=true)\n\n### Minimap Decorations\n\nThe Minimap package mimic the decoration API available on editors so that you can easily add your own decorations on the Minimap.\n\nWhile the interface is the same, some details such as the available decorations types change relatively to the editor's decorations API.\n\n#### Scope And Styling\n\nThe most important change is that decorations on the Minimap doesn't use a `class`, but rather a `scope`\n\n```coffee\nminimapView.decorateMarker(marker, type: 'line', scope: '.scope .to .the.marker.style')\n```\n\nIt's still possible to pass a class parameter to the decoration:\n\n\n```coffee\nminimapView.decorateMarker(marker, type: 'line', class: 'the marker style')\n```\n\nIn that case, when rendering the decoration a scope will be build that will look like `.minimap .editor .the.marker.style`.\n\nThe reason of using a scope rather than a class is that while editor's decorations are part of the DOM and benefit of the styles cascading, Minimap's decorations, rendered in a canvas, do not. In order to work around that, decoration's styles are defined using a `scope` property containing the selector allowing to retrieve the decoration style.\n\nThis allow the Minimap decorations to still be styled using css. For instance, the scope used by the `minimap-selection` package is:\n\n```css\n.minimap .editor .selection .region {\n  /* ... */\n}\n```\n\nNote that the scope is prefixed with `.minimap` so that you can override the selection style in the Minimap without impacting the editor's one.\n\nAlso note that only the `background` property will be retrieved to style a decoration.\n\nA last option is to pass a css color directly in a `color` option, such as:\n\n```coffee\nminimapView.decorateMarker(marker, type: 'line', color: '#ff0000')\n```\n\nIn that case neither the scope nor the class will be used.\n\n#### Decorations Types\n\nAnother non-trivial change is the list of available decoration's type. At the time, the available types on the Minimap are:\n\n- `line`: Same as the editor one, it colors the line background with a color extracted from the decoration scope.\n- `highlight-under`: Correspond to an editor `highlight` decoration that is rendered before rendering the line content.\n- `highlight-over`, `highlight`: Correspond to an editor `highlight` decoration that is rendered after having rendered the line content.\n- `highlight-outline`: Correspond to an editor `highlight` decoration that is rendered only as an outline in the Minimap.\n\n### Tweaking The Minimap\n\n#### Hiding scrollbars\n\nIf you want to hide the default editor scrollbar, edit your `style.less` (Open Your Stylesheet) and use the following snippet:\n\n```css\natom-text-editor .vertical-scrollbar,\natom-text-editor::shadow .vertical-scrollbar {\n  opacity: 0;\n  width: 0;\n}\n```\n\n#### Changing the Minimap's background\n\n```css\natom-text-editor::shadow atom-text-editor-minimap,\natom-text-editor atom-text-editor-minimap {\n  background: rgba(255,255,255, 0.1);\n}\n```\n\n#### Changing the color of the Minimap's `visible-area`\n\n```css\natom-text-editor::shadow atom-text-editor-minimap::shadow .minimap-visible-area,\natom-text-editor atom-text-editor-minimap::shadow .minimap-visible-area {\n  background-color: green;\n  opacity: .5;\n}\n```\n\n#### Changing the color of the Minimap's `scroll-indicator`\n\n```css\natom-text-editor::shadow atom-text-editor-minimap::shadow .minimap-scroll-indicator,\natom-text-editor atom-text-editor-minimap::shadow .minimap-scroll-indicator {\n  background-color: green;\n}\n```\n\n### Contributing\n\nThe Minimap package try to follow the [Atom contribution guidelines](https://atom.io/docs/latest/contributing).\n\nEspecially, the commits should follow the conventions defined in the *Git Commit Messages* section of the guideline.\n\nThe `CHANGELOG` content is then generated using the [changelog-gen utils](https://github.com/abe33/changelog-gen).\n\n[See all contributors](https://github.com/atom-minimap/minimap/graphs/contributors)\n\n### License\n\nMIT\n",
+  "readme": "# Minimap package [![Build Status](https://travis-ci.org/atom-minimap/minimap.svg?branch=master)](https://travis-ci.org/atom-minimap/minimap)\n\nA preview of the full source code.\n\n![Minimap Screenshot](https://github.com/atom-minimap/minimap/blob/master/resources/screenshot.png?raw=true)\n\n### Installation\n\n```\napm install minimap\n```\n\n### Features\n\n* Service-based Plugin API: Use the plugin generation command and start developing your plugin right away.\n* Decoration API: Use the same API to manage `TextEditor` and `Minimap` decorations.\n* Canvas-based Rendering: Simple, fast and flexible.\n* Stand-alone Mode: Wants to display a preview of a text editor in your UIs, use a stand-alone version of the Minimap.\n\n### Available Plugins\n\nBelow is the list of available plugins so far:\n\nPackage|Description\n---|---\n[Auto-Hide](https://atom.io/packages/minimap-autohide)|Hides the Minimap while editing.\n[Bookmarks](https://atom.io/packages/minimap-bookmarks)|Displays Atom bookmarks.\n[Code Glance](https://atom.io/packages/minimap-codeglance)|Shows the code that's under the mouse cursor when hovering the Minimap.\n[Find And Replace](https://atom.io/packages/minimap-find-and-replace)|Displays the search matches.\n[Git Diff](https://atom.io/packages/minimap-git-diff)|Displays the file diff.\n[Hide on inactive panes](https://atom.io/packages/minimap-hide)|Hide the Minimap when pane isn't focus.\n[Highlight Selected](https://atom.io/packages/minimap-highlight-selected)|A Minimap binding for the highlight-selected package.\n[Linter](https://atom.io/packages/minimap-linter)|Displays linter markers.\n[Pigments](https://atom.io/packages/minimap-pigments)|Displays the pigments colors.\n[Selection](https://atom.io/packages/minimap-selection)|Display the buffer's selections.\n\n### Settings\n\nSetting|Description\n---|---\n`Auto Toggle`|If checked the Minimap is toggled on at startup. (default=true)\n`Display Code Highlights`|<p>If checked the code will be highlighted using the grammar tokens. (default=true)</p><p> ![](https://github.com/atom-minimap/minimap/blob/master/resources/with-code-highlights.png?raw=true) = `true`</p><p> ![](https://github.com/atom-minimap/minimap/blob/master/resources/without-code-highlights.png?raw=true) = `false`</p>\n`Display Minimap On Left`|<p>If checked the Minimap appears on the left side of editors, otherwise it appears on the right side. (default=false)</p><p> ![](https://github.com/atom-minimap/minimap/blob/master/resources/minimap-on-left.png?raw=true) = `true`</p><p> ![](https://github.com/atom-minimap/minimap/blob/master/resources/minimap-on-right.png?raw=true) = `false`</p>\n`Char Height`|<p>The height of a character in the Minimap in pixels. (default=2)</p><p> ![](https://github.com/atom-minimap/minimap/blob/master/resources/1px-char-height.png?raw=true) = `1px`</p><p> ![](https://github.com/atom-minimap/minimap/blob/master/resources/2px-char-height.png?raw=true) = `2px`</p><p> ![](https://github.com/atom-minimap/minimap/blob/master/resources/4px-char-height.png?raw=true) = `4px`</p>\n`Char Width`|<p>The width of a character in the Minimap in pixels. (default=1)</p><p> ![](https://github.com/atom-minimap/minimap/blob/master/resources/1px-char-width.png?raw=true) = `1px`</p><p> ![](https://github.com/atom-minimap/minimap/blob/master/resources/2px-char-width.png?raw=true) = `2px`</p>\n`Interline`|<p>The space between lines in the Minimap in pixels. (default=1)</p><p> ![](https://github.com/atom-minimap/minimap/blob/master/resources/1px-interline.png?raw=true) = `1px`</p><p> ![](https://github.com/atom-minimap/minimap/blob/master/resources/2px-interline.png?raw=true) = `2px`</p>\n`Text Opacity`|<p>The opacity used to render the line text in the Minimap. (default=0.6)</p><p> ![](https://github.com/atom-minimap/minimap/blob/master/resources/text-opacity-default.png?raw=true) = `0.6`</p><p> ![](https://github.com/atom-minimap/minimap/blob/master/resources/text-opacity-1.png?raw=true) = `1`</p>\n`Display Plugins Controls`|<p>If checked, the Minimap plugins can be activated/deactivated from the Minimap settings view and a quick settings dropdown will be available on the top right corner of the Minimap. <br/>**You need to restart Atom for this setting to be effective.** (default=true)</p> <p>![](https://github.com/atom-minimap/minimap/blob/master/resources/plugins-control.png?raw=true)</p>\n`Minimap Scroll Indicator`|<p>Toggles the display of a side line showing which part of the buffer is currently displayed by the Minimap. The side line appear only if the Minimap height is bigger than the editor view height. (default=true)</p> <p>![](https://github.com/atom-minimap/minimap/blob/master/resources/scroll-indicator.png?raw=true)</p>\n`Plugins *`|When plugins are installed, a setting is created for each to enable/disable them directly from the Minimap settings view.\n`Scroll Animation`|Enable animations when scrolling the editor by clicking on the Minimap. (default=false)\n`Scroll Animation Duration`|Duration of the scroll animation when clicking on the Minimap. (default=300)\n`Use Hardware Acceleration`|If checked the Minimap scroll is done using a `translate3d` transform, otherwise the `translate` transform is used. (default=true)\n`Absolute Mode`|<p>When enabled the Minimap uses an absolute positioning, letting the editor's content flow below the Minimap. (default=true)</p><p>Note that this setting will do nothing if `Display Minimap On Left` is also enabled.</p><p>![](https://github.com/atom-minimap/minimap/blob/master/resources/normal-mode.png?raw=true) = `false`</p><p>![](https://github.com/atom-minimap/minimap/blob/master/resources/absolute-mode.png?raw=true) = `true`</p>\n\n### Key Bindings\n\nThe Minimap package doesn't provide any default keybindings. But you can define your own as demonstrated below:\n\n```cson\n'atom-workspace':\n  'cmd-m': 'minimap:toggle'\n  'ctrl-alt-cmd-j': 'minimap:generate-javascript-plugin'\n  'ctrl-alt-cmd-b': 'minimap:generate-babel-plugin'\n  'ctrl-alt-cmd-c': 'minimap:generate-coffee-plugin'\n```\n\n### Tweaking The Minimap\n\n#### Hiding scrollbars\n\nIf you want to hide the default editor scrollbar, edit your `style.less` (Open Your Stylesheet) and use the following snippet:\n\n```css\natom-text-editor .vertical-scrollbar,\natom-text-editor::shadow .vertical-scrollbar {\n  opacity: 0;\n  width: 0;\n}\n```\n\n#### Changing the Minimap's background\n\n![minimap-custom-background](https://github.com/atom-minimap/minimap/blob/master/resources/minimap-custom-background.png?raw=true)\n\n```css\natom-text-editor atom-text-editor-minimap,\natom-text-editor::shadow atom-text-editor-minimap {\n  background: green;\n}\n```\n\n#### Changing the color of the Minimap's `visible-area`\n\n![minimap-custom-background](https://github.com/atom-minimap/minimap/blob/master/resources/minimap-custom-visible-area.png?raw=true)\n\n```css\natom-text-editor atom-text-editor-minimap::shadow .minimap-visible-area,\natom-text-editor::shadow atom-text-editor-minimap::shadow .minimap-visible-area {\n  background-color: green;\n  opacity: .5;\n}\n```\n\n#### Changing the color of the Minimap's `scroll-indicator`\n\n![minimap-custom-background](https://github.com/atom-minimap/minimap/blob/master/resources/minimap-custom-scroll-indicator.png?raw=true)\n\n```css\natom-text-editor atom-text-editor-minimap::shadow .minimap-scroll-indicator,\natom-text-editor::shadow atom-text-editor-minimap::shadow .minimap-scroll-indicator {\n  background-color: green;\n}\n```\n\n#### Disabling mouse interactions when in absolute mode\n\nIf you want to prevent to catch the mouse pointer when the `absoluteMode` setting is enabled you can use the following snippet to do so:\n\n```css\natom-text-editor atom-text-editor-minimap,\natom-text-editor::shadow atom-text-editor-minimap {\n  pointer-events: none;\n}\n\natom-text-editor atom-text-editor-minimap::shadow .minimap-visible-area,\natom-text-editor::shadow atom-text-editor-minimap::shadow .minimap-visible-area {\n  pointer-events: auto;\n}\n```\n\nThe visible area will still allow interaction but the Minimap track won't.\n\n----\n\n### Plugins\n\n#### Plugin Generation Command\n\nUse the `Generate Javascript Plugin`, `Generate Coffee Plugin` or `Generate Babel Plugin` commands, available in the command palette, to generate a new Minimap plugin package.\n\n- `Minimap: Generate Javascript Plugin`: Will generate a vanilla JavaScript package.\n- `Minimap: Generate Coffee Plugin`: Will generate a CoffeeScript package.\n- `Minimap: Generate Babel Plugin`: Will generate a ES6 package that uses babel-js.\n\n#### Plugins Controls\n\nWhen the `displayPluginsControls` setting is toggled on, plugins activation can be managed directly from the Minimap package settings or by using the quick settings dropdown available on the Mimimap itself:\n\n![Minimap Screenshot](https://github.com/atom-minimap/minimap/blob/master/resources/plugins-list.gif?raw=true)\n\n### Stand-alone Mode\n\nStarting with version 4.13, the Minimap can operate in a stand-alone mode. Basically, it means that a Minimap can be appended to the DOM outside of a `TextEditor` and without being affected by it.\n\nThe example below demonstrates how to retrieve and display a stand-alone Minimap:\n\n```coffee\natom.packages.serviceHub.consume 'minimap', '1.0.0', (api) ->\n  editor = atom.workspace.getActiveTextEditor()\n  minimap = api.standAloneMinimapForEditor(editor)\n\n  minimapElement = atom.views.getView(minimap)\n  minimapElement.attach(document.body)\n  minimapElement.style.cssText = '''\n    width: 300px;\n    height: 300px;\n    position: fixed;\n    top: 0;\n    right: 100px;\n    z-index: 10;\n  '''\n```\n\nIn a nutshell, here's the main changes to expect when using a stand-alone Minimap:\n\n- In stand-alone mode, it's the `MinimapElement` that is responsible to sets the size of the underlying `Minimap` model, so you can give it any size and the Minimap will just adapt to it.\n- Scrolling in the target `TextEditor` won't change the Minimap display.\n- The mouse controls in the Minimap are disabled.\n- The visible area and the quick settings button are hidden.\n- Stand-alone Minimaps aren't dispatched in the `observeMinimaps` callback, so they won't be targeted by plugins and won't receive the decorations that plugins normally creates on Minimaps.\n\nFor the moment, stand-alone Minimaps still need a target `TextEditor` but I hope to make it work with just a path at some point.\n\n### Minimap Decorations\n\nThe Minimap package mimic the decoration API available on editors so that you can easily add your own decorations on the Minimap.\n\nWhile the interface is the same, some details such as the available decorations types change relatively to the editor's decorations API.\n\n#### Scope And Styling\n\nThe most important change is that decorations on the Minimap doesn't use a `class`, but rather a `scope`\n\n```coffee\nminimapView.decorateMarker(marker, type: 'line', scope: '.scope .to .the.marker.style')\n```\n\nIt's still possible to pass a class parameter to the decoration:\n\n\n```coffee\nminimapView.decorateMarker(marker, type: 'line', class: 'the marker style')\n```\n\nIn that case, when rendering the decoration a scope will be build that will look like `.minimap .editor .the.marker.style`.\n\nThe reason of using a scope rather than a class is that while editor's decorations are part of the DOM and benefit of the styles cascading, Minimap's decorations, rendered in a canvas, do not. In order to work around that, decoration's styles are defined using a `scope` property containing the selector allowing to retrieve the decoration style.\n\nThis allow the Minimap decorations to still be styled using css. For instance, the scope used by the `minimap-selection` package is:\n\n```css\n.minimap .editor .selection .region {\n  /* ... */\n}\n```\n\nNote that the scope is prefixed with `.minimap` so that you can override the selection style in the Minimap without impacting the editor's one.\n\nAlso note that only the `background` property will be retrieved to style a decoration.\n\nA last option is to pass a css color directly in a `color` option, such as:\n\n```coffee\nminimapView.decorateMarker(marker, type: 'line', color: '#ff0000')\n```\n\nIn that case neither the scope nor the class will be used.\n\n#### Decorations Types\n\nAnother non-trivial change is the list of available decoration's type. At the time, the available types on the Minimap are:\n\n- `line`: Same as the editor one, it colors the line background with a color extracted from the decoration scope.\n- `highlight-under`: Correspond to an editor `highlight` decoration that is rendered before rendering the line content.\n- `highlight-over`, `highlight`: Correspond to an editor `highlight` decoration that is rendered after having rendered the line content.\n- `highlight-outline`: Correspond to an editor `highlight` decoration that is rendered only as an outline in the Minimap.\n\n### License\n\nMIT\n",
   "readmeFilename": "README.md",
   "bugs": {
     "url": "https://github.com/atom-minimap/minimap/issues"
   },
-  "homepage": "https://github.com/atom-minimap/minimap",
-  "_id": "minimap@4.10.0",
-  "_shasum": "8b3b951007b0bdd6ac5500bb23bfae12109fde2d",
-  "_resolved": "file:../d-115516-95124-1eiga4f/package.tgz",
-  "_from": "../d-115516-95124-1eiga4f/package.tgz",
+  "homepage": "https://github.com/atom-minimap/minimap#readme",
+  "_id": "minimap@4.13.3",
+  "_shasum": "e0f81c929293dcd64ae8e97a9b7cb8f02492eea2",
+  "_resolved": "file:../d-115816-27273-vxzbo8/package.tgz",
+  "_from": "../d-115816-27273-vxzbo8/package.tgz",
   "_atomModuleCache": {
     "version": 1,
     "dependencies": [
@@ -68,38 +72,13 @@
       },
       {
         "name": "event-kit",
-        "version": "1.2.0",
+        "version": "1.3.0",
         "path": "node_modules/event-kit/lib/event-kit.js"
       },
       {
         "name": "grim",
-        "version": "1.4.1",
+        "version": "1.4.2",
         "path": "node_modules/event-kit/node_modules/grim/lib/grim.js"
-      },
-      {
-        "name": "coffeestack",
-        "version": "1.1.2",
-        "path": "node_modules/event-kit/node_modules/grim/node_modules/coffeestack/index.js"
-      },
-      {
-        "name": "coffee-script",
-        "version": "1.8.0",
-        "path": "node_modules/event-kit/node_modules/grim/node_modules/coffeestack/node_modules/coffee-script/lib/coffee-script/coffee-script.js"
-      },
-      {
-        "name": "mkdirp",
-        "version": "0.3.5",
-        "path": "node_modules/event-kit/node_modules/grim/node_modules/coffeestack/node_modules/coffee-script/node_modules/mkdirp/index.js"
-      },
-      {
-        "name": "source-map",
-        "version": "0.1.43",
-        "path": "node_modules/event-kit/node_modules/grim/node_modules/coffeestack/node_modules/source-map/lib/source-map.js"
-      },
-      {
-        "name": "amdefine",
-        "version": "0.1.1",
-        "path": "node_modules/event-kit/node_modules/grim/node_modules/coffeestack/node_modules/source-map/node_modules/amdefine/amdefine.js"
       },
       {
         "name": "emissary",
@@ -183,11 +162,6 @@
         "node_modules/atom-utils/package.json",
         "node_modules/delegato/package.json",
         "node_modules/event-kit/api.json",
-        "node_modules/event-kit/node_modules/grim/node_modules/coffeestack/node_modules/coffee-script/node_modules/mkdirp/package.json",
-        "node_modules/event-kit/node_modules/grim/node_modules/coffeestack/node_modules/coffee-script/package.json",
-        "node_modules/event-kit/node_modules/grim/node_modules/coffeestack/node_modules/source-map/node_modules/amdefine/package.json",
-        "node_modules/event-kit/node_modules/grim/node_modules/coffeestack/node_modules/source-map/package.json",
-        "node_modules/event-kit/node_modules/grim/node_modules/coffeestack/package.json",
         "node_modules/event-kit/node_modules/grim/node_modules/emissary/node_modules/es6-weak-map/node_modules/d/package.json",
         "node_modules/event-kit/node_modules/grim/node_modules/emissary/node_modules/es6-weak-map/node_modules/es5-ext/package.json",
         "node_modules/event-kit/node_modules/grim/node_modules/emissary/node_modules/es6-weak-map/node_modules/es6-iterator/package.json",
@@ -209,6 +183,7 @@
         "package.json"
       ],
       ".coffee": [
+        "lib/decoration.coffee",
         "lib/main.coffee",
         "lib/minimap-element.coffee",
         "lib/minimap-plugin-generator-element.coffee",
@@ -234,45 +209,6 @@
         "node_modules/event-kit/lib/event-kit.js",
         "node_modules/event-kit/node_modules/grim/lib/deprecation.js",
         "node_modules/event-kit/node_modules/grim/lib/grim.js",
-        "node_modules/event-kit/node_modules/grim/node_modules/coffeestack/index.js",
-        "node_modules/event-kit/node_modules/grim/node_modules/coffeestack/node_modules/coffee-script/lib/coffee-script/browser.js",
-        "node_modules/event-kit/node_modules/grim/node_modules/coffeestack/node_modules/coffee-script/lib/coffee-script/cake.js",
-        "node_modules/event-kit/node_modules/grim/node_modules/coffeestack/node_modules/coffee-script/lib/coffee-script/coffee-script.js",
-        "node_modules/event-kit/node_modules/grim/node_modules/coffeestack/node_modules/coffee-script/lib/coffee-script/command.js",
-        "node_modules/event-kit/node_modules/grim/node_modules/coffeestack/node_modules/coffee-script/lib/coffee-script/grammar.js",
-        "node_modules/event-kit/node_modules/grim/node_modules/coffeestack/node_modules/coffee-script/lib/coffee-script/helpers.js",
-        "node_modules/event-kit/node_modules/grim/node_modules/coffeestack/node_modules/coffee-script/lib/coffee-script/index.js",
-        "node_modules/event-kit/node_modules/grim/node_modules/coffeestack/node_modules/coffee-script/lib/coffee-script/lexer.js",
-        "node_modules/event-kit/node_modules/grim/node_modules/coffeestack/node_modules/coffee-script/lib/coffee-script/nodes.js",
-        "node_modules/event-kit/node_modules/grim/node_modules/coffeestack/node_modules/coffee-script/lib/coffee-script/optparse.js",
-        "node_modules/event-kit/node_modules/grim/node_modules/coffeestack/node_modules/coffee-script/lib/coffee-script/parser.js",
-        "node_modules/event-kit/node_modules/grim/node_modules/coffeestack/node_modules/coffee-script/lib/coffee-script/register.js",
-        "node_modules/event-kit/node_modules/grim/node_modules/coffeestack/node_modules/coffee-script/lib/coffee-script/repl.js",
-        "node_modules/event-kit/node_modules/grim/node_modules/coffeestack/node_modules/coffee-script/lib/coffee-script/rewriter.js",
-        "node_modules/event-kit/node_modules/grim/node_modules/coffeestack/node_modules/coffee-script/lib/coffee-script/scope.js",
-        "node_modules/event-kit/node_modules/grim/node_modules/coffeestack/node_modules/coffee-script/lib/coffee-script/sourcemap.js",
-        "node_modules/event-kit/node_modules/grim/node_modules/coffeestack/node_modules/coffee-script/node_modules/mkdirp/examples/pow.js",
-        "node_modules/event-kit/node_modules/grim/node_modules/coffeestack/node_modules/coffee-script/node_modules/mkdirp/index.js",
-        "node_modules/event-kit/node_modules/grim/node_modules/coffeestack/node_modules/coffee-script/register.js",
-        "node_modules/event-kit/node_modules/grim/node_modules/coffeestack/node_modules/coffee-script/repl.js",
-        "node_modules/event-kit/node_modules/grim/node_modules/coffeestack/node_modules/source-map/Makefile.dryice.js",
-        "node_modules/event-kit/node_modules/grim/node_modules/coffeestack/node_modules/source-map/build/assert-shim.js",
-        "node_modules/event-kit/node_modules/grim/node_modules/coffeestack/node_modules/source-map/build/mini-require.js",
-        "node_modules/event-kit/node_modules/grim/node_modules/coffeestack/node_modules/source-map/build/suffix-browser.js",
-        "node_modules/event-kit/node_modules/grim/node_modules/coffeestack/node_modules/source-map/build/test-prefix.js",
-        "node_modules/event-kit/node_modules/grim/node_modules/coffeestack/node_modules/source-map/build/test-suffix.js",
-        "node_modules/event-kit/node_modules/grim/node_modules/coffeestack/node_modules/source-map/lib/source-map/array-set.js",
-        "node_modules/event-kit/node_modules/grim/node_modules/coffeestack/node_modules/source-map/lib/source-map/base64-vlq.js",
-        "node_modules/event-kit/node_modules/grim/node_modules/coffeestack/node_modules/source-map/lib/source-map/base64.js",
-        "node_modules/event-kit/node_modules/grim/node_modules/coffeestack/node_modules/source-map/lib/source-map/binary-search.js",
-        "node_modules/event-kit/node_modules/grim/node_modules/coffeestack/node_modules/source-map/lib/source-map/mapping-list.js",
-        "node_modules/event-kit/node_modules/grim/node_modules/coffeestack/node_modules/source-map/lib/source-map/source-map-consumer.js",
-        "node_modules/event-kit/node_modules/grim/node_modules/coffeestack/node_modules/source-map/lib/source-map/source-map-generator.js",
-        "node_modules/event-kit/node_modules/grim/node_modules/coffeestack/node_modules/source-map/lib/source-map/source-node.js",
-        "node_modules/event-kit/node_modules/grim/node_modules/coffeestack/node_modules/source-map/lib/source-map/util.js",
-        "node_modules/event-kit/node_modules/grim/node_modules/coffeestack/node_modules/source-map/lib/source-map.js",
-        "node_modules/event-kit/node_modules/grim/node_modules/coffeestack/node_modules/source-map/node_modules/amdefine/amdefine.js",
-        "node_modules/event-kit/node_modules/grim/node_modules/coffeestack/node_modules/source-map/node_modules/amdefine/intercept.js",
         "node_modules/event-kit/node_modules/grim/node_modules/emissary/lib/behavior.js",
         "node_modules/event-kit/node_modules/grim/node_modules/emissary/lib/emissary.js",
         "node_modules/event-kit/node_modules/grim/node_modules/emissary/lib/emitter.js",
@@ -704,7 +640,9 @@
           "spec/fixtures",
           "spec/helpers",
           "spec",
-          "templates/plugin"
+          "templates/plugin-babel",
+          "templates/plugin-coffee",
+          "templates/plugin-javascript"
         ],
         "dependencies": {
           "atom-utils": "0.5.x",
@@ -751,40 +689,7 @@
           "node_modules/event-kit/node_modules/grim"
         ],
         "dependencies": {
-          "coffeestack": "^1",
           "emissary": "^1.2.0"
-        }
-      },
-      {
-        "paths": [
-          "node_modules/event-kit/node_modules/grim/node_modules/coffeestack"
-        ],
-        "dependencies": {
-          "coffee-script": "~1.8.0",
-          "fs-plus": "^2.5.0",
-          "source-map": "~0.1.43"
-        }
-      },
-      {
-        "paths": [
-          "node_modules/event-kit/node_modules/grim/node_modules/coffeestack/node_modules/coffee-script/lib/coffee-script",
-          "node_modules/event-kit/node_modules/grim/node_modules/coffeestack/node_modules/coffee-script"
-        ],
-        "dependencies": {
-          "mkdirp": "~0.3.5"
-        }
-      },
-      {
-        "paths": [
-          "node_modules/event-kit/node_modules/grim/node_modules/coffeestack/node_modules/source-map",
-          "node_modules/event-kit/node_modules/grim/node_modules/coffeestack/node_modules/source-map/build",
-          "node_modules/event-kit/node_modules/grim/node_modules/coffeestack/node_modules/source-map/lib/source-map",
-          "node_modules/event-kit/node_modules/grim/node_modules/coffeestack/node_modules/source-map/lib",
-          "node_modules/event-kit/node_modules/grim/node_modules/coffeestack/node_modules/source-map/test",
-          "node_modules/event-kit/node_modules/grim/node_modules/coffeestack/node_modules/source-map/test/source-map"
-        ],
-        "dependencies": {
-          "amdefine": ">=0.0.4"
         }
       },
       {

@@ -1,6 +1,7 @@
 fs = require 'fs'
 path = require 'path'
 shell = require 'shell'
+{Disposable} = require 'atom'
 
 TravisCi = null
 
@@ -30,19 +31,25 @@ module.exports =
   #
   # Returns nothing.
   activate: ->
-    Promise.all(
+    @activationPromise = Promise.all(
       atom.project.getDirectories().map(
         atom.project.repositoryForDirectory.bind(atom.project)
       )
     ).then (repos) =>
-      @isTravisProject((config) => config and @init()) if @hasGitHubRepo(repos)
+      new Promise((resolve) =>
+        if @hasGitHubRepo(repos)
+          @isTravisProject((config) ->
+            resolve() if config
+          )
+      )
+
 
   # Internal: Deactive the package and destroys any views.
   #
   # Returns nothing.
   deactivate: ->
     atom.travis = null
-    @buildStatusView?.destroy()
+    @statusBarSubscription?.dispose()
     @buildMatrixView?.destroy()
 
   # Internal: Serialize each view state so it can be restored when activated.
@@ -90,7 +97,7 @@ module.exports =
   # Internal: initializes any views.
   #
   # Returns nothing
-  init: ->
+  init: (statusBar) ->
     TravisCi ?= require 'travis-ci'
 
     atom.travis = new TravisCi(
@@ -101,22 +108,14 @@ module.exports =
     atom.commands.add 'atom-workspace', 'travis-ci-status:open-on-travis', =>
       @openOnTravis()
 
-    createStatusEntry = =>
-      BuildStatusView ?= require './build-status-view'
-      BuildMatrixView ?= require './build-matrix-view'
+    BuildStatusView ?= require './build-status-view'
+    BuildMatrixView ?= require './build-matrix-view'
 
-      nwo = @getNameWithOwner()
-      @buildMatrixView = new BuildMatrixView(nwo)
-      @buildStatusView = new BuildStatusView(nwo, @buildMatrixView)
+    nwo = @getNameWithOwner()
+    @buildMatrixView = new BuildMatrixView(nwo)
+    @buildStatusView = new BuildStatusView(nwo, @buildMatrixView, statusBar)
 
-    statusBar = document.querySelector("status-bar")
-
-    if statusBar?
-      createStatusEntry()
-    else
-      atom.packages.once 'activated', -> createStatusEntry()
-
-    null
+    return
 
   # Internal: Open the project on Travis CI in the default browser.
   #
@@ -130,3 +129,8 @@ module.exports =
       'travis-ci.org'
 
     shell.openExternal("https://#{domain}/#{nwo}")
+
+  consumeStatusBar: (statusBar) ->
+    @activationPromise.then( => @init(statusBar))
+    @statusBarSubscription = new Disposable =>
+      @buildStatusView?.destroy()

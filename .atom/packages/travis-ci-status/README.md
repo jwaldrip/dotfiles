@@ -2,6 +2,8 @@
 
 Add Travis CI status of the project to the Atom status bar.
 
+![Atom Status Bar Screenshot](https://raw.githubusercontent.com/tombell/travis-ci-status/master/travis_ci_status.png)
+
 ## Installing
 
 Use the Atom package manager, which can be found in the Settings view or run

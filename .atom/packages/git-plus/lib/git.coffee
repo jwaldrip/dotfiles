@@ -1,4 +1,4 @@
-{BufferedProcess, GitRepository} = require 'atom'
+{BufferedProcess} = require 'atom'
 RepoListView = require './views/repo-list-view'
 notifier = require './notifier'
 
@@ -89,12 +89,15 @@ gitRefresh = ->
     args: ['add', '--refresh', '--', '.']
     stderr: (data) -> # don't really need to flash an error
 
-gitAdd = (repo, {file, stdout, stderr, exit}={}) ->
+gitAdd = (repo, {file, stdout, stderr, exit, update}={}) ->
+  args = ['add']
+  if update then args.push '--update' else args.push '--all'
+  if file then args.push file else '.'
   exit ?= (code) ->
     if code is 0
       notifier.addSuccess "Added #{file ? 'all files'}"
   gitCmd
-    args: ['add', '--all', file ? '.']
+    args: args
     cwd: repo.getWorkingDirectory()
     stdout: stdout if stdout?
     stderr: stderr if stderr?
@@ -148,10 +151,9 @@ relativize = (path) ->
 # returns submodule for given file or undefined
 getSubmodule = (path) ->
   path ?= atom.workspace.getActiveTextEditor()?.getPath()
-  repo = GitRepository.open(atom.workspace.getActiveTextEditor()?.getPath(), refreshOnWindowFocus: false)
-  submodule = repo?.repo.submoduleForPath(path)
-  repo?.destroy?()
-  submodule
+  repo = atom.project.getRepositories().filter((r) ->
+    r?.repo.submoduleForPath path
+  )[0]?.repo?.submoduleForPath path
 
 # Public: Get the repository of the current file or project if no current file
 # Returns a {Promise} that resolves to a repository like object

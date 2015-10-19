@@ -24,7 +24,7 @@ class GitCommit
   # Returns: The full path to our COMMIT_EDITMSG file as {String}
   filePath: -> Path.join(@repo.getPath(), 'COMMIT_EDITMSG')
 
-  constructor: (@repo, {@amend, @andPush}={}) ->
+  constructor: (@repo, {@amend, @andPush, @stageChanges}={}) ->
     @currentPane = atom.workspace.getActivePane()
     @disposables = new CompositeDisposable
 
@@ -40,6 +40,14 @@ class GitCommit
         if data.trim() isnt ''
           @commentchar = data.trim()
 
+    if @stageChanges
+      git.add @repo,
+        update: true,
+        exit: (code) => @getStagedFiles()
+    else
+      @getStagedFiles()
+
+  getStagedFiles: ->
     git.stagedFiles @repo, (files) =>
       if @amend isnt '' or files.length >= 1
         git.cmd
@@ -79,7 +87,7 @@ class GitCommit
   #         'saved' and `destroyed` events of the underlaying text-buffer.
   showFile: ->
     atom.workspace
-      .open(@filePath(), split: 'left', searchAllPanes: true)
+      .open(@filePath(), searchAllPanes: true)
       .done (textEditor) =>
         if atom.config.get('git-plus.openInPane')
           @splitPane(atom.config.get('git-plus.splitPane'), textEditor)
@@ -125,20 +133,23 @@ class GitCommit
         if @andPush
           new GitPush(@repo)
         @isAmending = false
-        @destroyActiveEditorView()
+        @destroyCommitEditor()
         # Activate the former active pane.
         @currentPane.activate() if @currentPane.alive
         git.refresh()
 
-      stderr: (err) => @destroyActiveEditorView()
+      stderr: (err) => @destroyCommitEditor()
 
-  # Public: Destroys the active EditorView to trigger our cleanup method.
-  destroyActiveEditorView: ->
-    if atom.workspace.getActivePane().getItems().length > 1
-      atom.workspace.destroyActivePaneItem()
-    else
-      atom.workspace.destroyActivePane()
+  destroyCommitEditor: ->
     @cleanup()
+    atom.workspace.getPanes().some (pane) ->
+      pane.getItems().some (paneItem) ->
+        if paneItem?.getURI?()?.includes 'COMMIT_EDITMSG'
+          if pane.getItems().length is 1
+            pane.destroy()
+          else
+            paneItem.destroy()
+          return true
 
   # Public: Undo the amend
   #
@@ -155,7 +166,7 @@ class GitCommit
         @isAmending = false
 
         # Destroying the active EditorView will trigger our cleanup method.
-        @destroyActiveEditorView()
+        @destroyCommitEditor()
 
   # Public: Cleans up after the EditorView gets destroyed.
   cleanup: ->

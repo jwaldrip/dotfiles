@@ -64,16 +64,23 @@ class TermView extends View
     @input "#{runCommand}#{os.EOL}" if runCommand
     term.focus()
 
+    @applyStyle()
     @attachEvents()
     @resizeToPane()
 
   input: (data) ->
-    @ptyProcess.send event: 'input', text: data
+    try
+      @ptyProcess.send event: 'input', text: data
+    catch error
+      console.log error
     @resizeToPane()
     @focusTerm()
 
   resize: (cols, rows) ->
-    @ptyProcess.send {event: 'resize', rows, cols}
+    try
+      @ptyProcess.send {event: 'resize', rows, cols}
+    catch error
+      console.log error
 
   titleVars: ->
     bashName: last @opts.shell.split '/'
@@ -88,6 +95,22 @@ class TermView extends View
 
   getIconName: ->
     "terminal"
+
+  applyStyle: ->
+    # remove background color in favor of the atom background
+    @term.element.style.background = null
+    @term.element.style.fontFamily = (
+      @opts.fontFamily or
+      atom.config.get('editor.fontFamily') or
+      # (Atom doesn't return a default value if there is none)
+      # so we use a poor fallback
+      "monospace"
+    )
+    # Atom returns a default for fontSize
+    @term.element.style.fontSize = (
+      @opts.fontSize or
+      atom.config.get('editor.fontSize')
+    ) + "px"
 
   attachEvents: ->
     @resizeToPane = @resizeToPane.bind this
@@ -116,6 +139,7 @@ class TermView extends View
     setTimeout (=>  @resizeToPane()), 10
     @on 'focus', @focus
     $(window).on 'resize', => @resizeToPane()
+    atom.workspace.getActivePane().observeFlexScale => setTimeout (=> @resizeToPane()), 300
 
   detachResizeEvents: ->
     @off 'focus', @focus
@@ -141,10 +165,10 @@ class TermView extends View
     atom.views.getView(atom.workspace).style.overflow = 'visible'
 
   getDimensions: ->
-    fakeCol = $("<span id='colSize'>&nbsp;</span>").css visibility: 'hidden'
+    fakeRow = $("<div><span>&nbsp;</span></div>").css visibility: 'hidden'
     if @term
-      @find('.terminal').append fakeCol
-      fakeCol = @find(".terminal span#colSize")
+      @find('.terminal').append fakeRow
+      fakeCol = fakeRow.children().first()
       cols = Math.floor (@width() / fakeCol.width()) or 9
       rows = Math.floor (@height() / fakeCol.height()) or 16
       fakeCol.remove()

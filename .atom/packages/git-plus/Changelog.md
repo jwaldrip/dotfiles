@@ -1,5 +1,33 @@
 ## Changelog
 
+### 5.4.7
+- #269
+
+### 5.4.6
+ - Refactor to fix #266
+
+### 5.4.5
+- #265
+
+### 5.4.4
+- #263
+
+### 5.4.3
+- Add deactivate method to package
+- Refactoring
+
+### 5.4.2
+- #261
+
+### 5.4.1
+- #260: Destroy 'COMMIT_EDITMSG' pane not just editor
+
+### 5.4.0
+- #201: Add `Commit All` command. Equivalent of `git commit -a`
+
+### 5.3.5
+- #209: Only destroy textEditor for 'COMMIT_EDITMSG'
+
 ### 5.3.4
 - unlink COMMIT_EDITMSG file after commits
 - Respect no 'open pane' setting with commit window

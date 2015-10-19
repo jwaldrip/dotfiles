@@ -1,7 +1,7 @@
 {
   "name": "git-plus",
   "main": "./lib/git-plus",
-  "version": "5.3.4",
+  "version": "5.4.7",
   "description": "Do git things without the terminal",
   "keywords": [
     "git"
@@ -49,7 +49,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/akonwi/git-plus"
+    "url": "git+https://github.com/akonwi/git-plus.git"
   },
   "license": "MIT",
   "engines": {
@@ -62,16 +62,16 @@
     "atom-space-pen-views": "^2.0.3",
     "flavored-path": "0.0.8"
   },
-  "readme": "# Git-Plus package\n\n[![endorse](https://api.coderwall.com/akonwi/endorsecount.png)](https://coderwall.com/akonwi)\n\nvim-fugitive like package for atom. make commits and other git things without the terminal\n\n![A screenshot of your spankin' package](https://raw.githubusercontent.com/akonwi/git-plus/master/commit.gif)\n\n## Usage\n\n# IMPORTANT: Make sure your gitconfig file is configured or at least your `user.email` and `user.name` variables are initialized\n\n### Git-Plus Palette\n>- `Cmd-Shift-H` on MacOS\n>- `Ctrl-Shift-H` on Windows + Linux\n>- `Git Plus: Menu` on the atom command palette.\n\n### Commands (All commands are available for keymapping)\n  __Note: This list is not exclusive__\n1. `Git add [all]`\n\n  Git add will add the current file and 'add all' will add all changed files\n  Default key binding: `Cmd-Shift-A`\n\n2. `Git add all commit and push`\n\n  `Cmd-Shift-A P`\n\n3. `Git commit`\n\n  Will pull up a commit message file. The commit will be made when the file is saved NOT when the pane is closed. You can just cancel by closing the tab.\n  Default key binding: `Cmd-Shift-C`(*`Ctrl-Shift-X`* on Windows + Linux)\n\n4. `Git commit amend`\n\n  Will amend the changes to previous commit.\n\n5. `Git checkout current file`\n\n  Undo changes and checkout current file.\n\n6. `Git [checkout]`\n\n  Change branches\n\n7. `Git Diff [All]`\n\n  Shows diff for current file or All the files. Diff can either be with staged or unstaged as selected in options.\n\n8. `Git new branch`\n\n  Create a new branch\n\n9. `Git [push|pull]`\n\n  When Pushing, if you have multiple remote repos, you can choose which to push to.\n10. `Git Add and Commit`\n\n  Add the current file and pull up the commit message file. Similar to `Git add` and `Git commit` in succession.\n  Default key binding: `Cmd-Shift-A c`\n\n11. `Git Add All and Commit`\n\n  Add all changed files and pull up the commit message file. Similar to `Git add all` and `Git commit` in succession.\n  Default key binding: `Cmd-Shift-A a`\n\n12. `Git rm [current file]`\n\n  Git rm the current file or open an selector to select the files to remove. You can select multiple files at once.\n\n13. `Git Log [Current File]`\n\n  Show the commit history [for the current file] and show display the selected commit.\n\n13. `Git Show`\n\n  Show the specified object, for example `HEAD`, `HEAD~2`, `3925a0d`, `origin/master` or `v2.7.3`.\n\n## Contributing\n\n1. Fork it\n2. Create your feature branch (`git checkout -b my-new-feature`)\n3. Commit your changes (`git commit -am 'Add some feature'`)\n4. Push to the branch (`git push origin my-new-feature`)\n5. Create new Pull Request\n",
+  "readme": "# Git-Plus package\n\n[![endorse](https://api.coderwall.com/akonwi/endorsecount.png)](https://coderwall.com/akonwi)\n\nvim-fugitive like package for atom. make commits and other git things without the terminal\n\n![A screenshot of your spankin' package](https://raw.githubusercontent.com/akonwi/git-plus/master/commit.gif)\n\n## Usage\n\n# IMPORTANT: Make sure your gitconfig file is configured or at least your `user.email` and `user.name` variables are initialized\n\n### Git-Plus Palette\n>- `Cmd-Shift-H` on MacOS\n>- `Ctrl-Shift-H` on Windows + Linux\n>- `Git Plus: Menu` on the atom command palette.\n\n### Commands\n_Commands are accessible for keybindings by dasherizing the command title._\n> Git Add ==  `git-plus:add`\n\n> Git Add All Commit And Push == `git-plus:add-all-commit-and-push`\n\n  __Note: This list is not exclusive__\n1. `Git add [all]`\n\n  Git add will add the current file and 'add all' will add all changed files\n  Default key binding: `Cmd-Shift-A`\n\n2. `Git add all commit and push`\n\n  `Cmd-Shift-A P`\n\n3. `Git commit`\n\n  Will pull up a commit message file. The commit will be made when the file is saved NOT when the pane is closed. You can just cancel by closing the tab.\n  Default key binding: `Cmd-Shift-C`(*`Ctrl-Shift-X`* on Windows + Linux)\n\n4. `Git commit amend`\n\n  Will amend the changes to previous commit.\n\n5. `Git checkout current file`\n\n  Undo changes and checkout current file.\n\n6. `Git [checkout]`\n\n  Change branches\n\n7. `Git Diff [All]`\n\n  Shows diff for current file or All the files. Diff can either be with staged or unstaged as selected in options.\n\n8. `Git new branch`\n\n  Create a new branch\n\n9. `Git [push|pull]`\n\n  When Pushing, if you have multiple remote repos, you can choose which to push to.\n10. `Git Add and Commit`\n\n  Add the current file and pull up the commit message file. Similar to `Git add` and `Git commit` in succession.\n  Default key binding: `Cmd-Shift-A c`\n\n11. `Git Add All and Commit`\n\n  Add all changed files and pull up the commit message file. Similar to `Git add all` and `Git commit` in succession.\n  Default key binding: `Cmd-Shift-A a`\n\n12. `Git rm [current file]`\n\n  Git rm the current file or open an selector to select the files to remove. You can select multiple files at once.\n\n13. `Git Log [Current File]`\n\n  Show the commit history [for the current file] and show display the selected commit.\n\n13. `Git Show`\n\n  Show the specified object, for example `HEAD`, `HEAD~2`, `3925a0d`, `origin/master` or `v2.7.3`.\n\n## Contributing\n\n1. Fork it\n2. Create your feature branch (`git checkout -b my-new-feature`)\n3. Commit your changes (`git commit -am 'Add some feature'`)\n4. Push to the branch (`git push origin my-new-feature`)\n5. Create new Pull Request\n",
   "readmeFilename": "README.md",
   "bugs": {
     "url": "https://github.com/akonwi/git-plus/issues"
   },
-  "homepage": "https://github.com/akonwi/git-plus",
-  "_id": "git-plus@5.3.4",
-  "_shasum": "63e63d0e54e9466e89f12d565b43025262a68a3f",
-  "_resolved": "file:../d-115712-8938-89y1ao/package.tgz",
-  "_from": "../d-115712-8938-89y1ao/package.tgz",
+  "homepage": "https://github.com/akonwi/git-plus#readme",
+  "_id": "git-plus@5.4.7",
+  "_shasum": "6b9a5c93f491a862a1168ca78e690077f3117c42",
+  "_resolved": "file:../d-115816-27209-57zwnw/package.tgz",
+  "_from": "../d-115816-27209-57zwnw/package.tgz",
   "_atomModuleCache": {
     "version": 1,
     "dependencies": [
@@ -92,33 +92,8 @@
       },
       {
         "name": "grim",
-        "version": "1.4.1",
+        "version": "1.4.2",
         "path": "node_modules/atom-space-pen-views/node_modules/space-pen/node_modules/grim/lib/grim.js"
-      },
-      {
-        "name": "coffeestack",
-        "version": "1.1.2",
-        "path": "node_modules/atom-space-pen-views/node_modules/space-pen/node_modules/grim/node_modules/coffeestack/index.js"
-      },
-      {
-        "name": "coffee-script",
-        "version": "1.8.0",
-        "path": "node_modules/atom-space-pen-views/node_modules/space-pen/node_modules/grim/node_modules/coffeestack/node_modules/coffee-script/lib/coffee-script/coffee-script.js"
-      },
-      {
-        "name": "mkdirp",
-        "version": "0.3.5",
-        "path": "node_modules/atom-space-pen-views/node_modules/space-pen/node_modules/grim/node_modules/coffeestack/node_modules/coffee-script/node_modules/mkdirp/index.js"
-      },
-      {
-        "name": "source-map",
-        "version": "0.1.43",
-        "path": "node_modules/atom-space-pen-views/node_modules/space-pen/node_modules/grim/node_modules/coffeestack/node_modules/source-map/lib/source-map.js"
-      },
-      {
-        "name": "amdefine",
-        "version": "1.0.0",
-        "path": "node_modules/atom-space-pen-views/node_modules/space-pen/node_modules/grim/node_modules/coffeestack/node_modules/source-map/node_modules/amdefine/amdefine.js"
       },
       {
         "name": "emissary",
@@ -293,45 +268,6 @@
         "node_modules/atom-space-pen-views/node_modules/space-pen/lib/space-pen.js",
         "node_modules/atom-space-pen-views/node_modules/space-pen/node_modules/grim/lib/deprecation.js",
         "node_modules/atom-space-pen-views/node_modules/space-pen/node_modules/grim/lib/grim.js",
-        "node_modules/atom-space-pen-views/node_modules/space-pen/node_modules/grim/node_modules/coffeestack/index.js",
-        "node_modules/atom-space-pen-views/node_modules/space-pen/node_modules/grim/node_modules/coffeestack/node_modules/coffee-script/lib/coffee-script/browser.js",
-        "node_modules/atom-space-pen-views/node_modules/space-pen/node_modules/grim/node_modules/coffeestack/node_modules/coffee-script/lib/coffee-script/cake.js",
-        "node_modules/atom-space-pen-views/node_modules/space-pen/node_modules/grim/node_modules/coffeestack/node_modules/coffee-script/lib/coffee-script/coffee-script.js",
-        "node_modules/atom-space-pen-views/node_modules/space-pen/node_modules/grim/node_modules/coffeestack/node_modules/coffee-script/lib/coffee-script/command.js",
-        "node_modules/atom-space-pen-views/node_modules/space-pen/node_modules/grim/node_modules/coffeestack/node_modules/coffee-script/lib/coffee-script/grammar.js",
-        "node_modules/atom-space-pen-views/node_modules/space-pen/node_modules/grim/node_modules/coffeestack/node_modules/coffee-script/lib/coffee-script/helpers.js",
-        "node_modules/atom-space-pen-views/node_modules/space-pen/node_modules/grim/node_modules/coffeestack/node_modules/coffee-script/lib/coffee-script/index.js",
-        "node_modules/atom-space-pen-views/node_modules/space-pen/node_modules/grim/node_modules/coffeestack/node_modules/coffee-script/lib/coffee-script/lexer.js",
-        "node_modules/atom-space-pen-views/node_modules/space-pen/node_modules/grim/node_modules/coffeestack/node_modules/coffee-script/lib/coffee-script/nodes.js",
-        "node_modules/atom-space-pen-views/node_modules/space-pen/node_modules/grim/node_modules/coffeestack/node_modules/coffee-script/lib/coffee-script/optparse.js",
-        "node_modules/atom-space-pen-views/node_modules/space-pen/node_modules/grim/node_modules/coffeestack/node_modules/coffee-script/lib/coffee-script/parser.js",
-        "node_modules/atom-space-pen-views/node_modules/space-pen/node_modules/grim/node_modules/coffeestack/node_modules/coffee-script/lib/coffee-script/register.js",
-        "node_modules/atom-space-pen-views/node_modules/space-pen/node_modules/grim/node_modules/coffeestack/node_modules/coffee-script/lib/coffee-script/repl.js",
-        "node_modules/atom-space-pen-views/node_modules/space-pen/node_modules/grim/node_modules/coffeestack/node_modules/coffee-script/lib/coffee-script/rewriter.js",
-        "node_modules/atom-space-pen-views/node_modules/space-pen/node_modules/grim/node_modules/coffeestack/node_modules/coffee-script/lib/coffee-script/scope.js",
-        "node_modules/atom-space-pen-views/node_modules/space-pen/node_modules/grim/node_modules/coffeestack/node_modules/coffee-script/lib/coffee-script/sourcemap.js",
-        "node_modules/atom-space-pen-views/node_modules/space-pen/node_modules/grim/node_modules/coffeestack/node_modules/coffee-script/node_modules/mkdirp/examples/pow.js",
-        "node_modules/atom-space-pen-views/node_modules/space-pen/node_modules/grim/node_modules/coffeestack/node_modules/coffee-script/node_modules/mkdirp/index.js",
-        "node_modules/atom-space-pen-views/node_modules/space-pen/node_modules/grim/node_modules/coffeestack/node_modules/coffee-script/register.js",
-        "node_modules/atom-space-pen-views/node_modules/space-pen/node_modules/grim/node_modules/coffeestack/node_modules/coffee-script/repl.js",
-        "node_modules/atom-space-pen-views/node_modules/space-pen/node_modules/grim/node_modules/coffeestack/node_modules/source-map/Makefile.dryice.js",
-        "node_modules/atom-space-pen-views/node_modules/space-pen/node_modules/grim/node_modules/coffeestack/node_modules/source-map/build/assert-shim.js",
-        "node_modules/atom-space-pen-views/node_modules/space-pen/node_modules/grim/node_modules/coffeestack/node_modules/source-map/build/mini-require.js",
-        "node_modules/atom-space-pen-views/node_modules/space-pen/node_modules/grim/node_modules/coffeestack/node_modules/source-map/build/suffix-browser.js",
-        "node_modules/atom-space-pen-views/node_modules/space-pen/node_modules/grim/node_modules/coffeestack/node_modules/source-map/build/test-prefix.js",
-        "node_modules/atom-space-pen-views/node_modules/space-pen/node_modules/grim/node_modules/coffeestack/node_modules/source-map/build/test-suffix.js",
-        "node_modules/atom-space-pen-views/node_modules/space-pen/node_modules/grim/node_modules/coffeestack/node_modules/source-map/lib/source-map/array-set.js",
-        "node_modules/atom-space-pen-views/node_modules/space-pen/node_modules/grim/node_modules/coffeestack/node_modules/source-map/lib/source-map/base64-vlq.js",
-        "node_modules/atom-space-pen-views/node_modules/space-pen/node_modules/grim/node_modules/coffeestack/node_modules/source-map/lib/source-map/base64.js",
-        "node_modules/atom-space-pen-views/node_modules/space-pen/node_modules/grim/node_modules/coffeestack/node_modules/source-map/lib/source-map/binary-search.js",
-        "node_modules/atom-space-pen-views/node_modules/space-pen/node_modules/grim/node_modules/coffeestack/node_modules/source-map/lib/source-map/mapping-list.js",
-        "node_modules/atom-space-pen-views/node_modules/space-pen/node_modules/grim/node_modules/coffeestack/node_modules/source-map/lib/source-map/source-map-consumer.js",
-        "node_modules/atom-space-pen-views/node_modules/space-pen/node_modules/grim/node_modules/coffeestack/node_modules/source-map/lib/source-map/source-map-generator.js",
-        "node_modules/atom-space-pen-views/node_modules/space-pen/node_modules/grim/node_modules/coffeestack/node_modules/source-map/lib/source-map/source-node.js",
-        "node_modules/atom-space-pen-views/node_modules/space-pen/node_modules/grim/node_modules/coffeestack/node_modules/source-map/lib/source-map/util.js",
-        "node_modules/atom-space-pen-views/node_modules/space-pen/node_modules/grim/node_modules/coffeestack/node_modules/source-map/lib/source-map.js",
-        "node_modules/atom-space-pen-views/node_modules/space-pen/node_modules/grim/node_modules/coffeestack/node_modules/source-map/node_modules/amdefine/amdefine.js",
-        "node_modules/atom-space-pen-views/node_modules/space-pen/node_modules/grim/node_modules/coffeestack/node_modules/source-map/node_modules/amdefine/intercept.js",
         "node_modules/atom-space-pen-views/node_modules/space-pen/node_modules/grim/node_modules/emissary/lib/behavior.js",
         "node_modules/atom-space-pen-views/node_modules/space-pen/node_modules/grim/node_modules/emissary/lib/emissary.js",
         "node_modules/atom-space-pen-views/node_modules/space-pen/node_modules/grim/node_modules/emissary/lib/emitter.js",
@@ -845,11 +781,6 @@
       ".json": [
         "node_modules/atom-space-pen-views/node_modules/fuzzaldrin/package.json",
         "node_modules/atom-space-pen-views/node_modules/space-pen/api.json",
-        "node_modules/atom-space-pen-views/node_modules/space-pen/node_modules/grim/node_modules/coffeestack/node_modules/coffee-script/node_modules/mkdirp/package.json",
-        "node_modules/atom-space-pen-views/node_modules/space-pen/node_modules/grim/node_modules/coffeestack/node_modules/coffee-script/package.json",
-        "node_modules/atom-space-pen-views/node_modules/space-pen/node_modules/grim/node_modules/coffeestack/node_modules/source-map/node_modules/amdefine/package.json",
-        "node_modules/atom-space-pen-views/node_modules/space-pen/node_modules/grim/node_modules/coffeestack/node_modules/source-map/package.json",
-        "node_modules/atom-space-pen-views/node_modules/space-pen/node_modules/grim/node_modules/coffeestack/package.json",
         "node_modules/atom-space-pen-views/node_modules/space-pen/node_modules/grim/node_modules/emissary/node_modules/es6-weak-map/node_modules/d/package.json",
         "node_modules/atom-space-pen-views/node_modules/space-pen/node_modules/grim/node_modules/emissary/node_modules/es6-weak-map/node_modules/es5-ext/package.json",
         "node_modules/atom-space-pen-views/node_modules/space-pen/node_modules/grim/node_modules/emissary/node_modules/es6-weak-map/node_modules/es6-iterator/package.json",
@@ -921,40 +852,7 @@
           "node_modules/atom-space-pen-views/node_modules/space-pen/node_modules/grim"
         ],
         "dependencies": {
-          "coffeestack": "^1",
           "emissary": "^1.2.0"
-        }
-      },
-      {
-        "paths": [
-          "node_modules/atom-space-pen-views/node_modules/space-pen/node_modules/grim/node_modules/coffeestack"
-        ],
-        "dependencies": {
-          "coffee-script": "~1.8.0",
-          "fs-plus": "^2.5.0",
-          "source-map": "~0.1.43"
-        }
-      },
-      {
-        "paths": [
-          "node_modules/atom-space-pen-views/node_modules/space-pen/node_modules/grim/node_modules/coffeestack/node_modules/coffee-script/lib/coffee-script",
-          "node_modules/atom-space-pen-views/node_modules/space-pen/node_modules/grim/node_modules/coffeestack/node_modules/coffee-script"
-        ],
-        "dependencies": {
-          "mkdirp": "~0.3.5"
-        }
-      },
-      {
-        "paths": [
-          "node_modules/atom-space-pen-views/node_modules/space-pen/node_modules/grim/node_modules/coffeestack/node_modules/source-map",
-          "node_modules/atom-space-pen-views/node_modules/space-pen/node_modules/grim/node_modules/coffeestack/node_modules/source-map/build",
-          "node_modules/atom-space-pen-views/node_modules/space-pen/node_modules/grim/node_modules/coffeestack/node_modules/source-map/lib/source-map",
-          "node_modules/atom-space-pen-views/node_modules/space-pen/node_modules/grim/node_modules/coffeestack/node_modules/source-map/lib",
-          "node_modules/atom-space-pen-views/node_modules/space-pen/node_modules/grim/node_modules/coffeestack/node_modules/source-map/test",
-          "node_modules/atom-space-pen-views/node_modules/space-pen/node_modules/grim/node_modules/coffeestack/node_modules/source-map/test/source-map"
-        ],
-        "dependencies": {
-          "amdefine": ">=0.0.4"
         }
       },
       {

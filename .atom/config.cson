@@ -1,17 +1,15 @@
 "*":
   core:
     disabledPackages: [
-      "linter-rubocop"
       "git-diff-details"
       "autosave"
-      "minimap"
       "recent-files"
       "recent-files"
       "recent-files"
       "recent-files"
       "recent-files"
       "recent-files"
-      "floobits"
+      "linter-rubocop"
     ]
   "exception-reporting":
     userId: "67040a04-f265-d6b0-1d85-ada881d2b3ee"
@@ -50,3 +48,8 @@
   "linter-crystal":
     compilerExecPath: "/usr/local/bin/crystal"
   "copy-as-rtf": {}
+  "crystal-tools":
+    crystalCompiler: "/usr/local/bin/crystal"
+    stripPath: "libs:/usr/local/Cellar/crystal-lang/0.7.7/src"
+  "atom-beautify":
+    _analyticsUserId: "7b00bfd8-d18c-4f95-be51-739b9dd0a566"

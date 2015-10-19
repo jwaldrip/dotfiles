@@ -1,4 +1,5 @@
 {$, View} = require 'atom-space-pen-views'
+{GitRepository} = require 'atom'
 
 TravisCi = require 'travis-ci'
 
@@ -14,11 +15,12 @@ class BuildStatusView extends View
   #
   # nwo    - The string of the repo owner and name.
   # matrix - The build matrix view.
-  initialize: (@nwo, @matrix) ->
+  initialize: (@nwo, @matrix, @statusBar) ->
     atom.commands.add 'atom-workspace', 'travis-ci-status:toggle', => @toggle()
     this.on 'click', => @matrix.toggle()
     @attach()
     @subscribeToRepo()
+    @update()
 
   # Internal: Serialize the state of this view.
   #
@@ -29,10 +31,13 @@ class BuildStatusView extends View
   #
   # Returns nothing.
   attach: ->
-    statusBar = document.querySelector("status-bar")
+    @statusBarTile = @statusBar.addLeftTile(item: this, priority: 100)
 
-    if statusBar?
-      @statusBarTile = statusBar.addLeftTile(item: this, priority: 100)
+  # Internal: Detach the status bar segment to the status bar.
+  #
+  # Returns nothing.
+  detach: ->
+    @statusBarTile?.destroy()
 
   # Internal: Destroy the view and tear down any state.
   #
@@ -67,22 +72,22 @@ class BuildStatusView extends View
   subscribeToRepo: =>
     @unsubscribe(@repo) if @repo?
 
-    repos = atom.project.getRepositories()
-    console.log "DEBUG:", repos
-    name = atom.config.get('travis-ci-status.travisCiRemoteName')
-    repo = repos.filter((r) -> /(.)*github\.com/i.test(r.getConfigValue("remote.#{name}.url")))
-    @repo = repo[0]
+    @repoPromise = Promise.all(atom.project.getDirectories().map(
+                  atom.project.repositoryForDirectory.bind(atom.project)))
+    @repoPromise.then (repos) =>
+        name = atom.config.get('travis-ci-status.travisCiRemoteName')
+        repo_list = repos.filter((r) -> /(.)*github\.com/i.test(r.getConfigValue("remote.#{name}.url")))
+        @repo = repo_list[0]
+        console.log "DEBUG: ", @repo
 
-    $(@repo).on 'status-changed', (path, status) =>
-      @update() if path is @getActiveItemPath()
+        @repo.onDidChangeStatus @update
 
-    $(@repo).on 'statuses-changed', @update
-    @update()
 
   # Internal: Update the repository build status from Travis CI.
   #
   # Returns nothing.
   update: =>
+    console.log this
     return unless @hasParent()
 
     @status.addClass('pending')
