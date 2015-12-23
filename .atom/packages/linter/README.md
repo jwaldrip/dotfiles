@@ -9,7 +9,7 @@ Linter
 
 Linter is a base linter provider for the Hackable [Atom Editor](http://atom.io).
 
-It provides a top-level API to it's consumer that allow them to visualize errors and other kind-of messages, easily.
+It provides a top-level API to its consumer that allows them to visualize errors and other kind-of messages, easily.
 
 
 ![Preview](http://g.recordit.co/13RfmirPz2.gif)
@@ -29,6 +29,10 @@ $ apm install linter
 #### API Documentation
 
 [Linter API wiki](https://github.com/atom-community/linter/wiki/Linter-API)
+
+#### Performance Tuning
+
+Is linter working slow for you? Try changing the interval of inline bubble or disabling it completely and/or try disabling Line tab.
 
 #### Contribute
 

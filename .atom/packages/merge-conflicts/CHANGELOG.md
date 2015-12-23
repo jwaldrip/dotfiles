@@ -1,3 +1,8 @@
+## 1.3.6
+
+- Use transparency instead of `mix()` to allow selection to show through. [#181](https://github.com/smashwilson/merge-conflicts/pull/181)
+- Updated the README to include how-to instructions. [#178](https://github.com/smashwilson/merge-conflicts/pull/178)
+
 ## 1.3.5
 
 - Using the "stage" button no longer triggers a crash. [#173](https://github.com/smashwilson/merge-conflicts/pull/173)

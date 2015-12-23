@@ -7,9 +7,8 @@
       "recent-files"
       "recent-files"
       "recent-files"
-      "recent-files"
-      "recent-files"
       "linter-rubocop"
+      "travis-ci-status"
     ]
   "exception-reporting":
     userId: "67040a04-f265-d6b0-1d85-ada881d2b3ee"
@@ -23,10 +22,10 @@
     goPath: "~/dev"
     showPanelWhenNoIssuesExist: true
     goInstallation: "/usr/local/bin/go"
+    runCoverageOnSave: true
   editor:
     showIndentGuide: true
     invisibles: {}
-    fontSize: 17
   "recent-files":
     updated: false
   "linter-rubocop":
