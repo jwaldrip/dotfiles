@@ -1,4 +1,8 @@
 "*":
+  "atom-beautify":
+    _analyticsUserId: "7b00bfd8-d18c-4f95-be51-739b9dd0a566"
+  "circle-ci": {}
+  "copy-as-rtf": {}
   core:
     disabledPackages: [
       "git-diff-details"
@@ -10,45 +14,41 @@
       "linter-rubocop"
       "travis-ci-status"
     ]
+  "crystal-tools":
+    crystalCompiler: "/usr/local/bin/crystal"
+    stripPath: "libs:/usr/local/Cellar/crystal-lang/0.7.7/src"
+  editor:
+    invisibles: {}
+    showIndentGuide: true
   "exception-reporting":
     userId: "67040a04-f265-d6b0-1d85-ada881d2b3ee"
-  welcome:
-    showOnStartup: false
-  metrics:
-    userId: "6c9576c499dff9c496be8141ced0b97bca383be5"
-  "travis-ci-status":
-    personalAccessToken: "7633f68d5cea0554504a998a708fbbabf2037ce6"
+  floobits: {}
   "go-plus":
-    goPath: "~/dev"
-    showPanelWhenNoIssuesExist: true
     goInstallation: "/usr/local/bin/go"
+    goPath: "~/dev"
     runCoverageOnSave: true
-  editor:
-    showIndentGuide: true
-    invisibles: {}
-  "recent-files":
-    updated: false
+    showPanelWhenNoIssuesExist: true
+  linter: {}
+  "linter-crystal":
+    compilerExecPath: "/usr/local/bin/crystal"
   "linter-rubocop":
     rubocopExecutablePath: "/usr/local/var/rbenv/shims/rubocop"
-  whitespace:
-    ensureSingleTrailingNewline: false
-  linter: {}
+  "linter-ruby":
+    rubyExecutablePath: "/Users/jwaldrip/.rubies/ruby-2.2.2/bin/ruby"
+  "linter-shellcheck":
+    shellcheckExecutablePath: "/usr/local/bin/shellcheck"
+  metrics:
+    userId: "6c9576c499dff9c496be8141ced0b97bca383be5"
   minimap:
     plugins:
       bookmarks: true
       "git-diff": true
-  "circle-ci": {}
-  "linter-ruby":
-    rubyExecutablePath: "/Users/jwaldrip/.rubies/ruby-2.2.2/bin/ruby"
-  floobits: {}
+  "recent-files":
+    updated: false
   "spell-check": {}
-  "linter-shellcheck":
-    shellcheckExecutablePath: "/usr/local/bin/shellcheck"
-  "linter-crystal":
-    compilerExecPath: "/usr/local/bin/crystal"
-  "copy-as-rtf": {}
-  "crystal-tools":
-    crystalCompiler: "/usr/local/bin/crystal"
-    stripPath: "libs:/usr/local/Cellar/crystal-lang/0.7.7/src"
-  "atom-beautify":
-    _analyticsUserId: "7b00bfd8-d18c-4f95-be51-739b9dd0a566"
+  "travis-ci-status":
+    personalAccessToken: "7633f68d5cea0554504a998a708fbbabf2037ce6"
+  welcome:
+    showOnStartup: false
+  whitespace:
+    ensureSingleTrailingNewline: false

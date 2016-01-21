@@ -102,8 +102,10 @@ fi
 ### Proxy Config
 function enable-charles(){
   export http_proxy=http://localhost:8888
+  export https_proxy=http://localhost:8888
 }
 
 function disable-charles(){
   export http_proxy=
+  export https_proxy=
 }
