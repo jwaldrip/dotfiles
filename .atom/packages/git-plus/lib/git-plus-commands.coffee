@@ -2,9 +2,6 @@ git = require './git'
 
 getCommands = ->
   GitAdd                 = require './models/git-add'
-  GitAddAllAndCommit     = require './models/git-add-all-and-commit'
-  GitAddAllCommitAndPush = require './models/git-add-all-commit-and-push'
-  GitAddAndCommit        = require './models/git-add-and-commit'
   GitBranch              = require './models/git-branch'
   GitDeleteLocalBranch   = require './models/git-delete-local-branch.coffee'
   GitDeleteRemoteBranch  = require './models/git-delete-remote-branch.coffee'
@@ -14,6 +11,7 @@ getCommands = ->
   GitCommit              = require './models/git-commit'
   GitCommitAmend         = require './models/git-commit-amend'
   GitDiff                = require './models/git-diff'
+  GitDifftool            = require './models/git-difftool'
   GitDiffAll             = require './models/git-diff-all'
   GitFetch               = require './models/git-fetch'
   GitFetchPrune          = require './models/git-fetch-prune.coffee'
@@ -34,9 +32,11 @@ getCommands = ->
   GitUnstageFiles        = require './models/git-unstage-files'
   GitRun                 = require './models/git-run'
   GitMerge               = require './models/git-merge'
+  GitRebase              = require './models/git-rebase'
 
   git.getRepo()
     .then (repo) ->
+      currentFile = repo.relativize(atom.workspace.getActiveTextEditor()?.getPath())
       git.refresh()
       commands = []
       commands.push ['git-plus:add', 'Add', -> GitAdd(repo)]
@@ -46,19 +46,20 @@ getCommands = ->
       commands.push ['git-plus:remove-current-file', 'Remove Current File', -> GitRemove(repo)]
       commands.push ['git-plus:checkout-all-files', 'Checkout All Files', -> GitCheckoutAllFiles(repo)]
       commands.push ['git-plus:checkout-current-file', 'Checkout Current File', -> GitCheckoutCurrentFile(repo)]
-      commands.push ['git-plus:commit', 'Commit', -> new GitCommit(repo)]
-      commands.push ['git-plus:commit-all', 'Commit All', -> new GitCommit(repo, stageChanges: true)]
+      commands.push ['git-plus:commit', 'Commit', -> GitCommit(repo)]
+      commands.push ['git-plus:commit-all', 'Commit All', -> GitCommit(repo, stageChanges: true)]
       commands.push ['git-plus:commit-amend', 'Commit Amend', -> GitCommitAmend(repo)]
-      commands.push ['git-plus:add-and-commit', 'Add And Commit', -> GitAddAndCommit(repo)]
-      commands.push ['git-plus:add-all-and-commit', 'Add All And Commit', -> GitAddAllAndCommit(repo)]
-      commands.push ['git-plus:add-all-commit-and-push', 'Add All Commit And Push', -> GitAddAllCommitAndPush(repo)]
+      commands.push ['git-plus:add-and-commit', 'Add And Commit', -> git.add(repo, file: currentFile).then -> GitCommit(repo)]
+      commands.push ['git-plus:add-all-and-commit', 'Add All And Commit', -> git.add(repo).then -> GitCommit(repo)]
+      commands.push ['git-plus:add-all-commit-and-push', 'Add All, Commit And Push', -> git.add(repo).then -> GitCommit(repo, andPush: true)]
       commands.push ['git-plus:checkout', 'Checkout', -> GitBranch.gitBranches(repo)]
       commands.push ['git-plus:checkout-remote', 'Checkout Remote', -> GitBranch.gitRemoteBranches(repo)]
       commands.push ['git-plus:new-branch', 'Checkout New Branch', -> GitBranch.newBranch(repo)]
       commands.push ['git-plus:delete-local-branch', 'Delete Local Branch', -> GitDeleteLocalBranch(repo)]
       commands.push ['git-plus:delete-remote-branch', 'Delete Remote Branch', -> GitDeleteRemoteBranch(repo)]
       commands.push ['git-plus:cherry-pick', 'Cherry-Pick', -> GitCherryPick(repo)]
-      commands.push ['git-plus:diff', 'Diff', -> GitDiff(repo)]
+      commands.push ['git-plus:diff', 'Diff', -> GitDiff(repo, file: currentFile)]
+      commands.push ['git-plus:difftool', 'Difftool', -> GitDifftool(repo)]
       commands.push ['git-plus:diff-all', 'Diff All', -> GitDiffAll(repo)]
       commands.push ['git-plus:fetch', 'Fetch', -> GitFetch(repo)]
       commands.push ['git-plus:fetch-prune', 'Fetch Prune', -> GitFetchPrune(repo)]
@@ -79,6 +80,8 @@ getCommands = ->
       commands.push ['git-plus:tags', 'Tags', -> GitTags(repo)]
       commands.push ['git-plus:run', 'Run', -> new GitRun(repo)]
       commands.push ['git-plus:merge', 'Merge', -> GitMerge(repo)]
+      commands.push ['git-plus:merge-remote', 'Merge Remote', -> GitMerge(repo, remote: true)]
+      commands.push ['git-plus:rebase', 'Rebase', -> GitRebase(repo)]
 
       return commands
 

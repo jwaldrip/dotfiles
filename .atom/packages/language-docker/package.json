@@ -1,11 +1,11 @@
 {
   "name": "language-docker",
-  "version": "1.1.3",
+  "version": "1.1.6",
   "private": false,
   "description": "Dockerfile syntax highlighting",
   "repository": {
     "type": "git",
-    "url": "https://github.com/jagregory/language-docker"
+    "url": "git+https://github.com/jagregory/language-docker.git"
   },
   "license": "MIT",
   "engines": {
@@ -17,11 +17,11 @@
   "bugs": {
     "url": "https://github.com/jagregory/language-docker/issues"
   },
-  "homepage": "https://github.com/jagregory/language-docker",
-  "_id": "language-docker@1.1.3",
-  "_shasum": "9bcb9491ea4ad6834efb95fa602285cdd3c49e5c",
-  "_resolved": "file:../d-115220-21097-1uxo4sa/package.tgz",
-  "_from": "../d-115220-21097-1uxo4sa/package.tgz",
+  "homepage": "https://github.com/jagregory/language-docker#readme",
+  "_id": "language-docker@1.1.6",
+  "_shasum": "3f8af77af3061299d306b316c056cb992ba5b2da",
+  "_resolved": "file:../d-11611-4328-lz2wzm/package.tgz",
+  "_from": "../d-11611-4328-lz2wzm/package.tgz",
   "_atomModuleCache": {
     "version": 1,
     "dependencies": [],

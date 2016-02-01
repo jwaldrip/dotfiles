@@ -72,28 +72,32 @@ class BuildStatusView extends View
   subscribeToRepo: =>
     @unsubscribe(@repo) if @repo?
 
-    @repoPromise = Promise.all(atom.project.getDirectories().map(
-                  atom.project.repositoryForDirectory.bind(atom.project)))
+    @repoPromise = Promise.all(
+      atom.project.getDirectories().map(
+        atom.project.repositoryForDirectory.bind(atom.project)
+      ))
+
     @repoPromise.then (repos) =>
-        name = atom.config.get('travis-ci-status.travisCiRemoteName')
-        repo_list = repos.filter((r) -> /(.)*github\.com/i.test(r.getConfigValue("remote.#{name}.url")))
-        @repo = repo_list[0]
-        console.log "DEBUG: ", @repo
+      name = atom.config.get('travis-ci-status.travisCiRemoteName')
 
-        @repo.onDidChangeStatus @update
+      repo_list = repos.filter (r) ->
+        /(.)*github\.com/i.test(r.getConfigValue("remote.#{name}.url"))
 
+      @repo = repo_list[0]
+      @repo.onDidChangeStatus(@update)
 
   # Internal: Update the repository build status from Travis CI.
   #
   # Returns nothing.
   update: =>
-    console.log this
     return unless @hasParent()
 
     @status.addClass('pending')
     details = @nwo.split '/'
 
     updateRepo = =>
+      return @status.removeClass('pending success fail') unless navigator.onLine
+
       atom.travis.repos(details[0], details[1]).get(@repoStatus)
 
     if atom.travis?.pro?

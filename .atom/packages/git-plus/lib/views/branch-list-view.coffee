@@ -28,13 +28,11 @@ class ListView extends SelectListView
   show: ->
     @panel ?= atom.workspace.addModalPanel(item: this)
     @panel.show()
-
     @storeFocusedElement()
 
   cancelled: -> @hide()
 
-  hide: ->
-    @panel?.destroy()
+  hide: -> @panel?.destroy()
 
   viewForItem: ({name}) ->
     current = false
@@ -51,15 +49,14 @@ class ListView extends SelectListView
     @cancel()
 
   checkout: (branch) ->
-    git.cmd
-      cwd: @repo.getWorkingDirectory()
-      args: @args.concat(branch)
-      # using `stderr` for success here
-      stderr: (data) =>
-        notifier.addSuccess data.toString()
-        atom.workspace.observeTextEditors (editor) =>
-          if filepath = editor.getPath()?.toString()
-            fs.exists filepath, (exists) =>
-              editor.destroy() if not exists
-        git.refresh()
-        @currentPane.activate()
+    git.cmd(@args.concat(branch), cwd: @repo.getWorkingDirectory())
+    .then (message) =>
+      notifier.addSuccess message
+      atom.workspace.observeTextEditors (editor) =>
+        if filepath = editor.getPath()?.toString()
+          fs.exists filepath, (exists) =>
+            editor.destroy() if not exists
+      git.refresh()
+      @currentPane.activate()
+    .catch (err) ->
+      notifier.addError err

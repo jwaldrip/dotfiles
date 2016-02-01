@@ -13,6 +13,7 @@
       "recent-files"
       "linter-rubocop"
       "travis-ci-status"
+      "linter-flow"
     ]
   "crystal-tools":
     crystalCompiler: "/usr/local/bin/crystal"
@@ -28,9 +29,13 @@
     goPath: "~/dev"
     runCoverageOnSave: true
     showPanelWhenNoIssuesExist: true
+  "ide-flow":
+    flowPath: "/usr/local/bin/flow"
+  "language-babel": {}
   linter: {}
   "linter-crystal":
     compilerExecPath: "/usr/local/bin/crystal"
+  "linter-flow": {}
   "linter-rubocop":
     rubocopExecutablePath: "/usr/local/var/rbenv/shims/rubocop"
   "linter-ruby":

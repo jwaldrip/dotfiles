@@ -1,28 +1,31 @@
 {$, ScrollView} = require 'atom-space-pen-views'
 
+defaultMessage = 'Nothing new to show'
 module.exports =
   class OutputView extends ScrollView
     message: ''
 
     @content: ->
       @div class: 'git-plus info-view', =>
-        @pre class: 'output'
+        @pre class: 'output', defaultMessage
 
     initialize: ->
       super
 
     addLine: (line) ->
+      @message = '' if @message is defaultMessage
       @message += line
+      this
 
-    reset: ->
-      @message = ''
+    reset: -> @message = defaultMessage
 
     finish: ->
-      @panel ?= atom.workspace.addBottomPanel(item: this)
-      @find(".output").append(@message)
-      setTimeout =>
-        @destroy()
+      @find(".output").text(@message)
+      @show()
+      @timeout = setTimeout =>
+        @hide()
       , atom.config.get('git-plus.messageTimeout') * 1000
 
-    destroy: ->
-      @panel?.destroy()
+    toggle: ->
+      clearTimeout @timeout if @timeout
+      $.fn.toggle.call(this)

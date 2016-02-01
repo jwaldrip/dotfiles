@@ -4,7 +4,7 @@
   "author": {
     "name": "atom-community"
   },
-  "version": "1.10.0",
+  "version": "1.11.3",
   "description": "A Base Linter with Cow Powers",
   "repository": {
     "type": "git",
@@ -30,6 +30,11 @@
     }
   },
   "providedServices": {
+    "linter-indie": {
+      "versions": {
+        "1.0.0": "provideIndie"
+      }
+    },
     "linter-plus-self": {
       "versions": {
         "0.1.0": "provideLinter"
@@ -46,10 +51,10 @@
     "url": "https://github.com/atom-community/linter/issues"
   },
   "homepage": "https://github.com/atom-community/linter#readme",
-  "_id": "linter@1.10.0",
-  "_shasum": "07a64cae20afb91ef46a3b8e6b25b8b3a84c6c33",
-  "_resolved": "file:../d-115101-31120-1vbrppu/package.tgz",
-  "_from": "../d-115101-31120-1vbrppu/package.tgz",
+  "_id": "linter@1.11.3",
+  "_shasum": "91c7f07d13b539f26a62943c3463d0b0d593de5c",
+  "_resolved": "file:../d-11611-4388-1al1xto/package.tgz",
+  "_from": "../d-11611-4388-1al1xto/package.tgz",
   "_atomModuleCache": {
     "version": 1,
     "dependencies": [
@@ -65,12 +70,12 @@
       },
       {
         "name": "brace-expansion",
-        "version": "1.1.1",
+        "version": "1.1.2",
         "path": "node_modules/minimatch/node_modules/brace-expansion/index.js"
       },
       {
         "name": "balanced-match",
-        "version": "0.2.1",
+        "version": "0.3.0",
         "path": "node_modules/minimatch/node_modules/brace-expansion/node_modules/balanced-match/index.js"
       },
       {
@@ -100,6 +105,8 @@
       ".js": [
         "lib/editor-linter.js",
         "lib/editor-registry.js",
+        "lib/indie-registry.js",
+        "lib/indie.js",
         "lib/linter-registry.js",
         "lib/linter-views.js",
         "lib/message-registry.js",
@@ -149,7 +156,7 @@
           "node_modules/minimatch/node_modules/brace-expansion"
         ],
         "dependencies": {
-          "balanced-match": "^0.2.0",
+          "balanced-match": "^0.3.0",
           "concat-map": "0.0.1"
         }
       }

@@ -36,13 +36,13 @@ module.exports =
         atom.project.repositoryForDirectory.bind(atom.project)
       )
     ).then (repos) =>
-      new Promise((resolve) =>
-        if @hasGitHubRepo(repos)
-          @isTravisProject((config) ->
-            resolve() if config
-          )
-      )
+      repos = repos.filter (repo) -> repo
 
+      new Promise(
+        (resolve) =>
+          if @hasGitHubRepo(repos)
+            @isTravisProject((config) -> config and resolve())
+      )
 
   # Internal: Deactive the package and destroys any views.
   #
@@ -114,8 +114,6 @@ module.exports =
     nwo = @getNameWithOwner()
     @buildMatrixView = new BuildMatrixView(nwo)
     @buildStatusView = new BuildStatusView(nwo, @buildMatrixView, statusBar)
-
-    return
 
   # Internal: Open the project on Travis CI in the default browser.
   #

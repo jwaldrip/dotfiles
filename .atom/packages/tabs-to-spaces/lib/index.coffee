@@ -1,5 +1,4 @@
 TabsToSpaces = null
-tabsToSpaces = null
 
 module.exports =
   config:
@@ -7,32 +6,33 @@ module.exports =
       type: 'string'
       default: 'none'
       enum: ['none', 'tabify', 'untabify']
-      description: '''
-        Setting this to anything other than "none" can significantly impact the time it takes to
-        save large files.
-        '''
+      description: 'Setting this to anything other than `none` can **significantly** impact the time it takes to save large files.'
 
   # Public: Activates the package.
   activate: ->
     @commands = atom.commands.add 'atom-workspace',
       'tabs-to-spaces:tabify': =>
         @loadModule()
-        tabsToSpaces.tabify()
+        TabsToSpaces.tabify()
 
       'tabs-to-spaces:untabify': =>
         @loadModule()
-        tabsToSpaces.untabify()
+        TabsToSpaces.untabify()
 
       'tabs-to-spaces:untabify-all': =>
         @loadModule()
-        tabsToSpaces.untabifyAll()
+        TabsToSpaces.untabifyAll()
 
     @editorObserver = atom.workspace.observeTextEditors (editor) =>
       @handleEvents(editor)
 
+  # Public: Deactivates the package.
   deactivate: ->
     @commands.dispose()
     @editorObserver.dispose()
+
+    # Null out to theoretically force loading a new version on upgrade
+    TabsToSpaces = null
 
   # Private: Creates event handlers.
   #
@@ -44,12 +44,11 @@ module.exports =
       switch atom.config.get('tabs-to-spaces.onSave', scope: editor.getRootScopeDescriptor())
         when 'untabify'
           @loadModule()
-          tabsToSpaces.untabify()
+          TabsToSpaces.untabify()
         when 'tabify'
           @loadModule()
-          tabsToSpaces.tabify()
+          TabsToSpaces.tabify()
 
   # Private: Loads the module on-demand.
   loadModule: ->
     TabsToSpaces ?= require './tabs-to-spaces'
-    tabsToSpaces ?= new TabsToSpaces()

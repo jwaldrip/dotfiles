@@ -1,10 +1,9 @@
 {CompositeDisposable} = require 'atom'
+{$} = require 'atom-space-pen-views'
 git = require './git'
-GitPaletteView = require './views/git-palette-view'
+OutputViewManager      = require './output-view-manager'
+GitPaletteView         = require './views/git-palette-view'
 GitAdd                 = require './models/git-add'
-GitAddAllAndCommit     = require './models/git-add-all-and-commit'
-GitAddAllCommitAndPush = require './models/git-add-all-commit-and-push'
-GitAddAndCommit        = require './models/git-add-and-commit'
 GitBranch              = require './models/git-branch'
 GitDeleteLocalBranch   = require './models/git-delete-local-branch.coffee'
 GitDeleteRemoteBranch  = require './models/git-delete-remote-branch.coffee'
@@ -14,6 +13,7 @@ GitCherryPick          = require './models/git-cherry-pick'
 GitCommit              = require './models/git-commit'
 GitCommitAmend         = require './models/git-commit-amend'
 GitDiff                = require './models/git-diff'
+GitDifftool            = require './models/git-difftool'
 GitDiffAll             = require './models/git-diff-all'
 GitFetch               = require './models/git-fetch'
 GitFetchPrune          = require './models/git-fetch-prune.coffee'
@@ -34,12 +34,15 @@ GitTags                = require './models/git-tags'
 GitUnstageFiles        = require './models/git-unstage-files'
 GitRun                 = require './models/git-run'
 GitMerge               = require './models/git-merge'
+GitRebase              = require './models/git-rebase'
+
+currentFile = (repo) ->
+  repo.relativize(atom.workspace.getActiveTextEditor()?.getPath())
 
 module.exports =
   config:
     includeStagedDiff:
       title: 'Include staged diffs?'
-      description: 'description'
       type: 'boolean'
       default: true
     openInPane:
@@ -47,10 +50,11 @@ module.exports =
       default: true
       description: 'Allow commands to open new panes'
     splitPane:
-      title: 'Split pane direction (up, right, down, or left)'
+      title: 'Split pane direction'
       type: 'string'
-      default: 'right'
-      description: 'Where should new panes go? (Defaults to right)'
+      default: 'Right'
+      description: 'Where should new panes go? (Defaults to Right)'
+      enum: ['Up', 'Right', 'Down', 'Left']
     wordDiff:
       type: 'boolean'
       default: true
@@ -67,22 +71,28 @@ module.exports =
       type: 'integer'
       default: 5
       description: 'How long should success/error messages be shown?'
+    pullBeforePush:
+      description: 'Pull from remote before pushing'
+      type: 'string'
+      default: 'no'
+      enum: ['no', 'pull', 'pull --rebase']
 
-  subscriptions: new CompositeDisposable
+  subscriptions: null
 
   activate: (state) ->
+    @subscriptions = new CompositeDisposable
     repos = atom.project.getRepositories().filter (r) -> r?
     if repos.length is 0
       @subscriptions.add atom.commands.add 'atom-workspace', 'git-plus:init', -> GitInit()
     @subscriptions.add atom.commands.add 'atom-workspace', 'git-plus:menu', -> new GitPaletteView()
     @subscriptions.add atom.commands.add 'atom-workspace', 'git-plus:add', -> git.getRepo().then((repo) -> GitAdd(repo))
     @subscriptions.add atom.commands.add 'atom-workspace', 'git-plus:add-all', -> git.getRepo().then((repo) -> GitAdd(repo, addAll: true))
-    @subscriptions.add atom.commands.add 'atom-workspace', 'git-plus:commit', -> git.getRepo().then((repo) -> new GitCommit(repo))
-    @subscriptions.add atom.commands.add 'atom-workspace', 'git-plus:commit-all', -> git.getRepo().then((repo) -> new GitCommit(repo, stageChanges: true))
+    @subscriptions.add atom.commands.add 'atom-workspace', 'git-plus:commit', -> git.getRepo().then((repo) -> GitCommit(repo))
+    @subscriptions.add atom.commands.add 'atom-workspace', 'git-plus:commit-all', -> git.getRepo().then((repo) -> GitCommit(repo, stageChanges: true))
     @subscriptions.add atom.commands.add 'atom-workspace', 'git-plus:commit-amend', -> git.getRepo().then((repo) -> new GitCommitAmend(repo))
-    @subscriptions.add atom.commands.add 'atom-workspace', 'git-plus:add-and-commit', -> git.getRepo().then((repo) -> GitAddAndCommit(repo))
-    @subscriptions.add atom.commands.add 'atom-workspace', 'git-plus:add-all-and-commit', -> git.getRepo().then((repo) -> GitAddAllAndCommit(repo))
-    @subscriptions.add atom.commands.add 'atom-workspace', 'git-plus:add-all-commit-and-push', -> git.getRepo().then((repo) -> GitAddAllCommitAndPush(repo))
+    @subscriptions.add atom.commands.add 'atom-workspace', 'git-plus:add-and-commit', -> git.getRepo().then((repo) -> git.add(repo, file: currentFile(repo)).then -> GitCommit(repo))
+    @subscriptions.add atom.commands.add 'atom-workspace', 'git-plus:add-all-and-commit', -> git.getRepo().then((repo) -> git.add(repo).then -> GitCommit(repo))
+    @subscriptions.add atom.commands.add 'atom-workspace', 'git-plus:add-all-commit-and-push', -> git.getRepo().then((repo) -> git.add(repo).then -> GitCommit(repo, andPush: true))
     @subscriptions.add atom.commands.add 'atom-workspace', 'git-plus:checkout', -> git.getRepo().then((repo) -> GitBranch.gitBranches(repo))
     @subscriptions.add atom.commands.add 'atom-workspace', 'git-plus:checkout-remote', -> git.getRepo().then((repo) -> GitBranch.gitRemoteBranches(repo))
     @subscriptions.add atom.commands.add 'atom-workspace', 'git-plus:checkout-current-file', -> git.getRepo().then((repo) -> GitCheckoutCurrentFile(repo))
@@ -91,7 +101,8 @@ module.exports =
     @subscriptions.add atom.commands.add 'atom-workspace', 'git-plus:delete-local-branch', -> git.getRepo().then((repo) -> GitDeleteLocalBranch(repo))
     @subscriptions.add atom.commands.add 'atom-workspace', 'git-plus:delete-remote-branch', -> git.getRepo().then((repo) -> GitDeleteRemoteBranch(repo))
     @subscriptions.add atom.commands.add 'atom-workspace', 'git-plus:cherry-pick', -> git.getRepo().then((repo) -> GitCherryPick(repo))
-    @subscriptions.add atom.commands.add 'atom-workspace', 'git-plus:diff', -> git.getRepo().then((repo) -> GitDiff(repo))
+    @subscriptions.add atom.commands.add 'atom-workspace', 'git-plus:diff', -> git.getRepo().then((repo) -> GitDiff(repo, file: currentFile(repo)))
+    @subscriptions.add atom.commands.add 'atom-workspace', 'git-plus:difftool', -> git.getRepo().then((repo) -> GitDifftool(repo))
     @subscriptions.add atom.commands.add 'atom-workspace', 'git-plus:diff-all', -> git.getRepo().then((repo) -> GitDiffAll(repo))
     @subscriptions.add atom.commands.add 'atom-workspace', 'git-plus:fetch', -> git.getRepo().then((repo) -> GitFetch(repo))
     @subscriptions.add atom.commands.add 'atom-workspace', 'git-plus:fetch-prune', -> git.getRepo().then((repo) -> GitFetchPrune(repo))
@@ -115,5 +126,33 @@ module.exports =
     @subscriptions.add atom.commands.add 'atom-workspace', 'git-plus:tags', -> git.getRepo().then((repo) -> GitTags(repo))
     @subscriptions.add atom.commands.add 'atom-workspace', 'git-plus:run', -> git.getRepo().then((repo) -> new GitRun(repo))
     @subscriptions.add atom.commands.add 'atom-workspace', 'git-plus:merge', -> git.getRepo().then((repo) -> GitMerge(repo))
+    @subscriptions.add atom.commands.add 'atom-workspace', 'git-plus:merge-remote', -> git.getRepo().then((repo) -> GitMerge(repo, remote: true))
+    @subscriptions.add atom.commands.add 'atom-workspace', 'git-plus:rebase', -> git.getRepo().then((repo) -> GitRebase(repo))
 
-  deactivate: -> @subscriptions.dispose()
+  deactivate: ->
+    @subscriptions.dispose()
+    @statusBarTile?.destroy()
+    delete @statusBarTile
+
+  consumeStatusBar: (statusBar) ->
+    @setupBranchesMenuToggle statusBar
+    @setupOutputViewToggle statusBar
+
+  setupOutputViewToggle: (statusBar) ->
+    div = document.createElement 'div'
+    div.classList.add 'inline-block'
+    icon = document.createElement 'span'
+    icon.classList.add 'icon', 'icon-pin'
+    link = document.createElement 'a'
+    link.appendChild icon
+    link.onclick = (e) -> OutputViewManager.getView().toggle()
+    link.title = "Toggle Output Console"
+    div.appendChild link
+    @statusBarTile = statusBar.addRightTile item: div, priority: 0
+
+  setupBranchesMenuToggle: (statusBar) ->
+    statusBar.getRightTiles().some ({item}) =>
+      if item?.classList?.contains? 'git-view'
+        @subscriptions.add $(item).find('.git-branch').on 'click', (e) ->
+          atom.commands.dispatch(document.querySelector('atom-workspace'), 'git-plus:checkout')
+        return true
