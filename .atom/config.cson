@@ -1,0 +1,26 @@
+"*":
+  core: {}
+  editor:
+    fontSize: 18
+    invisibles: {}
+  esformatter:
+    formatOnSave: true
+  "exception-reporting":
+    userId: "ee35edd5-b10e-2972-2bb2-7de3358f4014"
+  "git-diff":
+    showIconsInEditorGutter: true
+  "git-plus": {}
+  "goto-definition": {}
+  "language-babel": {}
+  linter:
+    errorPanelHeight: 282
+  "linter-eslint": {}
+  minimap:
+    plugins:
+      cursorline: true
+      "find-and-replace": true
+      "git-diff": true
+      linter: true
+      selection: true
+  welcome:
+    showOnStartup: false
