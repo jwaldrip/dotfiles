@@ -63,8 +63,8 @@ export BUNDLER_EDITOR=mine
 # Android SDK HOME
 export ANDROID_HOME=/usr/local/opt/android-sdk
 
-# Set the default provider
-export VAGRANT_DEFAULT_PROVIDER=virtualbox
+# Set the default docker machine
+export DOCKER_MACHINE_PROVIDER=parallels
 
 # Set the development path
 export DEVPATH=~/dev
@@ -109,3 +109,8 @@ function disable-charles(){
   export http_proxy=
   export https_proxy=
 }
+
+test -e ${HOME}/.iterm2_shell_integration.zsh && source ${HOME}/.iterm2_shell_integration.zsh
+
+# added by travis gem
+[ -f /Users/jwaldrip/.travis/travis.sh ] && source /Users/jwaldrip/.travis/travis.sh
