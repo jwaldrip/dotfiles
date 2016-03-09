@@ -1,0 +1,23 @@
+@import "ui-variables";
+
+.git-diff-details-outer {
+  background-color: @base-background-color;
+  outline: 2px solid @base-border-color;
+  // padding: 2px;
+  width: 100%;
+  min-width: 400px;
+
+  .git-diff-details-main-panel {
+    position: relative;
+
+    .editor.git-diff-editor {
+      background-color: @syntax-background-color;
+    }
+  }
+
+  .git-diff-details-button-panel {
+    text-align: right;
+    padding: 2px;
+    width: 100%;
+  }
+}

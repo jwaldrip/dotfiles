@@ -1,0 +1,38 @@
+{
+  "name": "language-graphql",
+  "version": "0.2.0",
+  "description": "Syntax highlighting for GraphQL queries",
+  "keywords": [
+    "language",
+    "grammar",
+    "graphql"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rmosolgo/language-graphql.git"
+  },
+  "license": "MIT",
+  "engines": {
+    "atom": ">=1.0.0 <2.0.0"
+  },
+  "readme": "# language-graphql\n\nAtom syntax highlighting for GraphQL.\n\n![image](https://cloud.githubusercontent.com/assets/2231765/9282978/f4498ade-4284-11e5-9d6e-2b182fcdfc48.png)\n\n## Todo\n\n- Autocompletion based on a JSON or pretty-printed schema.\n\n## License\n\nMIT\n",
+  "readmeFilename": "README.md",
+  "bugs": {
+    "url": "https://github.com/rmosolgo/language-graphql/issues"
+  },
+  "homepage": "https://github.com/rmosolgo/language-graphql#readme",
+  "_id": "language-graphql@0.2.0",
+  "_shasum": "4929219175af054437eff54564324aa819250d1b",
+  "_resolved": "file:../d-116111-94993-1c78p57/package.tgz",
+  "_from": "../d-116111-94993-1c78p57/package.tgz",
+  "_atomModuleCache": {
+    "version": 1,
+    "dependencies": [],
+    "extensions": {
+      ".json": [
+        "package.json"
+      ]
+    },
+    "folders": []
+  }
+}

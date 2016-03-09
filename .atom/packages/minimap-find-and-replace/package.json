@@ -1,0 +1,54 @@
+{
+  "name": "minimap-find-and-replace",
+  "main": "./lib/minimap-find-and-replace",
+  "version": "4.5.0",
+  "description": "Minimap bindings for the find and replace package",
+  "author": {
+    "name": "Cédric Néhémie",
+    "email": "cedric.nehemie@gmail.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/atom-minimap/minimap-find-and-replace.git"
+  },
+  "license": "MIT",
+  "keywords": [
+    "minimap",
+    "find-and-replace"
+  ],
+  "engines": {
+    "atom": ">0.50.0"
+  },
+  "consumedServices": {
+    "minimap": {
+      "versions": {
+        "1.0.0": "consumeMinimapServiceV1"
+      }
+    }
+  },
+  "dependencies": {},
+  "readme": "# minimap-find-and-replace package\n\nDisplays the search matches in the minimap.\n\n![Minimap Screenshot](https://github.com/atom-minimap/minimap-find-and-replace/blob/master/screenshot.png?raw=true)\n\nYou will need the [Minimap package](https://github.com/atom-minimap/minimap) installed to use this package.\n",
+  "readmeFilename": "README.md",
+  "bugs": {
+    "url": "https://github.com/atom-minimap/minimap-find-and-replace/issues"
+  },
+  "homepage": "https://github.com/atom-minimap/minimap-find-and-replace#readme",
+  "_id": "minimap-find-and-replace@4.5.0",
+  "_shasum": "693c7483630ddb5cff31d8f6e0dc066ebc4590f0",
+  "_resolved": "file:../d-11629-33385-1m1nuup/package.tgz",
+  "_from": "../d-11629-33385-1m1nuup/package.tgz",
+  "_atomModuleCache": {
+    "version": 1,
+    "dependencies": [],
+    "extensions": {
+      ".coffee": [
+        "lib/minimap-find-and-replace-binding.coffee",
+        "lib/minimap-find-and-replace.coffee"
+      ],
+      ".json": [
+        "package.json"
+      ]
+    },
+    "folders": []
+  }
+}

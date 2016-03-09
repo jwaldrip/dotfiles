@@ -1,0 +1,34 @@
+{
+  "name": "language-terraform",
+  "version": "0.7.2",
+  "description": "Terraform.io support for Atom",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/GiantToast/language-terraform.git"
+  },
+  "homepage": "http://GiantToast.github.io/language-terraform",
+  "license": "MIT",
+  "engines": {
+    "atom": "*",
+    "node": "*"
+  },
+  "bugs": {
+    "url": "https://github.com/GiantToast/language-terraform/issues"
+  },
+  "readme": "# Terraform.io language support in Atom\n\nAdds syntax highlighting for Terraform.io configuration files to Atom.\n\nContributions are not only welcome, but encouraged.  Please fork and submit pull requests for snippets, grammar tweaks, etc.\n",
+  "readmeFilename": "README.md",
+  "_id": "language-terraform@0.7.2",
+  "_shasum": "43f20e8e24dc2c8a4b8fd38db26a0616278cc29d",
+  "_resolved": "file:../d-116112-18765-1ebtehy/package.tgz",
+  "_from": "../d-116112-18765-1ebtehy/package.tgz",
+  "_atomModuleCache": {
+    "version": 1,
+    "dependencies": [],
+    "extensions": {
+      ".json": [
+        "package.json"
+      ]
+    },
+    "folders": []
+  }
+}
