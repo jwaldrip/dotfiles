@@ -6,14 +6,15 @@ Consistent-PATH
 #### API
 
 ```js
-export function getPath(): String
+module.exports = function(): string
+module.exports.async = function(): Promise<string>
 ```
 
 #### Example Usage
 
 ```js
 import {spawnSync} from 'child_process'
-import {getPath} from 'consistent-path'
+import getPath from 'consistent-path'
 
 const assign = Object.assign || require('some-object-assign-polyfill')
 
@@ -23,7 +24,7 @@ console.log('$PATH', spawnSync('printenv', {env}))
 
 #### Differences to other packages
 
-Differences to [atom-community/environment](https://github.com/atom-community/environment): 
+Differences to [atom-community/environment](https://github.com/atom-community/environment):
 
  - See [atom-linter#62](https://github.com/AtomLinter/atom-linter/issues/62)
 

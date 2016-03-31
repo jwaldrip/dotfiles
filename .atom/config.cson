@@ -1,8 +1,13 @@
 "*":
-  core: {}
+  "atom-import-sort":
+    sortOnSave: true
+  core:
+    ignoredNames: [
+      "dist"
+    ]
   editor:
-    fontSize: 18
     invisibles: {}
+    showInvisibles: true
   esformatter:
     formatOnSave: true
   "exception-reporting":
@@ -11,16 +16,26 @@
     showIconsInEditorGutter: true
   "git-plus": {}
   "goto-definition": {}
+  "js-autoimport": {}
+  "jump-to-import": {}
   "language-babel": {}
   linter:
-    errorPanelHeight: 282
+    errorPanelHeight: 47
   "linter-eslint": {}
+  "merge-conflicts": {}
   minimap:
     plugins:
       cursorline: true
+      cursorlineDecorationsZIndex: 0
       "find-and-replace": true
+      "find-and-replaceDecorationsZIndex": 0
       "git-diff": true
+      "git-diffDecorationsZIndex": 0
       linter: true
+      linterDecorationsZIndex: 0
+      pigments: true
+      pigmentsDecorationsZIndex: 0
       selection: true
+      selectionDecorationsZIndex: 0
   welcome:
     showOnStartup: false

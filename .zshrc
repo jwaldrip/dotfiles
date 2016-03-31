@@ -31,6 +31,19 @@ alias g=git
 alias twr=gittower
 alias reload!="exec $SHELL"
 alias e=$EDITOR
+alias run="./services/bin/run"
+alias menv='eval `make env`'
+alias fl='fleetctl'
+
+flm(){ if [ -z "$1" ] ; then fleetctl list-machines ; else fleetctl list-machines | grep $1 ; fi }
+flu(){ if [ -z "$1" ] ; then fleetctl list-units ; else fleetctl list-units | grep $1 ; fi }
+
+wflm(){ watch -n1 "if [ -z \"$1\" ] ; then fleetctl list-machines ; else fleetctl list-machines | grep $1 ; fi" }
+wflu(){ watch -n1 "if [ -z \"$1\" ] ; then fleetctl list-units ; else fleetctl list-units | grep $1 ; fi" }
+
+flres(){ fleetctl stop $@ && fleetctl start $@ }
+
+loop(){ while true ; do $@ ; done }
 
 ## Shell init boot2docker
 eval `docker-machine env default 2> /dev/null` &> /dev/null || true
@@ -114,3 +127,9 @@ test -e ${HOME}/.iterm2_shell_integration.zsh && source ${HOME}/.iterm2_shell_in
 
 # added by travis gem
 [ -f /Users/jwaldrip/.travis/travis.sh ] && source /Users/jwaldrip/.travis/travis.sh
+
+# The next line updates PATH for the Google Cloud SDK.
+source '/Users/jwaldrip/google-cloud-sdk/path.zsh.inc'
+
+# The next line enables shell command completion for gcloud.
+source '/Users/jwaldrip/google-cloud-sdk/completion.zsh.inc'

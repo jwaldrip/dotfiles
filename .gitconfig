@@ -1,5 +1,6 @@
 [core]
 	excludesfile = /Users/jwaldrip/.gitignore_global
+	ignorecase = false
 	editor = vim
 [user]
 	email = jason@waldrip.net

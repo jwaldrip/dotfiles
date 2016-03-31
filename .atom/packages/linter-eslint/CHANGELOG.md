@@ -1,5 +1,14 @@
 # Changelog
 
+## v7.1.1
+
+*   Fix link color in certain themes (#480)
+
+## v7.1.0
+
+*   Add a link to the rule definition page in HTML messages (#476)
+*   Pin the bundled `eslint` to v2.2.0 (#478)
+
 ## v7.0.0
 
 *   Fix finding local `eslint` instance again (#409)

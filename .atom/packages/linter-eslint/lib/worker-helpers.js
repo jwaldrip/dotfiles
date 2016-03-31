@@ -28,15 +28,17 @@ var _atomLinter = require('atom-linter');
 
 var _consistentPath = require('consistent-path');
 
+var _consistentPath2 = _interopRequireDefault(_consistentPath);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-const Cache = {
+var Cache = {
   ESLINT_LOCAL_PATH: _path2.default.normalize(_path2.default.join(__dirname, '..', 'node_modules', 'eslint')),
   NODE_PREFIX_PATH: null,
   LAST_MODULES_PATH: null
 };
-const assign = Object.assign || function (target, source) {
-  for (const key in source) {
+var assign = Object.assign || function (target, source) {
+  for (var key in source) {
     if (source.hasOwnProperty(key)) {
       target[key] = source[key];
     }
@@ -46,10 +48,10 @@ const assign = Object.assign || function (target, source) {
 
 function getNodePrefixPath() {
   if (Cache.NODE_PREFIX_PATH === null) {
-    const npmCommand = process.platform === 'win32' ? 'npm.cmd' : 'npm';
+    var npmCommand = process.platform === 'win32' ? 'npm.cmd' : 'npm';
     try {
       Cache.NODE_PREFIX_PATH = _child_process2.default.spawnSync(npmCommand, ['get', 'prefix'], {
-        env: assign(assign({}, process.env), { PATH: (0, _consistentPath.getPath)() })
+        env: assign(assign({}, process.env), { PATH: (0, _consistentPath2.default)() })
       }).output[1].toString().trim();
     } catch (e) {
       throw new Error('Unable to execute `npm get prefix`. Please make sure Atom is getting $PATH correctly');
@@ -59,10 +61,10 @@ function getNodePrefixPath() {
 }
 
 function getESLintFromDirectory(modulesDir, config) {
-  let ESLintDirectory = null;
+  var ESLintDirectory = null;
 
   if (config.useGlobalEslint) {
-    const prefixPath = config.globalNodePath || getNodePrefixPath();
+    var prefixPath = config.globalNodePath || getNodePrefixPath();
     if (process.platform === 'win32') {
       ESLintDirectory = _path2.default.join(prefixPath, 'node_modules', 'eslint');
     } else {
@@ -90,18 +92,18 @@ function refreshModulesPath(modulesDir) {
 }
 
 function getESLintInstance(fileDir, config) {
-  const modulesDir = _path2.default.dirname((0, _atomLinter.findCached)(fileDir, 'node_modules/eslint'));
+  var modulesDir = _path2.default.dirname((0, _atomLinter.findCached)(fileDir, 'node_modules/eslint'));
   refreshModulesPath(modulesDir);
   return getESLintFromDirectory(modulesDir, config);
 }
 
 function getConfigPath(fileDir) {
-  const configFile = (0, _atomLinter.findCached)(fileDir, ['.eslintrc.js', '.eslintrc.yaml', '.eslintrc.yml', '.eslintrc.json', '.eslintrc']);
+  var configFile = (0, _atomLinter.findCached)(fileDir, ['.eslintrc.js', '.eslintrc.yaml', '.eslintrc.yml', '.eslintrc.json', '.eslintrc']);
   if (configFile) {
     return configFile;
   }
 
-  const packagePath = (0, _atomLinter.findCached)(fileDir, 'package.json');
+  var packagePath = (0, _atomLinter.findCached)(fileDir, 'package.json');
   if (packagePath && Boolean(require(packagePath).eslintConfig)) {
     return packagePath;
   }
@@ -109,10 +111,10 @@ function getConfigPath(fileDir) {
 }
 
 function getRelativePath(fileDir, filePath, config) {
-  const ignoreFile = config.disableEslintIgnore ? null : (0, _atomLinter.findCached)(fileDir, '.eslintignore');
+  var ignoreFile = config.disableEslintIgnore ? null : (0, _atomLinter.findCached)(fileDir, '.eslintignore');
 
   if (ignoreFile) {
-    const ignoreDir = _path2.default.dirname(ignoreFile);
+    var ignoreDir = _path2.default.dirname(ignoreFile);
     process.chdir(ignoreDir);
     return _path2.default.relative(ignoreDir, filePath);
   }
@@ -121,12 +123,12 @@ function getRelativePath(fileDir, filePath, config) {
 }
 
 function getArgv(type, config, filePath, fileDir, givenConfigPath) {
-  let configPath;
+  var configPath = void 0;
   if (givenConfigPath === null) {
     configPath = config.eslintrcPath || null;
   } else configPath = givenConfigPath;
 
-  const argv = [process.execPath, 'a-b-c' // dummy value for eslint executable
+  var argv = [process.execPath, 'a-b-c' // dummy value for eslint executable
   ];
   if (type === 'lint') {
     argv.push('--stdin');
@@ -134,7 +136,7 @@ function getArgv(type, config, filePath, fileDir, givenConfigPath) {
   argv.push('--format', _path2.default.join(__dirname, 'reporter.js'));
 
   if (config.eslintRulesDir) {
-    let rulesDir = (0, _resolveEnv2.default)(config.eslintRulesDir);
+    var rulesDir = (0, _resolveEnv2.default)(config.eslintRulesDir);
     if (!_path2.default.isAbsolute(rulesDir)) {
       rulesDir = (0, _atomLinter.findCached)(fileDir, rulesDir);
     }
