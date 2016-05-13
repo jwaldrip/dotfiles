@@ -20,7 +20,7 @@
   "jump-to-import": {}
   "language-babel": {}
   linter:
-    errorPanelHeight: 47
+    errorPanelHeight: 217
   "linter-eslint": {}
   "merge-conflicts": {}
   minimap:

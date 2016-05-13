@@ -45,6 +45,8 @@ flres(){ fleetctl stop $@ && fleetctl start $@ }
 
 loop(){ while true ; do $@ ; done }
 
+dexec(){ app=$1 ; shift ; kubectl exec -it --namespace=$app `kubectl get pods --namespace=$app -o jsonpath='{.items[0].metadata.name}'` $@ }
+
 ## Shell init boot2docker
 eval `docker-machine env default 2> /dev/null` &> /dev/null || true
 
@@ -77,9 +79,10 @@ export BUNDLER_EDITOR=mine
 export ANDROID_HOME=/usr/local/opt/android-sdk
 
 # Set the default docker machine
-export DOCKER_MACHINE_PROVIDER=parallels
+# export DOCKER_MACHINE_PROVIDER=parallels
+# export DOCKER_FOR_MAC=t
 
-# Set the development path
+#Set the development path
 export DEVPATH=~/dev
 
 # Set the Go path

@@ -4,7 +4,8 @@
 	editor = vim
 [user]
 	email = jason@waldrip.net
-	name = Jason Waldrip
+	name = jwaldrip
+	signingkey = 22A5D30F
 [push]
 	default = current
 [git-up "fetch"]
@@ -84,3 +85,5 @@
 	trustExitCode = true
 [credential]
 	helper = osxkeychain
+[commit]
+	gpgsign = true

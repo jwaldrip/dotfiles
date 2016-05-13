@@ -1,7 +1,7 @@
 {
   "name": "language-babel",
   "main": "./lib/main",
-  "version": "2.16.0",
+  "version": "2.17.0",
   "description": "Babel JavaScript ES201x, React JSX & Flow Grammar & Transpiler",
   "keywords": [
     "es6",
@@ -45,43 +45,38 @@
     "atom-grammar-test": "<1.0.0",
     "chai": "^3.0.0"
   },
-  "readme": "# language-babel\n\n[![Build Status](https://travis-ci.org/gandm/language-babel.svg?branch=master)](https://travis-ci.org/gandm/language-babel)\n[![Build Dependencies](https://david-dm.org/gandm/language-babel.svg)](https://david-dm.org/gandm/language-babel)\n\nLanguage grammar for ES201x JavaScript, [Facebook React JSX](http://facebook.github.io/react/index.html) syntax and [Facebook flow](http://flowtype.org/). The colour of syntax is determined by the theme in use. The package also provides auto completion and auto reformatting of React JSX tags based upon [ESLint rules](https://github.com/yannickcr/eslint-plugin-react) and optional  [Babel](http://babeljs.io/) transpilation on file saves. As a convenience it also provides a transpiled code preview by linking to the package [source-preview](https://atom.io/packages/source-preview).\n\nBy default the language-babel package will detect file types `.js`,`.babel`,`.jsx`, `.flow` and `es6`. Use the standard ATOM interface to enable it for other file types. This provides a grammar that scopes the file in order to colour the text in a meaningful way. If other JavaScript grammars are enabled these may take precedence over language-babel. Look at the bottom right status bar indicator to determine the language grammar of a file being edited. language-babel will be shown as `Babel ES6 JavaScript`\n\nlanguage-babel provides [Babel](http://babeljs.io/) V6 & V5 transpiler support. If you only require grammar/syntax highlighting ensure that the package settings `Transpile On Save` and `Allow Local Override` are both off.\n\n## Installation\n\nInstall via ATOM or by using `apm install language-babel`. If you only need to use the provided grammar read no further!\n\n## Auto Completion of JSX tags, elements and attributes\n\nJSX tag closures are provided as auto complete options. In addition common HTML elements and their associated properties are displayed as auto complete lists. Those supported by language-babel are described [here](http://facebook.github.io/react/docs/tags-and-attributes.html)\n\n![autoclose](https://cloud.githubusercontent.com/assets/2313237/12352348/218348b6-bb7d-11e5-9245-bd0d1467d71d.gif)\n\n## Commenting out JSX elements\n\nJSX elements cannot be commented out by using standard `//` or `/* */` commenting. Normally `{/* */}` is used instead. language-babel changes the Atom toggle comments behaviour when inside a JSX block to support this behaviour.\n\n![autoclose](https://cloud.githubusercontent.com/assets/2313237/12441752/4d672be6-bf42-11e5-8e20-33a96a81db66.gif)\n\n## Automatic Indenting of JSX\n\nBy default this feature is turned off in the package settings. If enabled, language-babel will read the `.eslintrc` file associated with an edited file's project for the presence of four properties whose defaults are shown below. These rules, which are part of the [ESLint-plugin-React](https://github.com/yannickcr/eslint-plugin-react) EsLint plugin, are then used to determine the alignment and tab/spaces spacing of JSX elements. If no `.eslintrrc` file is found then the suitable defaults are used based upon the tab/spacing setup of the Atom editor. For more information on the options for these rules see [Closing bracket](https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/jsx-closing-bracket-location.md), [Indent](https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/jsx-indent.md) and [Indent Props](https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/jsx-indent.md).\n\n```json\n{\n  \"rules\": {\n    \"indent\": 1,\n    \"react/jsx-closing-bracket-location\": 1,\n    \"react/jsx-indent-props\": 1,\n    \"react/jsx-indent\": 1\n  }\n}\n```\nWhen moving around a JSX block  language-babel reformats the preceding JSX lines automatically. Lines following the cursor are not indented. This is to protect the source code following incomplete JSX from being processed. Optionally, a command `language-babel:auto-indent-react-jsx` allows text to be automatically indented on the current and preceding rows. This can be mapped as a keyboard shortcut if required. The user should correctly position the first JSX element as auto-indenting will not do this.\n\nThere is also a command - `language-babel:toggle-auto-indent-jsx` that toggles automatic JSX formatting on/off for individual files. This can be mapped to a keyboard shortcut if needed.\n\nYou may also turn off automatic indenting for all files by setting the package option `Auto Indent JSX`\n\n![indent](https://cloud.githubusercontent.com/assets/2313237/12700780/4074271e-c7e8-11e5-91d7-774f7808bc1d.gif)\n\n## Interface to Babel V6 & V5\n\nOptions in the language-babel package settings and/or in `.languagebabel` project based JSON files allow for Babel validations to be carried out on a file saves using `.babelrc` options. Even if using a workflow such as gulp, webpack, etc, this can be very useful. Additional options allow the output from Babel (transpiled code and maps ) to be output to other directories.\n\nIt is also possible to preview any source file as Babel would output it.\n\n#### Previewing\n\nBabel v5 and Babel v6 code can be previewed as shown bellow. Source mapping keeps the ES201x file's cursor in step with the transpiled codes cursor. This feature requires the Atom package  [source-preview](https://atom.io/packages/source-preview).\n\n![example](https://cloud.githubusercontent.com/assets/2313237/12490818/7535fc50-c06f-11e5-8752-ec0878c5205c.gif)\n\n#### Transpiling\n\nThis package works by using the concept of a project folder which we assume contains a project or even nested projects any of which may contain a Babel project.  In a Babel project we expect to see one or more `.babelrc` files, a `node_modules` folder at the root of the project containing an optional `babel-core` and other babel plugins/presets as determined by the project's `package.json` file. In addition we may expect to see one or more `.languagebabel` files in the project. Projects are either implicit (an Atom project folder) or explicit (denoted by a `.languagebabel` property of `\"projectRoot\": true`). If no `babel-core` is found in the project then a version will be provided by the package but this will be a Babel Version 6 instance. Plugins and presets will not be provided by the package.\n\nA trivial example project that shows examples of using `.languagebabel` and `.babelrc` files may be found [here](https://github.com/gandm/example-language-babel).\n\n![example](https://cloud.githubusercontent.com/assets/2313237/11145720/18bf0f52-8a00-11e5-82f0-3f474aeefcb7.gif)\n\nMultiple projects may be open at any time inside Atom and `language-babel` must allow the use of differing `babel-core` versions and associated plugins when transpiling. It does this by using background tasks - one per Babel project. When a `language-babel` grammar enabled file is saved the package settings and optionally any `.languagebabel` configuration files are read to determine if the file should be transpiled and what to do with the output. These settings and `.languagebabel` options are described below.\n\nIt is very easy to ensure that language-babel does not transpile files that are not needed. Just turn off the global package setting `Transpile On Save` and turn on `Allow Local Override`. Apart form grammar highlighting only projects having a `.languagebabel` in the file path will then be affected by this package. Further granularity is easy too.\n\n## Package Settings\n\nFor most projects it is better to configure `language-babel` via project based `.languagebabel` file properties which will override the package settings below. See *\".langeuagebabel Configuration\"* for more information on this behaviour.\n\n* #### Allow Local Override\n  If set this allows `.languagebabel` file properties to be override the global package settings.\n\n* #### Transpile On Save\n  On any file save of a `language-babel` grammar enabled file the Babel transpiler is called. No actual transpiled file is saved but any Babel errors and/or successful indicators are notified by an ATOM pop-up. Not all files are candidates for transpilation as other settings can affect this. For example see `Disable When No Babelrc File In Path` and `Babel Source Path` below.\n\n  ```json\n  {\"transpileOnSave\": true} or\n  {\"transpileOnSave\": false}\n  ```\n\n* #### Create Transpiled Code\n  If enabled together with `Transpile On Save` this will output JavaScript code to a `.js` file with the same prefix as the original. By using the  `Babel Transpile Path` options it is possible to transpile to a different target directory. Not all files are candidates for transpilation as other settings can affect this.\n\n  ```json\n  {\"createTranspiledCode\": true} or\n  {\"createTranspiledCode\": false}\n  ```\n\n* #### Disable When No Babelrc File In Path\n  Disables transpiler if no `.babelrc` files are found in the source file path.\n\n  ```json\n  {\"disableWhenNoBabelrcFileInPath\": true} or\n  {\"disableWhenNoBabelrcFileInPath\": false}\n  ```\n\n* #### Suppress Transpile On Save Messages\n  Suppress all successful save messages. Errors are still notified.\n\n  ```json\n  {\"suppressTranspileOnSaveMessages\": true} or\n  {\"suppressTranspileOnSaveMessages\": false}\n  ```\n\n* #### Suppress Source Path Messages\n  This is set by default so that when a file is saved that is outside the `Babel Source Path` directory no message is generated. This is particularly useful when you have mixed ES2015 and ES3-5 environment. ES2015 files can be placed inside a `Babel Source Path` where they will be transpiled and other files will not pop up annoying messages when being saved.\n\n  ```json\n  {\"suppressSourcePathMessages\": true} or\n  {\"suppressSourcePathMessages\": false}\n  ```\n\n* #### Create Map\n  If transpiled output is being saved a separate source map can be also be saved. The source file name will be used with a new suffix of `.js.map` and sent to a directory specified in `Babel Maps Path`. To avoid any possible XSSI issues the map file is prefixed with `)]}`\n\n  If `.babelrc` files use `sourceMaps: inline` or `sourceMaps both` options then turn this option off as the map data is stored as part of the source file.\n\n  ```json\n  {\"createMap\": true} or\n  {\"createMap\": false}\n  ```\n\n* #### Babel Maps Add Url\n  If a source map is created using the `Create Map` option this allows a Url reference `//# sourceURL=originalBabelSourcefile` to be appended to the generated transpiled JavaScript file.  \n\n  ```json\n  {\"babelMapsAddUrl\": true} or\n  {\"babelMapsAddUrl\": false}\n  ```\n\n* #### Project Root ( only present in `.languagebabel` files)\n\n  A `.languagebabel` property that defines this directory is a project root. A project root would contain a `node_modules` folder with an optional `babel-core` as well as any plugins required.\n\n  ```json\n  {\"projectRoot\": true} or\n  {\"projectRoot\": false}\n  ```\n\n* #### Babel Source Path, Babel Transpile Path and Babel Maps Path\n  These a directories based on the project root. A project root is either implicit ( baed on an Atom folders root directory) or explicit ( based upon the root defined in the nearest `.languagebabel` file with a property `\"projectRoot\": true` )\n\n  Only files found under the `project/babelsourcepath` will be candidates for transpilation. If multiple project root folders exist then `babelsourcepath` may exist in any or all folders.\n\n  The Transpile and Maps paths allow different target directories to be specified. If multiple project root folders exist then they may exist in any or all folders.\n\n  e.g. Two project root folders exist `/proj1` and `/proj2`. If Source Path is set to `babelSource`the Transpile Path is set to `babelTranspile` and the Maps Path is set to `babelMaps` then:-\n\n  `/proj1/babelSource/foo.es6` ->`/proj1/babelTranspile/foo.js`,`/proj1/babelMaps/foo.js.map`\n\n  ```json\n  {\n    \"projectRoot\":  true,    \n    \"babelSourcePath\": \"babelSource\",\n    \"babelTranspilePath\": \"babelTranspile\",\n    \"babelMapsPath\": \"babelMaps\"\n  }\n  ```\n\n  `/proj2/babelSource/dirBar/foo.es6` -> `/proj2/lib/foo.js`,`/proj2/lib/foo.js.map`\n\n  ```json\n  {\n    \"projectRoot\":  true,\n    \"babelSourcePath\": \"babelSource/dirBar\",\n    \"babelTranspilePath\": \"lib\",\n    \"babelMapsPath\": \"lib\"\n  }\n  ```\n\n* #### Create Target Directories\n  When enabled any target directories that do not exist will be created prior to a transpilation.\n  ```json\n  {\"createTargetDirectories\": true} or\n  {\"createTargetDirectories\": false}\n  ```\n\n* #### Auto Indent JSX\n  Enables automatic indenting of JSX.\n\n## .languagebabel Configuration\n\n`.languagebabel` JSON configuration files can exist in any directory of the path that contains a source file to be compiled. The properties in this file override the global package settings above. If `.languagebabel` files are present, they read and merged starting in the source files directory up to the project root directory. Properties defined closest the source file take precedence.\n\nTo use this option please enable the `Allow Local Override` package setting.\n\nA `.languagebabel` file may contain one or more of the following properties.\n```\n{\n  \"babelMapsPath\":                    \"relPath\",\n  \"babelMapsAddUrl\":                  true|false,\n  \"babelSourcePath\":                  \"relPath\",\n  \"babelTranspilePath\":               \"relPath\",\n  \"createMap\":                        true|false,\n  \"createTargetDirectories\":          true|false,\n  \"createTranspiledCode\":             true|false,\n  \"disableWhenNoBabelrcFileInPath\":   true|false,\n  \"projectRoot\":                      true|false,  \n  \"suppressSourcePathMessages\":       true|false,\n  \"suppressTranspileOnSaveMessages\":  true|false,\n  \"transpileOnSave\":                  true|false\n}\n```\n",
+  "readme": "# language-babel\n\n[![Build Status](https://travis-ci.org/gandm/language-babel.svg?branch=master)](https://travis-ci.org/gandm/language-babel)\n[![Build Dependencies](https://david-dm.org/gandm/language-babel.svg)](https://david-dm.org/gandm/language-babel)\n\nLanguage grammar for ES201x JavaScript, [Facebook React JSX](http://facebook.github.io/react/index.html) syntax and [Facebook flow](http://flowtype.org/). The colour of syntax is determined by the theme in use. The package also provides auto completion and auto reformatting of React JSX tags based upon [ESLint rules](https://github.com/yannickcr/eslint-plugin-react) and optional  [Babel](http://babeljs.io/) transpilation on file saves. As a convenience it also provides a transpiled code preview by linking to the package [source-preview](https://atom.io/packages/source-preview).\n\nBy default the language-babel package will detect file types `.js`,`.babel`,`.jsx`, `es`, `es6` and `.flow`. Use the standard ATOM interface to enable it for other file types. This provides a grammar that scopes the file in order to colour the text in a meaningful way. If other JavaScript grammars are enabled these may take precedence over language-babel. Look at the bottom right status bar indicator to determine the language grammar of a file being edited. language-babel will be shown as `Babel ES6 JavaScript`\n\nlanguage-babel provides [Babel](http://babeljs.io/) V6 & V5 transpiler support. If you only require grammar/syntax highlighting ensure that the package settings `Transpile On Save` and `Allow Local Override` are both off.\n\n## Installation\n\nInstall via ATOM or by using `apm install language-babel`. If you only need to use the provided grammar read no further!\n\n## Auto Completion of JSX tags, elements and attributes\n\nJSX tag closures are provided as auto complete options. In addition common HTML elements and their associated properties are displayed as auto complete lists. Those supported by language-babel are described [here](http://facebook.github.io/react/docs/tags-and-attributes.html)\n\n![autoclose](https://cloud.githubusercontent.com/assets/2313237/12352348/218348b6-bb7d-11e5-9245-bd0d1467d71d.gif)\n\n## Commenting out JSX elements\n\nJSX elements cannot be commented out by using standard `//` or `/* */` commenting. Normally `{/* */}` is used instead. language-babel changes the Atom toggle comments behaviour when inside a JSX block to support this behaviour.\n\n![autoclose](https://cloud.githubusercontent.com/assets/2313237/12441752/4d672be6-bf42-11e5-8e20-33a96a81db66.gif)\n\n## Automatic Indenting of JSX\n\nBy default this feature is turned off in the package settings. If enabled, language-babel will read the `.eslintrc` file associated with an edited file's project for the presence of four properties whose defaults are shown below. These rules, which are part of the [ESLint-plugin-React](https://github.com/yannickcr/eslint-plugin-react) EsLint plugin, are then used to determine the alignment and tab/spaces spacing of JSX elements. If no `.eslintrrc` file is found then the suitable defaults are used based upon the tab/spacing setup of the Atom editor. For more information on the options for these rules see [Closing bracket](https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/jsx-closing-bracket-location.md), [Indent](https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/jsx-indent.md) and [Indent Props](https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/jsx-indent.md).\n\n```json\n{\n  \"rules\": {\n    \"indent\": 1,\n    \"react/jsx-closing-bracket-location\": 1,\n    \"react/jsx-indent-props\": 1,\n    \"react/jsx-indent\": 1\n  }\n}\n```\nWhen moving around a JSX block  language-babel reformats the preceding JSX lines automatically. Lines following the cursor are not indented. This is to protect the source code following incomplete JSX from being processed. Optionally, a command `language-babel:auto-indent-react-jsx` allows text to be automatically indented on the current and preceding rows. This can be mapped as a keyboard shortcut if required. The user should correctly position the first JSX element as auto-indenting will not do this.\n\nThere is also a command - `language-babel:toggle-auto-indent-jsx` that toggles automatic JSX formatting on/off for individual files. This can be mapped to a keyboard shortcut if needed.\n\nYou may also turn off automatic indenting for all files by setting the package option `Auto Indent JSX`\n\n![indent](https://cloud.githubusercontent.com/assets/2313237/12700780/4074271e-c7e8-11e5-91d7-774f7808bc1d.gif)\n\n## Interface to Babel V6 & V5\n\nOptions in the language-babel package settings and/or in `.languagebabel` project based JSON files allow for Babel validations to be carried out on a file saves using `.babelrc` options. A file tree context menu - `Babel Transpile` - is also provided that allows whole directories to be transpiled obeying any `.babelrc` and `.languagebabel` settings. Even if using a workflow such as gulp, webpack, etc, this can be very useful. Additional options allow the output from Babel (transpiled code and maps ) to be output to other directories.\n\nIt is also possible to preview any source file as Babel would output it.\n\n#### Previewing\n\nBabel v5 and Babel v6 code can be previewed as shown bellow. Source mapping keeps the ES201x file's cursor in step with the transpiled codes cursor. This feature requires the Atom package  [source-preview](https://atom.io/packages/source-preview).\n\n![example](https://cloud.githubusercontent.com/assets/2313237/12490818/7535fc50-c06f-11e5-8752-ec0878c5205c.gif)\n\n#### Transpiling\n\nThis package works by using the concept of a project folder which we assume contains a project or even nested projects any of which may contain a Babel project.  In a Babel project we expect to see one or more `.babelrc` files, a `node_modules` folder at the root of the project containing an optional `babel-core` and other babel plugins/presets as determined by the project's `package.json` file. In addition we may expect to see one or more `.languagebabel` files in the project. Projects are either implicit (an Atom project folder) or explicit (denoted by a `.languagebabel` property of `\"projectRoot\": true`). If no `babel-core` is found in the project then a version will be provided by the package but this will be a Babel Version 6 instance. Plugins and presets will not be provided by the package.\n\nA trivial example project that shows examples of using `.languagebabel` and `.babelrc` files may be found [here](https://github.com/gandm/example-language-babel).\n\n![example](https://cloud.githubusercontent.com/assets/2313237/11145720/18bf0f52-8a00-11e5-82f0-3f474aeefcb7.gif)\n\nMultiple projects may be open at any time inside Atom and `language-babel` must allow the use of differing `babel-core` versions and associated plugins when transpiling. It does this by using background tasks - one per Babel project. When a `language-babel` grammar enabled file is saved the package settings and optionally any `.languagebabel` configuration files are read to determine if the file should be transpiled and what to do with the output. These settings and `.languagebabel` options are described below.\n\nIt is very easy to ensure that language-babel does not transpile files that are not needed. Just turn off the global package setting `Transpile On Save` and turn on `Allow Local Override`. Apart form grammar highlighting only projects having a `.languagebabel` in the file path will then be affected by this package. Further granularity is easy too.\n\n## Package Settings\n\nFor most projects it is better to configure `language-babel` via project based `.languagebabel` file properties which will override the package settings below. See *\".langeuagebabel Configuration\"* for more information on this behaviour.\n\n* #### Allow Local Override\n  If set this allows `.languagebabel` file properties to be override the global package settings.\n\n* #### Transpile On Save\n  On any file save of a `language-babel` grammar enabled file the Babel transpiler is called. No actual transpiled file is saved but any Babel errors and/or successful indicators are notified by an ATOM pop-up. Not all files are candidates for transpilation as other settings can affect this. For example see `Disable When No Babelrc File In Path` and `Babel Source Path` below.\n\n  ```json\n  {\"transpileOnSave\": true} or\n  {\"transpileOnSave\": false}\n  ```\n\n* #### Create Transpiled Code\n  If enabled together with `Transpile On Save` this will output JavaScript code to a `.js` file with the same prefix as the original. By using the  `Babel Transpile Path` options it is possible to transpile to a different target directory. Not all files are candidates for transpilation as other settings can affect this.\n\n  ```json\n  {\"createTranspiledCode\": true} or\n  {\"createTranspiledCode\": false}\n  ```\n\n* #### Disable When No Babelrc File In Path\n  Disables transpiler if no `.babelrc` files are found in the source file path.\n\n  ```json\n  {\"disableWhenNoBabelrcFileInPath\": true} or\n  {\"disableWhenNoBabelrcFileInPath\": false}\n  ```\n\n* #### Suppress Transpile On Save Messages\n  Suppress all successful save messages. Errors are still notified.\n\n  ```json\n  {\"suppressTranspileOnSaveMessages\": true} or\n  {\"suppressTranspileOnSaveMessages\": false}\n  ```\n\n* #### Suppress Source Path Messages\n  This is set by default so that when a file is saved that is outside the `Babel Source Path` directory no message is generated. This is particularly useful when you have mixed ES2015 and ES3-5 environment. ES2015 files can be placed inside a `Babel Source Path` where they will be transpiled and other files will not pop up annoying messages when being saved.\n\n  ```json\n  {\"suppressSourcePathMessages\": true} or\n  {\"suppressSourcePathMessages\": false}\n  ```\n\n* #### Create Map\n  If transpiled output is being saved a separate source map can be also be saved. The source file name will be used with a new suffix of `.js.map` and sent to a directory specified in `Babel Maps Path`. To avoid any possible XSSI issues the map file is prefixed with `)]}`\n\n  If `.babelrc` files use `sourceMaps: inline` or `sourceMaps both` options then turn this option off as the map data is stored as part of the source file.\n\n  ```json\n  {\"createMap\": true} or\n  {\"createMap\": false}\n  ```\n\n* #### Babel Maps Add Url\n  If a source map is created using the `Create Map` option this allows a Url reference `//# sourceURL=originalBabelSourcefile` to be appended to the generated transpiled JavaScript file.  \n\n  ```json\n  {\"babelMapsAddUrl\": true} or\n  {\"babelMapsAddUrl\": false}\n  ```\n\n* #### Project Root ( only present in `.languagebabel` files)\n\n  A `.languagebabel` property that defines this directory is a project root. A project root would contain a `node_modules` folder with an optional `babel-core` as well as any plugins required.\n\n  ```json\n  {\"projectRoot\": true} or\n  {\"projectRoot\": false}\n  ```\n\n* #### Babel Source Path, Babel Transpile Path and Babel Maps Path\n  These a directories based on the project root. A project root is either implicit ( baed on an Atom folders root directory) or explicit ( based upon the root defined in the nearest `.languagebabel` file with a property `\"projectRoot\": true` )\n\n  Only files found under the `project/babelsourcepath` will be candidates for transpilation. If multiple project root folders exist then `babelsourcepath` may exist in any or all folders.\n\n  The Transpile and Maps paths allow different target directories to be specified. If multiple project root folders exist then they may exist in any or all folders.\n\n  e.g. Two project root folders exist `/proj1` and `/proj2`. If Source Path is set to `babelSource`the Transpile Path is set to `babelTranspile` and the Maps Path is set to `babelMaps` then:-\n\n  `/proj1/babelSource/foo.es6` ->`/proj1/babelTranspile/foo.js`,`/proj1/babelMaps/foo.js.map`\n\n  ```json\n  {\n    \"projectRoot\":  true,    \n    \"babelSourcePath\": \"babelSource\",\n    \"babelTranspilePath\": \"babelTranspile\",\n    \"babelMapsPath\": \"babelMaps\"\n  }\n  ```\n\n  `/proj2/babelSource/dirBar/foo.es6` -> `/proj2/lib/foo.js`,`/proj2/lib/foo.js.map`\n\n  ```json\n  {\n    \"projectRoot\":  true,\n    \"babelSourcePath\": \"babelSource/dirBar\",\n    \"babelTranspilePath\": \"lib\",\n    \"babelMapsPath\": \"lib\"\n  }\n  ```\n\n* #### Create Target Directories\n  When enabled any target directories that do not exist will be created prior to a transpilation.\n  ```json\n  {\"createTargetDirectories\": true} or\n  {\"createTargetDirectories\": false}\n  ```\n\n* #### Auto Indent JSX\n  Enables automatic indenting of JSX.\n\n## .languagebabel Configuration\n\n`.languagebabel` JSON configuration files can exist in any directory of the path that contains a source file to be compiled. The properties in this file override the global package settings above. If `.languagebabel` files are present, they read and merged starting in the source files directory up to the project root directory. Properties defined closest the source file take precedence.\n\nTo use this option please enable the `Allow Local Override` package setting.\n\nA `.languagebabel` file may contain one or more of the following properties.\n```\n{\n  \"babelMapsPath\":                    \"relPath\",\n  \"babelMapsAddUrl\":                  true|false,\n  \"babelSourcePath\":                  \"relPath\",\n  \"babelTranspilePath\":               \"relPath\",\n  \"createMap\":                        true|false,\n  \"createTargetDirectories\":          true|false,\n  \"createTranspiledCode\":             true|false,\n  \"disableWhenNoBabelrcFileInPath\":   true|false,\n  \"projectRoot\":                      true|false,  \n  \"suppressSourcePathMessages\":       true|false,\n  \"suppressTranspileOnSaveMessages\":  true|false,\n  \"transpileOnSave\":                  true|false\n}\n```\n",
   "readmeFilename": "README.md",
   "bugs": {
     "url": "https://github.com/gandm/language-babel/issues"
   },
   "homepage": "https://github.com/gandm/language-babel#readme",
-  "_id": "language-babel@2.16.0",
-  "_shasum": "ffb708215fd2bef74f784054a5bb7eccd4670891",
-  "_resolved": "file:../d-116218-18337-44wfu9/package.tgz",
-  "_from": "../d-116218-18337-44wfu9/package.tgz",
+  "_id": "language-babel@2.17.0",
+  "_shasum": "96a3c9654d73212e2b9eb75ba5e50cad32496294",
+  "_resolved": "file:../d-11636-30588-jj1fmw/package.tgz",
+  "_from": "../d-11636-30588-jj1fmw/package.tgz",
   "_atomModuleCache": {
     "version": 1,
     "dependencies": [
       {
         "name": "babel-core",
-        "version": "6.7.2",
+        "version": "6.7.4",
         "path": "node_modules/babel-core/index.js"
       },
       {
         "name": "babel-code-frame",
-        "version": "6.7.2",
+        "version": "6.7.4",
         "path": "node_modules/babel-core/node_modules/babel-code-frame/lib/index.js"
       },
       {
         "name": "chalk",
-        "version": "1.1.1",
+        "version": "1.1.3",
         "path": "node_modules/babel-core/node_modules/babel-code-frame/node_modules/chalk/index.js"
       },
       {
         "name": "ansi-styles",
-        "version": "2.2.0",
+        "version": "2.2.1",
         "path": "node_modules/babel-core/node_modules/babel-code-frame/node_modules/chalk/node_modules/ansi-styles/index.js"
-      },
-      {
-        "name": "color-convert",
-        "version": "1.0.0",
-        "path": "node_modules/babel-core/node_modules/babel-code-frame/node_modules/chalk/node_modules/ansi-styles/node_modules/color-convert/index.js"
       },
       {
         "name": "escape-string-regexp",
@@ -120,18 +115,8 @@
       },
       {
         "name": "js-tokens",
-        "version": "1.0.2",
+        "version": "1.0.3",
         "path": "node_modules/babel-core/node_modules/babel-code-frame/node_modules/js-tokens/index.js"
-      },
-      {
-        "name": "line-numbers",
-        "version": "0.2.0",
-        "path": "node_modules/babel-core/node_modules/babel-code-frame/node_modules/line-numbers/index.js"
-      },
-      {
-        "name": "left-pad",
-        "version": "0.0.3",
-        "path": "node_modules/babel-core/node_modules/babel-code-frame/node_modules/line-numbers/node_modules/left-pad/index.js"
       },
       {
         "name": "repeating",
@@ -220,7 +205,7 @@
       },
       {
         "name": "core-js",
-        "version": "2.2.1",
+        "version": "2.2.2",
         "path": "node_modules/babel-core/node_modules/babel-register/node_modules/core-js/index.js"
       },
       {
@@ -275,7 +260,7 @@
       },
       {
         "name": "babel-traverse",
-        "version": "6.7.3",
+        "version": "6.7.4",
         "path": "node_modules/babel-core/node_modules/babel-traverse/lib/index.js"
       },
       {
@@ -295,7 +280,7 @@
       },
       {
         "name": "js-tokens",
-        "version": "1.0.2",
+        "version": "1.0.3",
         "path": "node_modules/babel-core/node_modules/babel-traverse/node_modules/invariant/node_modules/loose-envify/node_modules/js-tokens/index.js"
       },
       {
@@ -325,7 +310,7 @@
       },
       {
         "name": "to-fast-properties",
-        "version": "1.0.1",
+        "version": "1.0.2",
         "path": "node_modules/babel-core/node_modules/babel-types/node_modules/to-fast-properties/index.js"
       },
       {
@@ -482,7 +467,6 @@
     "extensions": {
       ".json": [
         "coffeelint.json",
-        "node_modules/babel-core/node_modules/babel-code-frame/node_modules/chalk/node_modules/ansi-styles/node_modules/color-convert/package.json",
         "node_modules/babel-core/node_modules/babel-code-frame/node_modules/chalk/node_modules/ansi-styles/package.json",
         "node_modules/babel-core/node_modules/babel-code-frame/node_modules/chalk/node_modules/escape-string-regexp/package.json",
         "node_modules/babel-core/node_modules/babel-code-frame/node_modules/chalk/node_modules/has-ansi/node_modules/ansi-regex/package.json",
@@ -493,8 +477,6 @@
         "node_modules/babel-core/node_modules/babel-code-frame/node_modules/chalk/package.json",
         "node_modules/babel-core/node_modules/babel-code-frame/node_modules/esutils/package.json",
         "node_modules/babel-core/node_modules/babel-code-frame/node_modules/js-tokens/package.json",
-        "node_modules/babel-core/node_modules/babel-code-frame/node_modules/line-numbers/node_modules/left-pad/package.json",
-        "node_modules/babel-core/node_modules/babel-code-frame/node_modules/line-numbers/package.json",
         "node_modules/babel-core/node_modules/babel-code-frame/node_modules/repeating/node_modules/is-finite/node_modules/number-is-nan/package.json",
         "node_modules/babel-core/node_modules/babel-code-frame/node_modules/repeating/node_modules/is-finite/package.json",
         "node_modules/babel-core/node_modules/babel-code-frame/node_modules/repeating/package.json",
@@ -615,10 +597,6 @@
         "node_modules/babel-core/node_modules/babel-code-frame/lib/index.js",
         "node_modules/babel-core/node_modules/babel-code-frame/node_modules/chalk/index.js",
         "node_modules/babel-core/node_modules/babel-code-frame/node_modules/chalk/node_modules/ansi-styles/index.js",
-        "node_modules/babel-core/node_modules/babel-code-frame/node_modules/chalk/node_modules/ansi-styles/node_modules/color-convert/conversions.js",
-        "node_modules/babel-core/node_modules/babel-code-frame/node_modules/chalk/node_modules/ansi-styles/node_modules/color-convert/css-keywords.js",
-        "node_modules/babel-core/node_modules/babel-code-frame/node_modules/chalk/node_modules/ansi-styles/node_modules/color-convert/index.js",
-        "node_modules/babel-core/node_modules/babel-code-frame/node_modules/chalk/node_modules/ansi-styles/node_modules/color-convert/route.js",
         "node_modules/babel-core/node_modules/babel-code-frame/node_modules/chalk/node_modules/escape-string-regexp/index.js",
         "node_modules/babel-core/node_modules/babel-code-frame/node_modules/chalk/node_modules/has-ansi/index.js",
         "node_modules/babel-core/node_modules/babel-code-frame/node_modules/chalk/node_modules/has-ansi/node_modules/ansi-regex/index.js",
@@ -630,8 +608,6 @@
         "node_modules/babel-core/node_modules/babel-code-frame/node_modules/esutils/lib/keyword.js",
         "node_modules/babel-core/node_modules/babel-code-frame/node_modules/esutils/lib/utils.js",
         "node_modules/babel-core/node_modules/babel-code-frame/node_modules/js-tokens/index.js",
-        "node_modules/babel-core/node_modules/babel-code-frame/node_modules/line-numbers/index.js",
-        "node_modules/babel-core/node_modules/babel-code-frame/node_modules/line-numbers/node_modules/left-pad/index.js",
         "node_modules/babel-core/node_modules/babel-code-frame/node_modules/repeating/cli.js",
         "node_modules/babel-core/node_modules/babel-code-frame/node_modules/repeating/index.js",
         "node_modules/babel-core/node_modules/babel-code-frame/node_modules/repeating/node_modules/is-finite/index.js",
@@ -1354,6 +1330,7 @@
         "node_modules/babel-core/node_modules/babel-register/node_modules/core-js/library/modules/_collection-weak.js",
         "node_modules/babel-core/node_modules/babel-register/node_modules/core-js/library/modules/_collection.js",
         "node_modules/babel-core/node_modules/babel-register/node_modules/core-js/library/modules/_core.js",
+        "node_modules/babel-core/node_modules/babel-register/node_modules/core-js/library/modules/_create-property.js",
         "node_modules/babel-core/node_modules/babel-register/node_modules/core-js/library/modules/_ctx.js",
         "node_modules/babel-core/node_modules/babel-register/node_modules/core-js/library/modules/_date-to-primitive.js",
         "node_modules/babel-core/node_modules/babel-register/node_modules/core-js/library/modules/_defined.js",
@@ -1665,6 +1642,7 @@
         "node_modules/babel-core/node_modules/babel-register/node_modules/core-js/modules/_collection-weak.js",
         "node_modules/babel-core/node_modules/babel-register/node_modules/core-js/modules/_collection.js",
         "node_modules/babel-core/node_modules/babel-register/node_modules/core-js/modules/_core.js",
+        "node_modules/babel-core/node_modules/babel-register/node_modules/core-js/modules/_create-property.js",
         "node_modules/babel-core/node_modules/babel-register/node_modules/core-js/modules/_ctx.js",
         "node_modules/babel-core/node_modules/babel-register/node_modules/core-js/modules/_date-to-primitive.js",
         "node_modules/babel-core/node_modules/babel-register/node_modules/core-js/modules/_defined.js",
@@ -2047,6 +2025,7 @@
         "node_modules/babel-core/node_modules/babel-runtime/core-js/date/add-locale.js",
         "node_modules/babel-core/node_modules/babel-runtime/core-js/date/format-utc.js",
         "node_modules/babel-core/node_modules/babel-runtime/core-js/date/format.js",
+        "node_modules/babel-core/node_modules/babel-runtime/core-js/error/is-error.js",
         "node_modules/babel-core/node_modules/babel-runtime/core-js/function/only.js",
         "node_modules/babel-core/node_modules/babel-runtime/core-js/function/part.js",
         "node_modules/babel-core/node_modules/babel-runtime/core-js/get-iterator.js",
@@ -2062,7 +2041,10 @@
         "node_modules/babel-core/node_modules/babel-runtime/core-js/math/expm1.js",
         "node_modules/babel-core/node_modules/babel-runtime/core-js/math/fround.js",
         "node_modules/babel-core/node_modules/babel-runtime/core-js/math/hypot.js",
+        "node_modules/babel-core/node_modules/babel-runtime/core-js/math/iaddh.js",
         "node_modules/babel-core/node_modules/babel-runtime/core-js/math/imul.js",
+        "node_modules/babel-core/node_modules/babel-runtime/core-js/math/imulh.js",
+        "node_modules/babel-core/node_modules/babel-runtime/core-js/math/isubh.js",
         "node_modules/babel-core/node_modules/babel-runtime/core-js/math/log10.js",
         "node_modules/babel-core/node_modules/babel-runtime/core-js/math/log1p.js",
         "node_modules/babel-core/node_modules/babel-runtime/core-js/math/log2.js",
@@ -2071,6 +2053,7 @@
         "node_modules/babel-core/node_modules/babel-runtime/core-js/math/sinh.js",
         "node_modules/babel-core/node_modules/babel-runtime/core-js/math/tanh.js",
         "node_modules/babel-core/node_modules/babel-runtime/core-js/math/trunc.js",
+        "node_modules/babel-core/node_modules/babel-runtime/core-js/math/umulh.js",
         "node_modules/babel-core/node_modules/babel-runtime/core-js/number/epsilon.js",
         "node_modules/babel-core/node_modules/babel-runtime/core-js/number/is-finite.js",
         "node_modules/babel-core/node_modules/babel-runtime/core-js/number/is-integer.js",
@@ -2109,14 +2092,23 @@
         "node_modules/babel-core/node_modules/babel-runtime/core-js/promise.js",
         "node_modules/babel-core/node_modules/babel-runtime/core-js/reflect/apply.js",
         "node_modules/babel-core/node_modules/babel-runtime/core-js/reflect/construct.js",
+        "node_modules/babel-core/node_modules/babel-runtime/core-js/reflect/define-metadata.js",
         "node_modules/babel-core/node_modules/babel-runtime/core-js/reflect/define-property.js",
+        "node_modules/babel-core/node_modules/babel-runtime/core-js/reflect/delete-metadata.js",
         "node_modules/babel-core/node_modules/babel-runtime/core-js/reflect/delete-property.js",
         "node_modules/babel-core/node_modules/babel-runtime/core-js/reflect/enumerate.js",
+        "node_modules/babel-core/node_modules/babel-runtime/core-js/reflect/get-metadata-keys.js",
+        "node_modules/babel-core/node_modules/babel-runtime/core-js/reflect/get-metadata.js",
+        "node_modules/babel-core/node_modules/babel-runtime/core-js/reflect/get-own-metadata-keys.js",
+        "node_modules/babel-core/node_modules/babel-runtime/core-js/reflect/get-own-metadata.js",
         "node_modules/babel-core/node_modules/babel-runtime/core-js/reflect/get-own-property-descriptor.js",
         "node_modules/babel-core/node_modules/babel-runtime/core-js/reflect/get-prototype-of.js",
         "node_modules/babel-core/node_modules/babel-runtime/core-js/reflect/get.js",
+        "node_modules/babel-core/node_modules/babel-runtime/core-js/reflect/has-metadata.js",
+        "node_modules/babel-core/node_modules/babel-runtime/core-js/reflect/has-own-metadata.js",
         "node_modules/babel-core/node_modules/babel-runtime/core-js/reflect/has.js",
         "node_modules/babel-core/node_modules/babel-runtime/core-js/reflect/is-extensible.js",
+        "node_modules/babel-core/node_modules/babel-runtime/core-js/reflect/metadata.js",
         "node_modules/babel-core/node_modules/babel-runtime/core-js/reflect/own-keys.js",
         "node_modules/babel-core/node_modules/babel-runtime/core-js/reflect/prevent-extensions.js",
         "node_modules/babel-core/node_modules/babel-runtime/core-js/reflect/set-prototype-of.js",
@@ -2130,13 +2122,17 @@
         "node_modules/babel-core/node_modules/babel-runtime/core-js/string/escape-html.js",
         "node_modules/babel-core/node_modules/babel-runtime/core-js/string/from-code-point.js",
         "node_modules/babel-core/node_modules/babel-runtime/core-js/string/includes.js",
+        "node_modules/babel-core/node_modules/babel-runtime/core-js/string/pad-end.js",
         "node_modules/babel-core/node_modules/babel-runtime/core-js/string/pad-left.js",
         "node_modules/babel-core/node_modules/babel-runtime/core-js/string/pad-right.js",
+        "node_modules/babel-core/node_modules/babel-runtime/core-js/string/pad-start.js",
         "node_modules/babel-core/node_modules/babel-runtime/core-js/string/raw.js",
         "node_modules/babel-core/node_modules/babel-runtime/core-js/string/repeat.js",
         "node_modules/babel-core/node_modules/babel-runtime/core-js/string/starts-with.js",
+        "node_modules/babel-core/node_modules/babel-runtime/core-js/string/trim-end.js",
         "node_modules/babel-core/node_modules/babel-runtime/core-js/string/trim-left.js",
         "node_modules/babel-core/node_modules/babel-runtime/core-js/string/trim-right.js",
+        "node_modules/babel-core/node_modules/babel-runtime/core-js/string/trim-start.js",
         "node_modules/babel-core/node_modules/babel-runtime/core-js/string/trim.js",
         "node_modules/babel-core/node_modules/babel-runtime/core-js/string/unescape-html.js",
         "node_modules/babel-core/node_modules/babel-runtime/core-js/symbol/for.js",
@@ -2153,6 +2149,7 @@
         "node_modules/babel-core/node_modules/babel-runtime/core-js/symbol/to-string-tag.js",
         "node_modules/babel-core/node_modules/babel-runtime/core-js/symbol/unscopables.js",
         "node_modules/babel-core/node_modules/babel-runtime/core-js/symbol.js",
+        "node_modules/babel-core/node_modules/babel-runtime/core-js/system/global.js",
         "node_modules/babel-core/node_modules/babel-runtime/core-js/weak-map.js",
         "node_modules/babel-core/node_modules/babel-runtime/core-js/weak-set.js",
         "node_modules/babel-core/node_modules/babel-runtime/core-js.js",
@@ -3706,8 +3703,12 @@
           "spec",
           "spec/fixtures/dira/dira.1/dira.2",
           "spec/fixtures/dirb",
-          "spec/fixtures/grammar",
-          "spec/fixtures/projectRoot/src"
+          "spec/fixtures/grammar/babel-sublime",
+          "spec/fixtures/grammar/everythingJs",
+          "spec/fixtures/grammar/flow",
+          "spec/fixtures/grammar/large files",
+          "spec/fixtures/projectRoot/src",
+          "spec/fixtures/projectRoot"
         ],
         "dependencies": {
           "babel-core": "^6.6.4",
@@ -3732,14 +3733,14 @@
           "node_modules/babel-core/lib/transformation"
         ],
         "dependencies": {
-          "babel-code-frame": "^6.7.2",
+          "babel-code-frame": "^6.7.4",
           "babel-generator": "^6.7.2",
           "babel-helpers": "^6.6.0",
           "babel-messages": "^6.7.2",
           "babel-template": "^6.7.0",
           "babel-runtime": "^5.0.0",
           "babel-register": "^6.7.2",
-          "babel-traverse": "^6.7.2",
+          "babel-traverse": "^6.7.4",
           "babel-types": "^6.7.2",
           "babylon": "^6.7.0",
           "convert-source-map": "^1.1.0",
@@ -3765,7 +3766,6 @@
           "chalk": "^1.1.0",
           "esutils": "^2.0.2",
           "js-tokens": "^1.0.1",
-          "line-numbers": "^0.2.0",
           "repeating": "^1.1.3"
         }
       },
@@ -3774,19 +3774,11 @@
           "node_modules/babel-core/node_modules/babel-code-frame/node_modules/chalk"
         ],
         "dependencies": {
-          "ansi-styles": "^2.1.0",
+          "ansi-styles": "^2.2.1",
           "escape-string-regexp": "^1.0.2",
           "has-ansi": "^2.0.0",
           "strip-ansi": "^3.0.0",
           "supports-color": "^2.0.0"
-        }
-      },
-      {
-        "paths": [
-          "node_modules/babel-core/node_modules/babel-code-frame/node_modules/chalk/node_modules/ansi-styles"
-        ],
-        "dependencies": {
-          "color-convert": "^1.0.0"
         }
       },
       {
@@ -3803,15 +3795,6 @@
         ],
         "dependencies": {
           "ansi-regex": "^2.0.0"
-        }
-      },
-      {
-        "paths": [
-          "node_modules/babel-core/node_modules/babel-code-frame/node_modules/line-numbers",
-          "node_modules/babel-core/node_modules/babel-code-frame/node_modules/line-numbers/test"
-        ],
-        "dependencies": {
-          "left-pad": "0.0.3"
         }
       },
       {
@@ -3975,6 +3958,7 @@
           "node_modules/babel-core/node_modules/babel-runtime/core-js/array",
           "node_modules/babel-core/node_modules/babel-runtime/core-js",
           "node_modules/babel-core/node_modules/babel-runtime/core-js/date",
+          "node_modules/babel-core/node_modules/babel-runtime/core-js/error",
           "node_modules/babel-core/node_modules/babel-runtime/core-js/function",
           "node_modules/babel-core/node_modules/babel-runtime/core-js/json",
           "node_modules/babel-core/node_modules/babel-runtime/core-js/math",
@@ -3984,6 +3968,7 @@
           "node_modules/babel-core/node_modules/babel-runtime/core-js/regexp",
           "node_modules/babel-core/node_modules/babel-runtime/core-js/string",
           "node_modules/babel-core/node_modules/babel-runtime/core-js/symbol",
+          "node_modules/babel-core/node_modules/babel-runtime/core-js/system",
           "node_modules/babel-core/node_modules/babel-runtime",
           "node_modules/babel-core/node_modules/babel-runtime/helpers",
           "node_modules/babel-core/node_modules/babel-runtime/regenerator"
@@ -4016,7 +4001,7 @@
           "node_modules/babel-core/node_modules/babel-traverse"
         ],
         "dependencies": {
-          "babel-code-frame": "^6.7.2",
+          "babel-code-frame": "^6.7.4",
           "babel-messages": "^6.7.2",
           "babel-runtime": "^5.0.0",
           "babel-types": "^6.7.2",

@@ -1,7 +1,7 @@
 {
   "name": "git-diff-details",
   "main": "./lib/main",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "View git diffs directly in atom.",
   "keywords": [
     "git",
@@ -19,9 +19,10 @@
     "atom": ">=1.6.0"
   },
   "dependencies": {
-    "mixto": "1.x",
     "atom-space-pen-views": "^2.0.3",
-    "fs-plus": "^2.0.0"
+    "fs-plus": "^2.0.0",
+    "mixto": "1.x",
+    "underscore-plus": "^1.6.6"
   },
   "readme": "# git-diff-details package\n\nView git diffs directly in atom.\n\nKeybindings:\n  * `alt-g alt-d` to toggle the diff view\n  * `escape` to close the diff view\n  * `alt-u` for undo\n  * `alt-c` for copy\n\n![git-diff-details](https://github.com/samu/git-diff-details/blob/master/demo.png?raw=true)\n",
   "readmeFilename": "README.md",
@@ -29,10 +30,10 @@
     "url": "https://github.com/samu/git-diff-details/issues"
   },
   "homepage": "https://github.com/samu/git-diff-details#readme",
-  "_id": "git-diff-details@1.0.0",
-  "_shasum": "04c25bc002ea8837a780713ac1763a48942360c3",
-  "_resolved": "file:../d-116219-4945-mzylg1/package.tgz",
-  "_from": "../d-116219-4945-mzylg1/package.tgz",
+  "_id": "git-diff-details@1.1.0",
+  "_shasum": "3de89847d63ba5839db3f3686d8a0773cef61052",
+  "_resolved": "file:../d-11636-30522-1blbqdg/package.tgz",
+  "_from": "../d-11636-30522-1blbqdg/package.tgz",
   "_atomModuleCache": {
     "version": 1,
     "dependencies": [
@@ -107,16 +108,6 @@
         "path": "node_modules/atom-space-pen-views/node_modules/space-pen/node_modules/jquery/dist/jquery.js"
       },
       {
-        "name": "underscore-plus",
-        "version": "1.6.6",
-        "path": "node_modules/atom-space-pen-views/node_modules/space-pen/node_modules/underscore-plus/lib/underscore-plus.js"
-      },
-      {
-        "name": "underscore",
-        "version": "1.6.0",
-        "path": "node_modules/atom-space-pen-views/node_modules/space-pen/node_modules/underscore-plus/node_modules/underscore/underscore.js"
-      },
-      {
         "name": "fs-plus",
         "version": "2.8.1",
         "path": "node_modules/fs-plus/lib/fs-plus.js"
@@ -137,19 +128,19 @@
         "path": "node_modules/fs-plus/node_modules/rimraf/rimraf.js"
       },
       {
+        "name": "mixto",
+        "version": "1.0.0",
+        "path": "node_modules/mixto/lib/mixin.js"
+      },
+      {
         "name": "underscore-plus",
         "version": "1.6.6",
-        "path": "node_modules/fs-plus/node_modules/underscore-plus/lib/underscore-plus.js"
+        "path": "node_modules/underscore-plus/lib/underscore-plus.js"
       },
       {
         "name": "underscore",
         "version": "1.6.0",
-        "path": "node_modules/fs-plus/node_modules/underscore-plus/node_modules/underscore/underscore.js"
-      },
-      {
-        "name": "mixto",
-        "version": "1.0.0",
-        "path": "node_modules/mixto/lib/mixin.js"
+        "path": "node_modules/underscore-plus/node_modules/underscore/underscore.js"
       }
     ],
     "extensions": {
@@ -685,19 +676,16 @@
         "node_modules/atom-space-pen-views/node_modules/space-pen/node_modules/jquery/src/var/support.js",
         "node_modules/atom-space-pen-views/node_modules/space-pen/node_modules/jquery/src/var/toString.js",
         "node_modules/atom-space-pen-views/node_modules/space-pen/node_modules/jquery/src/wrap.js",
-        "node_modules/atom-space-pen-views/node_modules/space-pen/node_modules/underscore-plus/lib/underscore-plus.js",
-        "node_modules/atom-space-pen-views/node_modules/space-pen/node_modules/underscore-plus/node_modules/underscore/underscore-min.js",
-        "node_modules/atom-space-pen-views/node_modules/space-pen/node_modules/underscore-plus/node_modules/underscore/underscore.js",
         "node_modules/fs-plus/lib/fs-plus.js",
         "node_modules/fs-plus/node_modules/async/lib/async.js",
         "node_modules/fs-plus/node_modules/mkdirp/examples/pow.js",
         "node_modules/fs-plus/node_modules/mkdirp/index.js",
         "node_modules/fs-plus/node_modules/rimraf/bin.js",
         "node_modules/fs-plus/node_modules/rimraf/rimraf.js",
-        "node_modules/fs-plus/node_modules/underscore-plus/lib/underscore-plus.js",
-        "node_modules/fs-plus/node_modules/underscore-plus/node_modules/underscore/underscore-min.js",
-        "node_modules/fs-plus/node_modules/underscore-plus/node_modules/underscore/underscore.js",
-        "node_modules/mixto/lib/mixin.js"
+        "node_modules/mixto/lib/mixin.js",
+        "node_modules/underscore-plus/lib/underscore-plus.js",
+        "node_modules/underscore-plus/node_modules/underscore/underscore-min.js",
+        "node_modules/underscore-plus/node_modules/underscore/underscore.js"
       ],
       ".json": [
         "node_modules/atom-space-pen-views/node_modules/fuzzaldrin/package.json",
@@ -714,18 +702,16 @@
         "node_modules/atom-space-pen-views/node_modules/space-pen/node_modules/grim/package.json",
         "node_modules/atom-space-pen-views/node_modules/space-pen/node_modules/jquery/bower.json",
         "node_modules/atom-space-pen-views/node_modules/space-pen/node_modules/jquery/package.json",
-        "node_modules/atom-space-pen-views/node_modules/space-pen/node_modules/underscore-plus/node_modules/underscore/package.json",
-        "node_modules/atom-space-pen-views/node_modules/space-pen/node_modules/underscore-plus/package.json",
         "node_modules/atom-space-pen-views/node_modules/space-pen/package.json",
         "node_modules/atom-space-pen-views/package.json",
         "node_modules/fs-plus/node_modules/async/component.json",
         "node_modules/fs-plus/node_modules/async/package.json",
         "node_modules/fs-plus/node_modules/mkdirp/package.json",
         "node_modules/fs-plus/node_modules/rimraf/package.json",
-        "node_modules/fs-plus/node_modules/underscore-plus/node_modules/underscore/package.json",
-        "node_modules/fs-plus/node_modules/underscore-plus/package.json",
         "node_modules/fs-plus/package.json",
         "node_modules/mixto/package.json",
+        "node_modules/underscore-plus/node_modules/underscore/package.json",
+        "node_modules/underscore-plus/package.json",
         "package.json"
       ]
     },
@@ -736,9 +722,10 @@
           ""
         ],
         "dependencies": {
-          "mixto": "1.x",
           "atom-space-pen-views": "^2.0.3",
-          "fs-plus": "^2.0.0"
+          "fs-plus": "^2.0.0",
+          "mixto": "1.x",
+          "underscore-plus": "^1.6.6"
         }
       },
       {
@@ -1022,15 +1009,6 @@
       },
       {
         "paths": [
-          "node_modules/atom-space-pen-views/node_modules/space-pen/node_modules/underscore-plus/lib",
-          "node_modules/atom-space-pen-views/node_modules/space-pen/node_modules/underscore-plus"
-        ],
-        "dependencies": {
-          "underscore": "~1.6.0"
-        }
-      },
-      {
-        "paths": [
           "node_modules/fs-plus/lib",
           "node_modules/fs-plus"
         ],
@@ -1043,8 +1021,8 @@
       },
       {
         "paths": [
-          "node_modules/fs-plus/node_modules/underscore-plus/lib",
-          "node_modules/fs-plus/node_modules/underscore-plus"
+          "node_modules/underscore-plus/lib",
+          "node_modules/underscore-plus"
         ],
         "dependencies": {
           "underscore": "~1.6.0"
