@@ -32,6 +32,15 @@ atom-text-editor::shadow, atom-text-editor, html {
       position: absolute;
       right: 0;
 
+      &.adjust-absolute-height {
+        pointer-events: none;
+        &::shadow {
+          canvas {
+            pointer-events: auto;
+          }
+        }
+      }
+
       // absolute mode do nothing when the minimap is on the left, because
       // it would conflict with the editor's gutter
       &.left {
@@ -93,7 +102,7 @@ atom-text-editor::shadow, atom-text-editor, html {
         width: 24px;
         height: 24px;
         display: block;
-        right: 4px;
+        right: 8px;
         transition: opacity 0.4s;
 
         &:before {

@@ -19,16 +19,14 @@
     "core": {
       "patterns": [
         { "include": "#ignore-long-lines" },
-        { "include": "#flowtype-declare" },
-        { "include": "#flowtype-type-aliases" },
-        { "include": "#flowtype-interface" },
+        { "include": "#flowtype-keywords" },
         { "include": "#literal-function-labels" },
         { "include": "#literal-arrow-function-labels" },
         { "include": "#literal-labels" },
-        { "include": "#literal-keywords" },
         { "include": "#literal-for" },
         { "include": "#literal-switch" },
         { "include": "#expression" },
+        { "include": "#literal-keywords" },
         { "include": "#literal-punctuation" }
       ]
     },
@@ -42,6 +40,7 @@
         { "include": "#literal-arrow-function-labels" },
         { "include": "#literal-function" },
         { "include": "#literal-arrow-function" },
+        { "include": "#literal-method-alternate" },
         { "include": "#literal-prototype", "comment": "after literal-function, which includes some prototype strings" },
         { "include": "#literal-regexp", "comment": "before operators to avoid abiguities" },
         { "include": "#literal-number" },
@@ -49,6 +48,7 @@
         { "include": "#literal-string" },
         { "include": "#literal-language-constant" },
         { "include": "#literal-language-variable" },
+        { "include": "#literal-object"},
         { "include": "#literal-module" },
         { "include": "#literal-class" },
         { "include": "#literal-constructor" },
@@ -76,7 +76,7 @@
         {
           "comment": "e.g. play: function(arg1, arg2) { }",
           "name": "meta.function.json.js",
-          "begin": "\\s*+([_$a-zA-Z][$\\w]*)\\s*+(:)\\s*+(?:(async)\\s+)?\\s*+(\\bfunction\\b)\\s*+(?:(\\*)\\s*)?\\s*(?=\\(|<)",
+          "begin": "(?<=^|{|,)\\s*+([_$a-zA-Z][$\\w]*)\\s*+(:)\\s*+(?:(async)\\s+)?\\s*+((?<!\\.)\\bfunction\\b)\\s*+(?:(\\*)\\s*)?\\s*(?=\\(|<)",
           "end": "(?=\\{)",
           "applyEndPatternLast": 1,
           "beginCaptures": {
@@ -93,7 +93,7 @@
         {
           "comment": "e.g. 'play': function(arg1, arg2) { }",
           "name": "meta.function.json.js",
-          "begin": "\\s*+(('|\\\")(\\b[_$a-zA-Z][$\\w]*)(\\k<2>))\\s*+(:)\\s*+(async)?\\s*+(\\bfunction\\b)\\s*(\\*\\s*)?\\s*(?=\\(|<)",
+          "begin": "(?<=^|{|,)\\s*+(('|\\\")([^\"']*)(\\k<-3>))\\s*+(:)\\s*+(async)?\\s*+((?<!\\.)\\bfunction\\b)\\s*(\\*\\s*)?\\s*(?=\\(|<)",
           "end": "(?=\\{)",
           "applyEndPatternLast": 1,
           "beginCaptures": {
@@ -117,9 +117,8 @@
         {
           "comment": "e.g. play: async <T>(args) => { }",
           "name": "meta.function.json.arrow.js",
-          "begin": "\\s*+(\\b[_$a-zA-Z][$\\w]*)\\s*+(:)\\s*+(\\basync\\b)?\\s*+(?=(<(?:(?>[^<>]+)|\\g<-1>)*>)?\\s*+(\\((?:(?>[^()]+)|\\g<-1>)*\\))\\s*+(?:\\s*(:|\\|)(\\s*+[$_a-zA-Z0-9]+(<(?:(?>[^<>]+)|\\g<-1>)*>)?|\\s*+(\\{(?:(?>[^{}]+)|\\g<-1>)*\\})|\\s*+(\\s*([\"']).*?\\k<-1>(?<!\\\\.))|\\s*[x0-9A-Fa-f]+))*\\s*=>)",
+          "begin": "(?<=^|{|,)\\s*+(\\b[_$a-zA-Z][$\\w]*)\\s*+(:)\\s*+(\\basync\\b)?\\s*+(?=(<(?:(?>[^<>]+)|\\g<-1>)*>)?\\s*+(\\((?:(?>[^()]+)|\\g<-1>)*\\))\\s*+(?:\\s*(:|\\|)(\\s*+[$_a-zA-Z0-9]+(<(?:(?>[^<>]+)|\\g<-1>)*>)?|\\s*+(\\{(?:(?>[^{}]+)|\\g<-1>)*\\})|\\s*+(\\s*([\"']).*?\\k<-1>(?<!\\\\.))|\\s*[x0-9A-Fa-f]+))*\\s*=>)",
           "end": "\\s*(=>)",
-          "applyEndPatternLast": 1,
           "beginCaptures": {
             "1": { "name": "entity.name.function.js" },
             "2": { "name": "punctuation.separator.key-value.js" },
@@ -135,7 +134,7 @@
         {
           "comment": "e.g. play: arg => { }",
           "name": "meta.function.json.arrow.js",
-          "begin": "\\s*+(\\b[_$a-zA-Z][$\\w]*)\\s*+(:)\\s*+(\\basync\\b)?\\s*+(?=(<(?:(?>[^<>]+)|\\g<-1>)*>)?\\s*+([_$a-zA-Z][$\\w]*)\\s*+(?:\\s*(:|\\|)(\\s*+[$_a-zA-Z0-9]+(<(?:(?>[^<>]+)|\\g<-1>)*>)?|\\s*+(\\{(?:(?>[^{}]+)|\\g<-1>)*\\})|\\s*+(\\s*([\"']).*?\\k<-1>(?<!\\\\.))|\\s*+[x0-9A-Fa-f]+))*\\s*+=>)",
+          "begin": "(?<=^|{|,)\\s*+(\\b[_$a-zA-Z][$\\w]*)\\s*+(:)\\s*+(\\basync\\b)?\\s*+(?=(<(?:(?>[^<>]+)|\\g<-1>)*>)?\\s*+([_$a-zA-Z][$\\w]*)\\s*+(?:\\s*(:|\\|)(\\s*+[$_a-zA-Z0-9]+(<(?:(?>[^<>]+)|\\g<-1>)*>)?|\\s*+(\\{(?:(?>[^{}]+)|\\g<-1>)*\\})|\\s*+(\\s*([\"']).*?\\k<-1>(?<!\\\\.))|\\s*+[x0-9A-Fa-f]+))*\\s*+=>)",
           "end": "\\s*(=>)",
           "beginCaptures": {
             "1": { "name": "entity.name.function.js" },
@@ -153,7 +152,7 @@
         {
           "comment": "e.g. 'play': (args) => { }",
           "name": "meta.function.json.arrow.js",
-          "begin": "\\s*+(('|\\\")(\\b[_$a-zA-Z][$\\w]*)(\\k<2>))\\s*(:)\\s*+(\\basync\\b)?\\s*+(?=(<(?:(?>[^<>]+)|\\g<-1>)*>)?\\s*+(\\((?:(?>[^()]+)|\\g<-1>)*\\))\\s*+(?:\\s*+(:|\\|)(\\s*+[$_a-zA-Z0-9]+(<(?:(?>[^<>]+)|\\g<-1>)*>)?|\\s*+(\\{(?:(?>[^{}]+)|\\g<-1>)*\\})|\\s*+(\\s*+([\"']).*?\\k<-1>(?<!\\\\.))|\\s*+[x0-9A-Fa-f]+))*\\s*+=>)",
+          "begin": "(?<=^|{|,)\\s*+(('|\\\")([^\"']*)(\\k<-3>))\\s*(:)\\s*+(\\basync\\b)?\\s*+(?=(<(?:(?>[^<>]+)|\\g<-1>)*>)?\\s*+(\\((?:(?>[^()]+)|\\g<-1>)*\\))\\s*+(?:\\s*+(:|\\|)(\\s*+[$_a-zA-Z0-9]+(<(?:(?>[^<>]+)|\\g<-1>)*>)?|\\s*+(\\{(?:(?>[^{}]+)|\\g<-1>)*\\})|\\s*+(\\s*+([\"']).*?\\k<-1>(?<!\\\\.))|\\s*+[x0-9A-Fa-f]+))*\\s*+=>)",
           "end": "\\s*(=>)",
           "applyEndPatternLast": 1,
           "endCaptures": {
@@ -174,7 +173,7 @@
         {
           "comment": "e.g. 'play': arg => { }",
           "name": "meta.function.json.arrow.js",
-          "begin": "\\s*+(('|\\\")(\\b[_$a-zA-Z][$\\w]*)(\\k<2>))\\s*+(:)\\s*+(\\basync\\b)?\\s*+(?=(<(?:(?>[^<>]+)|\\g<-1>)*>)?\\s*+([_$a-zA-Z][$\\w]*)\\s*+(?:\\s*+(:|\\|)(\\s*+[$_a-zA-Z0-9]+(<(?:(?>[^<>]+)|\\g<-1>)*>)?|\\s*+(\\{(?:(?>[^{}]+)|\\g<-1>)*\\})|\\s*+(\\s*+([\"']).*?\\k<-1>(?<!\\\\.))|\\s*+[x0-9A-Fa-f]+))*\\s*+=>)",
+          "begin": "(?<=^|{|,)\\s*+(('|\\\")([^\"']*)(\\k<-3>))\\s*+(:)\\s*+(\\basync\\b)?\\s*+(?=(<(?:(?>[^<>]+)|\\g<-1>)*>)?\\s*+([_$a-zA-Z][$\\w]*)\\s*+(?:\\s*+(:|\\|)(\\s*+[$_a-zA-Z0-9]+(<(?:(?>[^<>]+)|\\g<-1>)*>)?|\\s*+(\\{(?:(?>[^{}]+)|\\g<-1>)*\\})|\\s*+(\\s*+([\"']).*?\\k<-1>(?<!\\\\.))|\\s*+[x0-9A-Fa-f]+))*\\s*+=>)",
           "end": "\\s*(=>)",
           "beginCaptures": {
             "1": { "name": "string.quoted.js" },
@@ -346,7 +345,6 @@
         {
           "comment": "Assume flow typecasts start with a newline( or a :( or a =( or a ;(",
           "comment": "try to avoid ternary operators which have a '? some chars :'",
-          "name": "meta.group.braces.round",
           "begin": "(^|:|;|=|(?<=:|;|=))\\s*+(\\((?=((\"|').*?(?<=[^\\\\])\\k<-1>|[^?:])*(:|\\?\\s*+:)))",
           "end": "\\s*\\)",
           "beginCaptures": {
@@ -361,7 +359,6 @@
           ]
         },
         {
-          "name": "meta.group.braces.round",
           "begin": "\\s*+\\(",
           "end": "\\s*\\)",
           "endCaptures": {
@@ -379,7 +376,6 @@
     "square-brackets": {
       "patterns": [
         {
-          "name": "meta.group.braces.square",
           "begin": "\\s*+\\[",
           "end": "\\s*\\]",
           "endCaptures": {
@@ -397,7 +393,6 @@
     "curly-brackets": {
       "patterns": [
         {
-          "name": "meta.group.braces.curly",
           "begin": "\\s*+\\{",
           "end": "\\s*\\}",
           "endCaptures": {
@@ -421,7 +416,7 @@
         },
         {
           "comment": "additional jsdoc keywords",
-          "match": "(?<!\\w)@(access|also|arg|arguments|augments|borrows|callback|classdesc|constant|const|constructs|copyright|default|defaultvalue|desc|description|emits|exception|exports|external|file|fileoverview|function|func|global|host|implements|inner|instance|interface|kind|lends|license|listens|memberof|mixes|mixin|module|name|namsepace|overview|prop|public|returns|see|summary|this|todo|tutorial|typedef|undocumented|variation|version|virtual)\\b",
+          "match": "(?<!\\w)@(access|also|arg|arguments|augments|borrows|borrowsThis|callback|callbackDocument|classdesc|constant|const|constructs|copyright|default|defaultvalue|desc|description|emits|exception|exports|external|file|fileoverview|function|func|global|host|implements|inner|instance|interface|kind|lends|license|listens|link|linkcode|linkplain|memberof|mixes|mixin|module|name|namespace|overview|prop|public|returns|see|summary|this|todo|tutorial|typedef|undocumented|variation|version|virtual)\\b",
           "name": "storage.type.class.jsdoc"
         },
         {
@@ -462,8 +457,9 @@
         },
         {
           "name": "comment.line.double-slash.js",
-          "match": "\\s*+(//).*$\\n?",
-          "captures": {
+          "begin": "\\s*+(//)",
+          "end": "\\s*$",
+          "beginCaptures": {
             "1": { "name": "punctuation.definition.comment.js" }
           }
         },
@@ -538,54 +534,24 @@
     "literal-keyword-storage": {
       "patterns": [
         {
-          "comment": "flowtype vars with a : to indicate type",
-          "comment": "these statements must end in a ;",
-          "begin": "\\s*+(?<!\\.)\\b(const|let|var)\\b\\s+(?=[$_\\p{L}](?:[$\\p{L}\\p{Mn}\\p{Mc}\\p{Nd}\\p{Nl}\\p{Pc}-]*+\\s*+:))",
-          "end": "\\s*\\;",
+          "begin": "\\s*+(?<!\\.)\\b(const|let|var)\\b",
+          "end": "\\s*(?=\\;|\\b(if|switch|try|var|let|const|static|function|return|class|do|for|while|debugger|export|import|yield|type|declare|interface)\\b|\\)|})",
           "beginCaptures": {
             "1": { "name": "storage.type.js" }
           },
-          "endCaptures": {
-            "0": { "name": "punctuation.terminator.statement.js" }
-          },
           "patterns": [
-            { "include": "#flowtype-variable" }
+            {
+              "comment": "other variables",
+              "begin": "\\s*",
+              "end": "\\s*((,)|(?=(\\;)|\\b(if|switch|try|var|let|const|static|function|return|class|do|for|while|debugger|export|import|yield|type|declare|interface)\\b|\\)|}))",
+              "endCaptures": {
+                "2": { "name": "punctuation.terminator.statement.js" }
+              },
+              "patterns": [
+                { "include": "#flowtype-variable" }
+              ]
+            }
           ]
-        },
-        {
-          "comment": "flowtype objects {a,b,{z}} with a : to indicate type",
-          "comment": "these statements must end in a ;",
-          "begin": "\\s*+(?<!\\.)\\b(const|let|var)\\b\\s+(?=(\\{(?:(?>[^{}]+)|\\g<-1>)*\\})\\s*+:)",
-          "end": "\\s*\\;",
-          "beginCaptures": {
-            "1": { "name": "storage.type.js" }
-          },
-          "endCaptures": {
-            "0": { "name": "punctuation.terminator.statement.js" }
-          },
-          "patterns": [
-            { "include": "#flowtype-destruct-lhs" }
-          ]
-        },
-        {
-          "comment": "flowtype arrays [a,[b,c]] with a : to indicate type",
-          "comment": "these statements must end in a ;",
-          "begin": "\\s*+(?<!\\.)\\b(const|let|var)\\b\\s+(?=(\\[(?:(?>[^\\[\\]]+)|\\g<-1>)*\\])\\s*+:)",
-          "end": "\\s*\\;",
-          "beginCaptures": {
-            "1": { "name": "storage.type.js" }
-          },
-          "endCaptures": {
-            "0": { "name": "punctuation.terminator.statement.js" }
-          },
-          "patterns": [
-            { "include": "#flowtype-destruct-lhs" }
-          ]
-        },
-        {
-          "comment": "var statements that done start with a flow indicator",
-          "name": "storage.type.js",
-          "match": "\\s*+(?<!\\.)\\b(const|let|var)\\b"
         }
       ]
     },
@@ -594,8 +560,8 @@
         {
           "comment": "e.g. function play<T>(arg1, arg2) { }",
           "name": "meta.function.js",
-          "begin": "\\s*+(?:\\b(async)\\b\\s+)?\\s*+(\\bfunction\\b)\\s*+(\\*?)\\s*+([_$a-zA-Z][$\\w]*)?\\s*+(?=\\(|<)",
-          "end": "(?=\\s*+\\{)",
+          "begin": "\\s*+(?:\\b(async)\\b\\s+)?\\s*+(?:(?<=\\.\\.\\.)|(?<!\\.))(\\bfunction\\b)\\s*+(\\*?)\\s*+([_$a-zA-Z][$\\w]*)?\\s*+(?=\\(|<)",
+          "end": "\\s*(?=\\;|{|\\b(if|switch|try|var|let|const|static|function|return|class|do|for|while|debugger|export|import|yield|type|declare|interface)\\b|\\)|})",
           "applyEndPatternLast": 1,
           "beginCaptures": {
             "1": { "name": "storage.type.js" },
@@ -610,8 +576,8 @@
         {
           "comment": "e.g. play = function(arg1, arg2) { }",
           "name": "meta.function.js",
-          "begin": "\\s*+(\\b[_$a-zA-Z][$\\w]*)\\s*+(=)\\s*+(?:(async)\\s+)?\\s*+(\\bfunction\\b)\\s*+(\\*?)\\s*+([_$a-zA-Z][$\\w]*)?\\s*+(?=\\(|<)",
-          "end": "(?=\\s*+\\{)",
+          "begin": "\\s*+(\\b[_$a-zA-Z][$\\w]*)\\s*+(=)\\s*+(?:(async)\\s+)?\\s*+((?<!\\.)\\bfunction\\b)\\s*+(\\*?)\\s*+([_$a-zA-Z][$\\w]*)?\\s*+(?=\\(|<)",
+          "end": "\\s*(?=\\;|{|\\b(if|switch|try|var|let|const|static|function|return|class|do|for|while|debugger|export|import|yield|type|declare|interface)\\b|\\)|})",
           "applyEndPatternLast": 1,
           "beginCaptures": {
             "1": { "name": "entity.name.function.js" },
@@ -628,8 +594,8 @@
         {
           "comment": "e.g. Sound.prototype.play = function(arg1, arg2) { }",
           "name": "meta.prototype.function.js",
-          "begin": "\\s*+(\\b_?[A-Z][$\\w]*)?(\\.)(prototype)(\\.)([_$a-zA-Z][$\\w]*)\\s*+(=)\\s*+(?:(async)\\s+)?\\s*+(\\bfunction\\b)\\s*+(\\*?)\\s*+([_$a-zA-Z][$\\w]*)?\\s*+(?=\\(|<)",
-          "end": "(?=\\s*+\\{)",
+          "begin": "\\s*+(\\b_?[A-Z][$\\w]*)?(\\.)(prototype)(\\.)([_$a-zA-Z][$\\w]*)\\s*+(=)\\s*+(?:(async)\\s+)?\\s*+((?<!\\.)\\bfunction\\b)\\s*+(\\*?)\\s*+([_$a-zA-Z][$\\w]*)?\\s*+(?=\\(|<)",
+          "end": "\\s*(?=\\;|{|\\b(if|switch|try|var|let|const|static|function|return|class|do|for|while|debugger|export|import|yield|type|declare|interface)\\b|\\)|})",
           "applyEndPatternLast": 1,
           "beginCaptures": {
             "1": { "name": "entity.name.class.js" },
@@ -650,8 +616,8 @@
         {
           "comment": "e.g. Sound.play = function(arg1, arg2) { }",
           "name": "meta.function.static.js",
-          "begin": "\\s*+(\\b_?[A-Z][$\\w]*)?(\\.)([_$a-zA-Z][$\\w]*)\\s*+(=)\\s*+(?:(async)\\s+)?\\s*+(\\bfunction\\b)\\s*+(\\*?)\\s*+([_$a-zA-Z][$\\w]*)?\\s*+(?=\\(|<)",
-          "end": "(?=\\s*+\\{)",
+          "begin": "\\s*+(\\b_?[A-Z][$\\w]*)?(\\.)([_$a-zA-Z][$\\w]*)\\s*+(=)\\s*+(?:(async)\\s+)?\\s*+((?<!\\.)\\bfunction\\b)\\s*+(\\*?)\\s*+([_$a-zA-Z][$\\w]*)?\\s*+(?=\\(|<)",
+          "end": "\\s*(?=\\;|{|\\b(if|switch|try|var|let|const|static|function|return|class|do|for|while|debugger|export|import|yield|type|declare|interface)\\b|\\)|})",
           "applyEndPatternLast": 1,
           "beginCaptures": {
             "1": { "name": "entity.name.class.js" },
@@ -672,15 +638,19 @@
     "literal-quasi": {
       "patterns": [
         {
+          "comment": "Use two forms of scopes! fixes some themes",
           "name": "string.quasi.js",
-          "begin": "\\s*+([a-zA-Z$_][\\w$_]*)?(`)",
-          "end": "\\s*(?<!\\\\)`",
+          "contentName": "string.quoted.template.js",
+          "begin": "\\s*+([a-zA-Z$_][\\w$_]*)?((`))",
+          "end": "\\s*(?<!\\\\)((`))",
           "beginCaptures": {
             "1": { "name": "entity.quasi.tag.name.js" },
-            "2": { "name": "punctuation.definition.quasi.begin.js" }
+            "2": { "name": "punctuation.definition.quasi.begin.js" },
+            "3": { "name": "string.quoted.template.js" }
           },
           "endCaptures": {
-            "0": { "name": "punctuation.definition.quasi.end.js" }
+            "1": { "name": "punctuation.definition.quasi.end.js" },
+            "2": { "name": "string.quoted.template.js" }
           },
           "patterns": [
             {
@@ -698,6 +668,33 @@
               ]
             },
             { "include": "#string-content" }
+          ]
+        }
+      ]
+    },
+    "literal-object": {
+      "patterns": [
+        { "comment": "obj lteral ({ or ,{ or [{ or ={ or return { or default {",
+          "begin": "(?:(?<=\\(|\\[)|(?:\\s*(?:(=)|\\b(default)\\b|\\b(return)\\b|(,))))\\s*({)",
+          "end": "\\s*+(})",
+          "beginCaptures": {
+            "1": { "name": "keyword.operator.assignment.js" },
+            "2": { "name": "keyword.control.module.js" },
+            "3": { "name": "keyword.control.flow.js" },
+            "4": { "name": "meta.delimiter.comma.js" },
+            "5": { "name": "meta.brace.curly.js" }
+          },
+          "endCaptures": {
+            "1": { "name": "meta.brace.curly.js" }
+          },
+          "patterns": [
+            { "include": "#literal-function-labels" },
+            { "include": "#literal-arrow-function-labels" },
+            { "include": "#literal-arrow-function" },
+            { "include": "#literal-method" },
+            { "include": "#literal-labels" },
+            { "include": "#expression" },
+            { "include": "#literal-punctuation" }
           ]
         }
       ]
@@ -763,47 +760,54 @@
     "literal-function-call": {
       "comment": "maybe in array form e.g. foo[bar]()",
       "patterns": [
+        { "include": "#literal-keywords" },
         {
           "name": "meta.function-call.without-arguments.js",
-          "begin": "\\s*+([_$a-zA-Z][$\\w]*)\\s*+(?=\\(\\s*+\\))",
-          "end": "\\s*(?<=\\))",
-          "beginCaptures": {
-            "1": { "name": "entity.name.function.js" }
-          },
-          "patterns": [
-            { "include": "#flowtype-bracketed-parameters" }
-          ]
+          "match": "\\s*+((\\bnew\\b)*)\\s*+([_$a-zA-Z][$\\w]*)\\s*+(\\()\\s*+(\\))",
+          "captures": {
+            "2": { "name": "keyword.operator.js" },
+            "3": { "name": "entity.name.function.js" },
+            "4": { "name": "meta.brace.round.js" },
+            "5": { "name": "meta.brace.round.js" }
+          }
         },
         {
           "name": "meta.function-call.without-arguments.js",
-          "begin": "\\s*+(?=(\\[(?:(?>[^\\[\\]]+)|\\g<-1>)*\\])\\s*+\\(\\s*+\\))",
+          "begin": "\\s*+((\\bnew\\b)*)\\s*+(?=(\\[(?:(?>[^\\[\\]]+)|\\g<-1>)*\\])\\s*+\\(\\s*+\\))",
           "end": "(?=.)",
           "applyEndPatternLast": 1,
+          "beginCaptures": {
+            "2": { "name": "keyword.operator.js" }
+          },
           "patterns": [
-            { "include": "#flowtype-parse-array"},
-            { "include": "#flowtype-bracketed-parameters" }
+            { "include": "#square-brackets"},
+            { "include": "#round-brackets" }
           ]
         },
         {
           "name": "meta.function-call.with-arguments.js",
-          "begin": "\\s*+([_$a-zA-Z][$\\w]*)\\s*+(?=\\()",
+          "begin": "\\s*+((\\bnew\\b)*)\\s*+([_$a-zA-Z][$\\w]*)\\s*+(?=\\()",
           "end": "(?=.)",
           "applyEndPatternLast": 1,
           "beginCaptures": {
-            "1": { "name": "entity.name.function.js" }
+            "2": { "name": "keyword.operator.js"},
+            "3": { "name": "entity.name.function.js" }
           },
           "patterns": [
-            { "include": "#flowtype-bracketed-parameters" }
+            { "include": "#round-brackets" }
           ]
         },
         {
           "name": "meta.function-call.without-arguments.js",
-          "begin": "\\s*+(?=(\\[(?:(?>[^\\[\\]]+)|\\g<-1>)*\\])\\s*+\\()",
+          "begin": "\\s*+((\\bnew\\b)*)\\s*+(?=(\\[(?:(?>[^\\[\\]]+)|\\g<-1>)*\\])\\s*+\\()",
           "end": "(?=.)",
           "applyEndPatternLast": 1,
+          "beginCaptures": {
+            "2": { "name": "keyword.operator.js" }
+          },
           "patterns": [
-            { "include": "#flowtype-parse-array"},
-            { "include": "#flowtype-bracketed-parameters" }
+            { "include": "#square-brackets"},
+            { "include": "#round-brackets" }
           ]
         }
       ]
@@ -914,13 +918,10 @@
         {
           "comment": "Classes",
           "begin": "\\s*+(?<!\\.)\\b(class)\\s+",
-          "end": "\\s*(})",
+          "end": "\\s*(?<=})",
           "beginCaptures": {
             "0": { "name": "meta.class.js" },
             "1": { "name": "storage.type.class.js" }
-          },
-          "endCaptures": {
-            "1": { "name": "punctuation.section.class.end.js" }
           },
           "patterns": [
             {
@@ -930,30 +931,56 @@
                 "1": { "name": "storage.type.extends.js" }
               }
             },
-            { "include": "#flowtype-class-name" },
+            {
+              "comment": "look for classes names but dont assume uppercase start char",
+              "match": "(?<!\\.)\\s*+([$_\\p{L}](?:[$\\p{L}\\p{Mn}\\p{Mc}\\p{Nd}\\p{Nl}\\p{Pc}])*+)",
+              "name": "entity.name.class.js"
+            },
             { "include": "#flowtype-polymorphs" },
             {
               "begin": "\\s*+{",
-              "end": "\\s*(?=})",
+              "end": "\\s*(})",
               "contentName": "meta.class.body.js",
               "beginCaptures": {
                 "0": { "name": "punctuation.section.class.begin.js" }
               },
+              "endCaptures": {
+                "1": { "name": "punctuation.section.class.end.js" }
+              },
               "patterns": [
-                { "match": "\\s*+\\b(?<!\\.)static\\b(?!\\.)",
-                  "name": "storage.modifier.js"
-                },
-                { "include": "#literal-method" },
-                { "include": "#brackets" },
-                { "include": "#es7-decorators" },
-                { "include": "#comments" },
-                { "include": "#flowtype-variable" },
-                { "include": "#literal-semi-colon"}
+                { "include": "#class-body" }
               ]
             },
             { "include": "#expression" }
           ]
         }
+      ]
+    },
+    "class-body": {
+      "patterns": [
+        { "include": "#flowtype-keywords" },
+        { "include": "#literal-method" },
+        { "include": "#brackets" },
+        { "include": "#es7-decorators" },
+        { "include": "#comments" },
+        {
+          "comment": "attempt to find an assignment of a class field/property",
+          "comment": "with ASI we don't know quite where an expression ends so terminate when",
+          "comment": "a line starts with a static, [, name( or a semi-colon anywhere",
+          "begin": "\\s*+(?==[^=>])",
+          "end": "(^\\s*+(?=([$\\w]*\\s*+\\??\\s*+(:|=(?!^==|=>))|\\[|[$\\w]\\s*+\\(|\\bstatic\\b|\\s*++)))|\\s*(;)",
+          "endCaptures": {
+            "4": { "name": "punctuation.terminator.statement.js" }
+          },
+          "patterns": [
+            { "include": "#expression" }
+          ]
+        },
+        { "match": "\\s*+\\b(?<!\\.)static\\b(?!\\.)",
+          "name": "storage.modifier.js"
+        },
+        { "include": "#flowtype-variable" },
+        { "include": "#literal-semi-colon"}
       ]
     },
     "literal-method-call": {
@@ -971,12 +998,17 @@
         },
         {
           "name": "meta.function-call.static.with-arguments.js",
-          "match": "\\s*+(?:(?<=\\.)|\\b)\\s*+([A-Z][$\\w]*)\\s*+(\\.)([_$a-zA-Z][$\\w]*)\\s*+(?=\\()",
-          "captures": {
+          "begin": "\\s*+(?:(?<=\\.)|\\b)\\s*+([A-Z][$\\w]*)\\s*+(\\.)([_$a-zA-Z][$\\w]*)\\s*+(?=\\()",
+          "end": "(?=.)",
+          "applyEndPatternLast": 1,
+          "beginCaptures": {
             "1": { "name": "variable.other.class.js" },
             "2": { "name": "keyword.operator.accessor.js" },
             "3": { "name": "entity.name.function.js" }
-          }
+          },
+          "patterns": [
+            { "include": "#round-brackets" }
+          ]
         },
         {
           "name": "meta.function-call.method.without-arguments.js",
@@ -988,10 +1020,15 @@
         },
         {
           "name": "meta.function-call.method.with-arguments.js",
-          "match": "\\s*+(?<=\\.)([_$a-zA-Z][$\\w]*)\\s*+(?=\\()",
-          "captures": {
+          "begin": "\\s*+(?<=\\.)([_$a-zA-Z][$\\w]*)\\s*+(?=\\()",
+          "end": "(?=.)",
+          "applyEndPatternLast": 1,
+          "beginCaptures": {
             "1": { "name": "entity.name.function.js" }
-          }
+          },
+          "patterns": [
+            { "include": "#round-brackets" }
+          ]
         }
       ]
     },
@@ -1239,12 +1276,50 @@
         }
       ]
     },
+    "literal-method-alternate": {
+      "comment": "opinionated form of a class method that is safe to leave in the expression block",
+      "comment": "it assumes methods start on a new line/statement and have a open brace on the same line",
+      "patterns": [
+        {
+          "comment": "e.g. play<T,T>(arg1, arg2): Type<T> { }",
+          "name": "meta.function.method.js",
+          "begin": "(?:^|;)\\s*+(\\bstatic\\b)?\\s*+(\\basync\\b)?\\s*+(\\*?)\\s*+(?<!\\.)(?!\\b(break|case|catch|continue|do|else|finally|for|function|if|export|import|package|return|switch|throw|try|while|with)\\b)([_$a-zA-Z][$\\w]*)\\s*+(?=(<(?:(?>[^<>]+)|\\g<-1>)*>)?(\\((?:(?>[^()]+)|\\g<-1>)*\\))\\s*+(?:\\s*+(:|\\|)(\\s*+[$_a-zA-Z0-9]+(<(?:(?>[^<>]+)|\\g<-1>)*>)?|\\s*+(\\{(?:(?>[^{}]+)|\\g<-1>)*\\})|\\s*+(((')((?:[^']|\\\\')*)('))|\\s*+((\")((?:[^\"]|\\\\\")*)(\")))|\\s*+[x0-9A-Fa-f]+))*\\s*+\\{)",
+          "end": "\\s*(?=.)",
+          "applyEndPatternLast": 1,
+          "beginCaptures": {
+            "1": { "name": "storage.modifier.js" },
+            "2": { "name": "storage.type.js" },
+            "3": { "name": "keyword.generator.asterisk.js" },
+            "5": { "name": "entity.name.function.method.js" }
+          },
+          "patterns": [
+            { "include": "#flowtype" }
+          ]
+        }
+      ]
+    },
     "literal-method": {
       "patterns": [
         {
           "comment": "e.g. play<T,T>(arg1, arg2): Type<T> { }",
           "name": "meta.function.method.js",
-          "begin": "\\s*++(\\bstatic\\b)?\\s*++(\\basync\\b)?\\s*++(\\*?)\\s*++(?<!\\.)([_$a-zA-Z][$\\w]*)\\s*++(?=(<(?:(?>[^<>]+)|\\g<-1>)*>)?(\\())",
+          "begin": "(?<!:)\\s*+(\\bstatic\\b)?\\s*+(\\basync\\b)?\\s*+(\\*?)\\s*+(?<!\\.)([_$a-zA-Z][$\\w]*)\\s*+(?=(<(?:(?>[^<>]+)|\\g<-1>)*>)?(\\())",
+          "end": "\\s*(?=.)",
+          "applyEndPatternLast": 1,
+          "beginCaptures": {
+            "1": { "name": "storage.modifier.js" },
+            "2": { "name": "storage.type.js" },
+            "3": { "name": "keyword.generator.asterisk.js" },
+            "4": { "name": "entity.name.function.method.js" }
+          },
+          "patterns": [
+            { "include": "#flowtype" }
+          ]
+        },
+        {
+          "comment": "e.g. 'play'<T,T>(arg1, arg2): Type<T> { }",
+          "name": "meta.function.method.js",
+          "begin": "(?<!:)\\s*+(\\bstatic\\b)?\\s*+(\\basync\\b)?\\s*+(\\*?)\\s*+(?<!\\.)(('|\\\")([^\"']*)(\\k<-3>))\\s*+(?=(<(?:(?>[^<>]+)|\\g<-1>)*>)?(\\())",
           "end": "\\s*(?=.)",
           "applyEndPatternLast": 1,
           "beginCaptures": {
@@ -1260,20 +1335,18 @@
         {
           "comment": "e.g. [var]<T,T>(arg1, arg2): Type<T> { } or 'var'<T,T>(arg1, arg2)",
           "name": "meta.function.method.js",
-          "begin": "\\s*++(\\bstatic\\b)?\\s*++(\\basync\\b)?\\s*++(\\*?)\\s*++(?=((\\[(?:(?>[^\\[\\]]+)|\\g<-1>)*\\])|\\s*+(((')((?:[^']|\\\\')*)('))|\\s*+((\")((?:[^\"]|\\\\\")*)(\"))))\\s*+(<(?:(?>[^<>]+)|\\g<-1>)*>)?\\s*+(\\())",
+          "begin": "(?<!:)\\s*+(\\bstatic\\b)?\\s*+(\\basync\\b)?\\s*+(\\*?)\\s*+(?=((\\[(?:(?>[^\\[\\]]+)|\\g<-1>)*\\]))\\s*+(<(?:(?>[^<>]+)|\\g<-1>)*>)?\\s*+(\\())",
           "end": "\\s*(?=.)",
           "applyEndPatternLast": 1,
           "beginCaptures": {
             "1": { "name": "storage.modifier.js" },
             "2": { "name": "storage.type.js" },
             "3": { "name": "keyword.generator.asterisk.js" },
-            "4": { "name": "entity.name.function.method.js" },
-            "6": { "name": "entity.name.function.method.js" }
+            "4": { "name": "entity.name.function.method.js" }
           },
           "patterns": [
-            { "include": "#flowtype-parse-array" },
-            { "include": "#literal-string"},
-            { "include": "#flowtype" }
+            { "include": "#flowtype" },
+            { "include": "#square-brackets" }
           ]
         },
         {
@@ -1283,7 +1356,7 @@
           "end": "\\s*(?={)",
           "applyEndPatternLast": 1,
           "beginCaptures": {
-            "1": { "name": "storage.modifier.static.js" },
+            "1": { "name": "storage.modifier.js" },
             "2": { "name": "storage.type.accessor.js" },
             "3": { "name": "entity.name.accessor.js" }
           },
@@ -1298,7 +1371,7 @@
           "end": "\\s*(?={)",
           "applyEndPatternLast": 1,
           "beginCaptures": {
-            "1": { "name": "storage.modifier.static.js" },
+            "1": { "name": "storage.modifier.js" },
             "2": { "name": "storage.type.accessor.js" },
             "3": { "name": "entity.name.accessor.js" }
           },
@@ -1468,7 +1541,7 @@
       "comment": "Avoid < operator expressions as best we can using Zertosh's regex",
       "patterns": [
         {
-          "begin": "(?<=\\(|\\{|\\[|,|&&|\\|\\||\\?|:|=|=>|\\Wreturn|^return|^)\\s*+(?=<[_$a-zA-Z])",
+          "begin": "(?<=\\(|\\{|\\[|,|&&|\\|\\||\\?|:|=|=>|\\Wreturn|^return|\\Wdefault|^)\\s*+(?=<[$_\\p{L}])",
           "end": "(?=.)",
           "applyEndPatternLast": 1,
           "patterns": [
@@ -1485,17 +1558,19 @@
           "comment": "as well as terminating a <JSXElementName /> form",
           "comment": "Tags that end > are trapped in #jsx-tag-termination",
           "name": "meta.tag.jsx",
-          "begin": "\\s*+(<)([$_\\p{L}](?:[$.:\\p{L}\\p{Mn}\\p{Mc}\\p{Nd}\\p{Nl}\\p{Pc}-](?<!\\.\\.))*+)(?=[/>\\s])(?<![\\.:])",
-          "end": "\\s*(?<=</)(\\2)(>)|(/>)|((?<=</)[\\S ]*?)>",
+          "begin": "\\s*+(<)((\\p{Ll}[\\p{Ll}0-9]*)|((?:[$_\\p{L}\\p{Nl}][$_\\p{L}\\p{Mn}\\p{Mc}\\p{Nd}\\p{Nl}\\p{Pc}-]*?:)?+(?:[$_\\p{L}\\p{Nl}](?:[$_\\p{L}\\p{Mn}\\p{Mc}\\p{Nd}\\p{Nl}\\p{Pc}\\.-](?<!\\.\\.))*+)+))(?=[ />\\s])(?![:])(?<!\\.|:)",
+          "end": "\\s*(?<=</)((\\4)|\\2)(>)|(/>)|((?<=</)[\\S ]*?)>",
           "beginCaptures": {
             "1": { "name": "punctuation.definition.tag.jsx" },
-            "2": { "name": "entity.name.tag.open.jsx" }
+            "2": { "name": "entity.name.tag.open.jsx" },
+            "4": { "name": "support.class.component.open.jsx"}
           },
           "endCaptures": {
             "1": { "name": "entity.name.tag.close.jsx" },
-            "2": { "name": "punctuation.definition.tag.jsx" },
+            "2": { "name": "support.class.component.close.jsx"},
             "3": { "name": "punctuation.definition.tag.jsx" },
-            "4": { "name": "invalid.illegal.termination.jsx"}
+            "4": { "name": "punctuation.definition.tag.jsx" },
+            "5": { "name": "invalid.illegal.termination.jsx"}
           },
           "patterns": [
             { "include": "#jsx-tag-termination" },
@@ -1634,6 +1709,7 @@
     },
     "flowtype": {
       "patterns": [
+        { "include": "#comments" },
         { "include": "#flowtype-polymorphs" },
         { "include": "#flowtype-bracketed-parameters" },
         { "include": "#flowtype-return" }
@@ -1660,7 +1736,16 @@
     "flowtype-variable": {
       "patterns": [
         {
-          "comment": "name of variable spread var with flowtype :",
+          "comment": "name of variable with a flowtype : of type Function or (aaa)=> or (",
+          "comment": "e.g. let a: ()=>null  =  function() {return null}",
+          "match": "(?<!\\.)\\s*+([$_\\p{L}](?:[$.\\p{L}\\p{Mn}\\p{Mc}\\p{Nd}\\p{Nl}\\p{Pc}])*+)\\s*+(\\??)\\s*+(?=:\\s*(\\bFunction\\b|(\\((?:(?>[^()]+)|\\g<-1>)*\\))\\s*=>|\\(\\s*$))",
+          "captures": {
+            "1": { "name": "storage.type.function.js" },
+            "2": { "name": "keyword.operator.optional.parameter.flowtype" }
+          }
+        },
+        {
+          "comment": "name of variable spread var with optional ? and optional flowtype :",
           "match": "\\s*+((?<!\\.)\\.\\.\\.)?([$_\\p{L}](?:[$.\\p{L}\\p{Mn}\\p{Mc}\\p{Nd}\\p{Nl}\\p{Pc}])*+)\\s*+(\\??)\\s*+(?=:|=>)",
           "captures": {
             "1": { "name": "keyword.operator.spread.js" },
@@ -1671,62 +1756,22 @@
         { "include": "#flowtype-vars-and-props" }
       ]
     },
-    "flowtype-destruct-lhs": {
-      "comment": "lhs destructs such as {a: z, [b,c] }",
-      "comment": "use this pattern to colour code the variable part correctly",
-      "patterns": [
-        {
-          "begin": "\\s*+{",
-          "end": "\\s*}",
-          "patterns": [
-            { "include": "#flowtype-destruct-lhs" }
-          ]
-        },
-        {
-          "begin": "\\s*+\\[",
-          "end": "\\s*\\]",
-          "patterns": [
-            { "include": "#flowtype-destruct-lhs" }
-          ]
-        },
-        {
-          "comment": "string as destructor target",
-          "match": "\\s*+((['\\\"]).*?\\k<-1>(?<!\\\\.))\\s*+(:)\\s*+(([$_\\p{L}](?:[$.\\p{L}\\p{Mn}\\p{Mc}\\p{Nd}\\p{Nl}\\p{Pc}])*+))",
-          "captures": {
-            "1": { "name": "string.quoted.js" },
-            "3": { "name": "punctuation" },
-            "4": { "name": "variable.other.property.js" }
-          }
-        },
-        {
-          "comment": "prop name : var name as destructor target",
-          "match": "\\s*+([$_\\p{L}](?:[$.\\p{L}\\p{Mn}\\p{Mc}\\p{Nd}\\p{Nl}\\p{Pc}])*+)\\s*+(:)\\s*+(([$_\\p{L}](?:[$.\\p{L}\\p{Mn}\\p{Mc}\\p{Nd}\\p{Nl}\\p{Pc}])*+))",
-          "captures": {
-            "1": { "name": "string.unquoted.js" },
-            "2": { "name": "punctuation" },
-            "3": { "name": "variable.other.property.js" }
-          }
-        },
-        {
-          "comment": "var name as destructor target",
-          "match": "\\s*+((?<!\\.)\\.\\.\\.)?([$_\\p{L}](?:[$.\\p{L}\\p{Mn}\\p{Mc}\\p{Nd}\\p{Nl}\\p{Pc}])*+)",
-          "captures": {
-            "1": { "name": "keyword.operator.spread.js" },
-            "2": { "name": "variable.other.property.js" }
-          }
-        },
-        {
-          "include": "#literal-comma"
-        },
-        { "include": "#flowtype-vars-and-props" }
-      ]
-    },
     "flowtype-vars-and-props": {
       "patterns": [
         {
           "comment": "flowtype optional arg/parameter e.g. protocol? : string",
           "name": "punctuation.type.flowtype",
-          "match": "\\?(?=\\s*+:)"
+          "match": "\\s*+\\?"
+        },
+        {
+          "comment": "Type Unions |",
+          "name": "kewyword.operator.union.flowtype",
+          "match": "\\s*+\\|"
+        },
+        {
+          "comment": "intersection of types &",
+          "name": "kewyword.operator.intersection.flowtype",
+          "match": "\\s*+\\&"
         },
         {
           "comment": "typed entity :",
@@ -1740,49 +1785,33 @@
             { "include": "#flowtype-parse-types" }
           ]
         },
-        {
-          "include": "#literal-comma"
-        },
+        { "include": "#literal-comma" },
         {
           "comment": "An Iterator prefix?",
           "match": "\\s*+@@"
         },
         {
-          "match": "\\s*+(=>)",
-          "captures": {
-            "1":  { "name": "storage.type.function.arrow.js" }
-          }
-        },
-        { "include": "#flowtype-bracketed-parameters" },
-        { "include": "#flowtype-parse-array" },
-        { "include": "#expression" }
-      ]
-    },
-    "flowtype-parse-operators": {
-      "patterns": [
-        {
-          "comment": "call back with a form  ) => type",
-          "begin": "(?<=\\))\\s*+(=>)",
+          "begin": "\\s*+(=>)",
           "end": "(?=.)",
           "applyEndPatternLast": 1,
           "beginCaptures": {
-            "1": { "name": "storage.type.function.arrow.js" }
+            "1":  { "name": "storage.type.function.arrow.js" }
           },
           "patterns": [
             { "include": "#flowtype-parse-types" }
           ]
         },
         {
-          "comment": "some form of default assignment for func args",
-          "begin": "\\s*+=(?!>|=|==)",
-          "end": "\\s*(?=,|;|\\))",
-          "beginCaptures": {
-            "0": { "name": "keyword.operator.assignment.js" }
-          },
+          "comment": "assignment var = or = ",
+          "begin": "\\s*+(?=([$_\\p{L}](?:[$.\\p{L}\\p{Mn}\\p{Mc}\\p{Nd}\\p{Nl}\\p{Pc}])*+)?\\s*=)(?!=>|==)",
+          "end": "\\s*(?=,|;|\\)|}|\\]|\\b(if|switch|try|var|let|const|static|function|return|class|do|for|while|debugger|export|import|yield)\\b|type\\s+[$\\w]+|declare\\s+[$\\w]+|interface\\s+[$\\w]+)",
           "patterns": [
             { "include": "#expression" }
           ]
-        }
+        },
+        { "include": "#flowtype-bracketed-parameters" },
+        { "include": "#flowtype-parse-array" },
+        { "include": "#expression" }
       ]
     },
     "flowtype-parse-types": {
@@ -1798,14 +1827,14 @@
           },
           {
             "comment": "primitive flowtypes",
-            "match": "\\s*+\\b((?>any|boolean|mixed|number|string|void))\\b",
+            "match": "(?!^)\\s*+\\b((?>any|boolean|mixed|number|string|void))\\b",
             "captures": {
               "1": { "name": "support.type.builtin.primitive.flowtype" }
             }
           },
           {
             "comment": "Built-in Class Types",
-            "match": "\\s*+\\b((?>ArrayBuffer|ArrayBufferView|Boolean|Date|DataView|Error|EvalError|Float32Array|Float64Array|Function|Int8Array|Int16Array|Int32Array|JSON|Math|Number|Object|RangeError|ReferenceError|RegExp|String|Symbol|TypeError|Uint8Array|Uint16Array|Uint32Array|Uint8ClampedArray))\\b",
+            "match": "(?!^)\\s*+\\b((?>ArrayBuffer|ArrayBufferView|Boolean|Date|DataView|Error|EvalError|Float32Array|Float64Array|Function|Int8Array|Int16Array|Int32Array|JSON|Math|Number|Object|RangeError|ReferenceError|RegExp|String|Symbol|TypeError|Uint8Array|Uint16Array|Uint32Array|Uint8ClampedArray))\\b",
             "captures": {
               "1": { "name": "support.type.builtin.class.flowtype" }
             }
@@ -1813,16 +1842,16 @@
           { "include": "#flowtype-polymorphs" },
           {
             "comment": "custom Class Types e.g. Abc avoid Abc(",
-            "match": "\\s*+([$_[\\p{Lu}\\p{Lt}\\p{Lm}\\p{Lo}]][$.\\p{L}\\p{Mn}\\p{Mc}\\p{Nd}\\p{Nl}\\p{Pc}]*+)(?!\\s*+\\()",
+            "match": "(?!^)\\s*+([$_[\\p{Lu}\\p{Lt}\\p{Lm}\\p{Lo}]][$.\\p{L}\\p{Mn}\\p{Mc}\\p{Nd}\\p{Nl}\\p{Pc}]*+)(?!\\s*+\\()",
             "captures": {
               "1": { "name": "support.type.class.flowtype" }
             }
           },
           {
             "comment": "custom primitive/var Types e.g. abc avoid abc(",
-            "match": "\\s*+([$_\\p{L}][$.\\p{L}\\p{Mn}\\p{Mc}\\p{Nd}\\p{Nl}\\p{Pc}]*+)(?!\\s*+\\()",
+            "match": "(?!^)\\s*+(?!\\b(if|switch|try|var|let|const|static|function|return|class|do|for|while|debugger|export|import|yield|type|declare|interface)\\b)([$_\\p{L}][$.\\p{L}\\p{Mn}\\p{Mc}\\p{Nd}\\p{Nl}\\p{Pc}]*+)(?!\\s*+\\()",
             "captures": {
-              "1": { "name": "support.type.primitive.flowtype" }
+              "2": { "name": "support.type.primitive.flowtype" }
             }
           },
           {
@@ -1840,11 +1869,22 @@
             "name": "kewyword.operator.existential.flowtype",
             "match": "\\s*+\\*"
           },
+          {
+            "comment": "types of type marker e.g. <T: number | string>",
+            "name": "punctuation.type.flowtype",
+            "match": "\\s*+(:)"
+          },
+          {
+            "comment": "call back with a form  ) => type",
+            "match": "(?<=\\))\\s*+(=>)",
+            "captures": {
+              "1": { "name": "storage.type.function.arrow.js" }
+            }
+          },
           { "include": "#literal-string" },
           { "include": "#literal-number" },
           { "include": "#flowtype-bracketed-parameters" },
           { "include": "#flowtype-parse-objects" },
-          { "include": "#flowtype-parse-operators" },
           { "include": "#flowtype-parse-array" },
           { "include": "#comments" }
         ]
@@ -1853,7 +1893,7 @@
       "patterns": [
         {
           "comment": "Get parameters within a function/method call",
-          "begin": "\\s*+(\\()",
+          "begin": "(?<!=)\\s*+(\\()",
           "end": "\\s*(\\))",
           "beginCaptures": {
             "1": { "name": "punctuation.definition.parameters.begin.js" }
@@ -1878,15 +1918,15 @@
             "1": { "name": "support.type.builtin.class.flowtype" },
             "2": { "name": "punctuation.flowtype" }
           },
-          "endCaptures"     : {
+          "endCaptures": {
             "1": { "name": "punctuation.flowtype" }
           },
           "patterns": [
-            { "match": "\\s*+,",
-              "name": "punctuation.type.separator.flowtype"
-            },
-            { "match": "\\s*+:",
-              "name": "punctuation.type.separator.flowtype"
+            { "include": "#literal-comma" },
+            { "match": "\\s*+(\\+|-)",
+              "captures"     : {
+                "1": { "name": "support.type.variant.flowtype" }
+              }
             },
             { "include": "#flowtype-parse-types" }
           ]
@@ -1902,11 +1942,11 @@
             "1": { "name": "punctutation.flowtype" }
           },
           "patterns": [
-            { "match": "\\s*+,",
-              "name": "punctuation.type.separator.flowtype"
-            },
-            { "match": "\\s*+:",
-              "name": "punctuation.type.separator.flowtype"
+            { "include": "#literal-comma" },
+            { "match": "\\s*+(\\+|-)",
+              "captures"     : {
+                "1": { "name": "support.type.variant.flowtype" }
+              }
             },
             { "include": "#flowtype-parse-types" }
           ]
@@ -1914,8 +1954,8 @@
       ]
     },
     "flowtype-parse-objects": {
-      "comment": "object literal flowtype  preceded by either  : | & ? symbols",
-      "begin": "(?<=:|\\||&|\\?)\\s*+(\\{)",
+      "comment": "object literal flowtype  preceded by either => : | & ? symbols",
+      "begin": "(?<=:|\\||&|\\?|=>|<)\\s*+(\\{)",
       "end": "\\s*(\\})",
       "applyEndPatternLast": 1,
       "beginCaptures": {
@@ -1943,7 +1983,7 @@
     },
     "flowtype-parse-array": {
       "comment": "arrays such as [name: string, dob: Date]",
-      "begin": "\\s*+(\\[)",
+      "begin": "(?<!=|[$_A-Za-z0-9])\\s*+(\\[)",
       "end": "\\s*(\\])",
       "beginCaptures": {
         "1": { "name": "meta.brace.square.open.flowtype" }
@@ -1958,19 +1998,12 @@
     "flowtype-type-aliases": {
       "patterns": [
         {
-          "comment": "import for types",
-          "match": "\\s*+(?<!\\.)\\b(import)\\b\\s*+(type)\\b",
-          "captures": {
-            "1": { "name":  "keyword.control.module.js" },
-            "2": { "name":  "support.type.type.flowtype" }
-          }
-        },
-        {
           "comment": "type aliases for export but avoid type instaceof or type in operators",
-          "begin": "\\s*+\\b(type)\\b\\s+(?!(instanceof|in)\\b)(?=[$_\\p{L}])",
-          "end": "\\s*;|\\n",
+          "begin": "\\s*+(?:\\b(import|export))?\\b\\s*(type)\\b\\s*(?!(instanceof|in)\\b)(?=[$_A-Za-z{\\[])",
+          "end": "\\s*(\\;)|\\b(?=if|switch|try|var|let|const|static|function|return|class|do|for|while|debugger|export|import|yield|type|declare|interface)\\b",
           "beginCaptures": {
-            "1": { "name": "support.type.type.flowtype" }
+            "1": { "name":  "keyword.control.module.js" },
+            "2": { "name": "keyword.other.typedef.flowtype" }
           },
           "endCaptures": {
             "1": { "name": "punctuation.object.end.flowtype" }
@@ -2003,161 +2036,96 @@
       ]
     },
     "flowtype-interface": {
+      "begin": "\\s*+(?<!\\.)\\b(interface)\\s++",
+      "end": "\\s*(?<=})",
+      "beginCaptures": {
+        "1": { "name": "keyword.other.interface.flowtype" }
+      },
       "patterns": [
         {
-          "comment": "find declare module and declare class defs",
-          "begin": "\\s*+\\b(interface)\\s+(?=[$_\\p{L}])",
-          "end": "\\s*(?:(;)|\\n|(}))",
-          "applyEndPatternLast": 1,
+          "comment": "look for interface names but dont assume uppercase start char",
+          "match": "(?<!\\.)\\s*+([$_\\p{L}](?:[$\\p{L}\\p{Mn}\\p{Mc}\\p{Nd}\\p{Nl}\\p{Pc}])*+)",
+          "name": "support.type.class.interface.js"
+        },
+        { "include": "#flowtype-polymorphs" },
+        {
+          "begin": "\\s*+{",
+          "end": "\\s*(})",
+          "contentName": "meta.class.body.js",
           "beginCaptures": {
-            "1": { "name": "support.type.interface.flowtype" }
+            "0": { "name": "punctuation.section.class.begin.js" }
           },
           "endCaptures": {
-            "1": { "name": "punctuation.terminator.statement.js" },
-            "2": { "name": "punctuation.section.class.end.js" }
+            "1": { "name": "punctuation.section.class.end.js" }
           },
           "patterns": [
-            { "include": "#comments" },
+            { "include": "#flowtype-literal-method" },
+            { "include": "#class-body" }
+          ]
+        }
+      ]
+    },
+    "flowtype-declare": {
+      "patterns": [
+        {
+          "match": "\\s*+(?<!\\.)\\b(declare)\\b\\s++(?=\\b(function|var)\\s++)",
+          "captures": {
+            "1": { "name":  "keyword.other.declare.flowtype" }
+          }
+        },
+        {
+          "begin": "\\s*+(?<!\\.)\\b(declare)\\b\\s*+\\b((class)|(module))\\s++",
+          "end": "\\s*(?<=})",
+          "beginCaptures": {
+            "1": { "name": "keyword.other.declare.flowtype" },
+            "3": { "name": "storage.type.class.flowtype" },
+            "4": { "name": "storage.type.module.flowtype" }
+          },
+          "patterns": [
+            { "include": "#flowtype-polymorphs" },
             {
-              "match": "\\s*+\\b(extends)\\b\\s*+",
-              "captures": {
-                "1": { "name": "storage.type.extends.flowtype" }
-              }
+              "comment": "look for class names but dont assume uppercase start char",
+              "match": "(?<!\\.)\\s*+([$_\\p{L}](?:[$\\p{L}\\p{Mn}\\p{Mc}\\p{Nd}\\p{Nl}\\p{Pc}])*+)",
+              "name": "entity.name.class.js"
             },
-            { "include": "#flowtype" },
-            { "include": "#flowtype-interface-name" },
             {
-              "begin": "\\s*+{",
-              "end": "\\s*(?=})",
+              "begin": "\\s*+({)",
+              "end": "\\s*(})",
               "contentName": "meta.class.body.js",
               "beginCaptures": {
-                "0": { "name": "punctuation.section.class.begin.js" }
+                "1": { "name": "punctuation.section.class.begin.js" }
+              },
+              "endCaptures": {
+                "1": { "name": "punctuation.section.class.end.js" }
               },
               "patterns": [
-                { "match": "\\s*+\\b(?<!\\.)static\\b(?!\\.)",
-                  "name": "storage.modifier.js"
-                },
-                { "include": "#flowtype" },
-                { "include": "#flowtype-variable" },
-                { "include": "#comments" },
-                { "include": "#flowtype-function-name" }
+                { "include": "#flowtype-literal-method" },
+                { "include": "#class-body" }
               ]
             }
           ]
         }
       ]
     },
-    "flowtype-function-name": {
-      "match": "\\s*+(\\bstatic\\b)?\\s*+([$_\\p{L}][$.\\p{L}\\p{Mn}\\p{Mc}\\p{Nd}\\p{Nl}\\p{Pc}]*)?\\s*+(?!:)(?=\\(|<.*\\()",
-      "captures": {
-        "1": { "name": "storage.modifier.static.js" },
-        "2": { "name": "entity.name.function.js" }
-      }
-    },
-    "flowtype-class-name": {
-      "comment": "look for classes names but dont assume uppercase start char",
-      "match": "(?<!\\.)\\s*+([$_\\p{L}](?:[$\\p{L}\\p{Mn}\\p{Mc}\\p{Nd}\\p{Nl}\\p{Pc}])*+)",
-      "name": "entity.name.class.js"
-    },
-    "flowtype-interface-name": {
-      "comment": "look for interface names but dont assume uppercase start char",
-      "match": "(?<!\\.)\\s*+([$_\\p{L}](?:[$\\p{L}\\p{Mn}\\p{Mc}\\p{Nd}\\p{Nl}\\p{Pc}])*+)",
-      "name": "support.type.class.interface.js"
-    },
-    "flowtype-declare": {
+    "flowtype-literal-method": {
+      "comment": "trap methods without a name  e.g.   <Key, Value>(): Map<Key, Value>",
+      "begin": "(?<!:)\\s*+(?=(<(?:(?>[^<>]+)|\\g<-1>)*>)?(\\())",
+      "end": "\\s*(?=.)",
+      "applyEndPatternLast": 1,
+      "beginCaptures": {
+        "1": { "name": "storage.modifier.js" },
+        "2": { "name": "storage.type.js" },
+        "3": { "name": "keyword.generator.asterisk.js" }
+      },
       "patterns": [
-        {
-          "begin": "\\s*+\\b(declare)\\s+(?=(class|function|module|var))\\b",
-          "end": "(?=.)",
-          "applyEndPatternLast": 1,
-          "beginCaptures": {
-            "1": { "name": "support.type.declare.flowtype" }
-          },
-          "patterns": [
-            { "include": "#flowtype-declare-classes" },
-            { "include": "#flowtype-declare-modules" },
-            { "include": "#flowtype-declare-function" },
-            { "include": "#flowtype-declare-vars" }
-          ]
-        }
+        { "include": "#flowtype" }
       ]
     },
-    "flowtype-declare-modules": {
-      "match": "\\s*+\\bmodule\\b\\s+",
-      "name": "support.type.object.module.js"
-    },
-    "flowtype-declare-classes": {
+    "flowtype-keywords": {
       "patterns": [
-        {
-          "begin": "\\s*+\\b(class)\\s+",
-          "end": "\\s*(})",
-          "applyEndPatternLast": 1,
-          "beginCaptures": {
-            "1": { "name": "storage.type.class.flowtype" }
-          },
-          "endCaptures": {
-            "1": { "name": "punctuation.section.class.end.js" }
-          },
-          "patterns": [
-            {
-              "match": "\\s*+\\b(extends|mixins)\\b\\s*+",
-              "captures": {
-                "1": { "name": "storage.type.extends.flowtype" }
-              }
-            },
-            {
-              "begin": "{",
-              "end": "\\s*(?=})",
-              "contentName": "meta.class.body.js",
-              "beginCaptures": {
-                "0": { "name": "punctuation.section.class.begin.js" }
-              },
-              "patterns": [
-                { "match": "\\s*+\\b(?<!\\.)static\\b(?!\\.)",
-                  "name": "storage.modifier.js"
-                },
-                { "include": "#literal-method" },
-                { "include": "#flowtype" },
-                { "include": "#flowtype-variable" },
-                { "include": "#comments" },
-                { "include": "#flowtype-function-name" }
-              ]
-            },
-            { "include": "#flowtype-class-name" },
-            { "include": "#flowtype-polymorphs" }
-          ]
-        }
-      ]
-    },
-    "flowtype-declare-function": {
-      "patterns": [
-        {
-          "begin": "\\s*+\\b(function)\\s+",
-          "end": "\\s*(;)",
-          "applyEndPatternLast": 1,
-          "beginCaptures": {
-            "1": { "name": "storage.type.function.js" }
-          },
-          "patterns": [
-            { "include": "#flowtype" },
-            { "include": "#flowtype-function-name" }
-          ]
-        }
-      ]
-    },
-    "flowtype-declare-vars": {
-      "patterns": [
-        {
-          "begin": "\\s*+\\b(var)\\s+",
-          "end": "\\s*(?=.)",
-          "applyEndPatternLast": 1,
-          "beginCaptures": {
-            "1": { "name": "storage.type.var.js" }
-          },
-          "patterns": [
-            { "include": "#flowtype-variable" }
-          ]
-        }
+        { "include": "#flowtype-declare" },
+        { "include": "#flowtype-type-aliases" },
+        { "include": "#flowtype-interface"}
       ]
     },
     "flowtype-typecast": {

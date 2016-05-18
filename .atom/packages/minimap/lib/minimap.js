@@ -232,7 +232,11 @@ export default class Minimap {
     resulting in extra lines appearing at the end of the minimap.
     Forcing a whole repaint to fix that bug is suboptimal but works.
     */
-    subs.add(this.textEditor.displayBuffer.onDidTokenize(() => {
+    const tokenizedBuffer = this.textEditor.tokenizedBuffer
+      ? this.textEditor.tokenizedBuffer
+      : this.textEditor.displayBuffer.tokenizedBuffer
+
+    subs.add(tokenizedBuffer.onDidTokenize(() => {
       this.emitter.emit('did-change-config')
     }))
   }

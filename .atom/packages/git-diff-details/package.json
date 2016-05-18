@@ -1,7 +1,7 @@
 {
   "name": "git-diff-details",
   "main": "./lib/main",
-  "version": "1.1.0",
+  "version": "1.3.0",
   "description": "View git diffs directly in atom.",
   "keywords": [
     "git",
@@ -16,24 +16,25 @@
   },
   "license": "MIT",
   "engines": {
-    "atom": ">=1.6.0"
+    "atom": ">=1.7.0"
   },
   "dependencies": {
     "atom-space-pen-views": "^2.0.3",
+    "diff": "^2.2.2",
     "fs-plus": "^2.0.0",
     "mixto": "1.x",
     "underscore-plus": "^1.6.6"
   },
-  "readme": "# git-diff-details package\n\nView git diffs directly in atom.\n\nKeybindings:\n  * `alt-g alt-d` to toggle the diff view\n  * `escape` to close the diff view\n  * `alt-u` for undo\n  * `alt-c` for copy\n\n![git-diff-details](https://github.com/samu/git-diff-details/blob/master/demo.png?raw=true)\n",
+  "readme": "# git-diff-details package\n\nView git diffs directly in atom.\n\n## Keybindings\n  * `alt-g alt-d` to toggle the diff view\n  * `escape` to close the diff view\n  * `alt-u` for undo\n  * `alt-c` for copy\n\n## Syntax highlighting\nYou can choose whether the diff should be highlighted or not:\n\n![git-diff-details](https://github.com/samu/git-diff-details/blob/master/flat.png?raw=true)\n\n![git-diff-details](https://github.com/samu/git-diff-details/blob/master/highlighted.png?raw=true)\n\n## Styling\nYou can style the diffs to your liking. Here's an example:\n\n```less\natom-text-editor::shadow .line {\n  &.git-diff-details-new-highlighted {\n    background-color: rgba(162, 232, 120, 0.4) !important;\n  }\n\n  &.git-diff-details-old-highlighted {\n    background-color: rgba(232, 120, 120, 0.4) !important;\n  }\n\n  &.git-diff-details-new-flat {\n    background-color: rgba(162, 232, 120, 0.7) !important;\n  }\n\n  &.git-diff-details-old-flat {\n    background-color: rgba(232, 120, 120, 0.7) !important;\n  }\n}\n```\n",
   "readmeFilename": "README.md",
   "bugs": {
     "url": "https://github.com/samu/git-diff-details/issues"
   },
   "homepage": "https://github.com/samu/git-diff-details#readme",
-  "_id": "git-diff-details@1.1.0",
-  "_shasum": "3de89847d63ba5839db3f3686d8a0773cef61052",
-  "_resolved": "file:../d-11636-30522-1blbqdg/package.tgz",
-  "_from": "../d-11636-30522-1blbqdg/package.tgz",
+  "_id": "git-diff-details@1.3.0",
+  "_shasum": "b43b6b2696e9a1f064410865314082378c43d8da",
+  "_resolved": "file:../d-116418-14881-ihalta/package.tgz",
+  "_from": "../d-116418-14881-ihalta/package.tgz",
   "_atomModuleCache": {
     "version": 1,
     "dependencies": [
@@ -108,8 +109,13 @@
         "path": "node_modules/atom-space-pen-views/node_modules/space-pen/node_modules/jquery/dist/jquery.js"
       },
       {
+        "name": "diff",
+        "version": "2.2.2",
+        "path": "node_modules/diff/lib/index.js"
+      },
+      {
         "name": "fs-plus",
-        "version": "2.8.1",
+        "version": "2.8.2",
         "path": "node_modules/fs-plus/lib/fs-plus.js"
       },
       {
@@ -676,6 +682,27 @@
         "node_modules/atom-space-pen-views/node_modules/space-pen/node_modules/jquery/src/var/support.js",
         "node_modules/atom-space-pen-views/node_modules/space-pen/node_modules/jquery/src/var/toString.js",
         "node_modules/atom-space-pen-views/node_modules/space-pen/node_modules/jquery/src/wrap.js",
+        "node_modules/diff/dist/diff.js",
+        "node_modules/diff/dist/diff.min.js",
+        "node_modules/diff/examples/node_example.js",
+        "node_modules/diff/lib/convert/dmp.js",
+        "node_modules/diff/lib/convert/xml.js",
+        "node_modules/diff/lib/diff/base.js",
+        "node_modules/diff/lib/diff/character.js",
+        "node_modules/diff/lib/diff/css.js",
+        "node_modules/diff/lib/diff/json.js",
+        "node_modules/diff/lib/diff/line.js",
+        "node_modules/diff/lib/diff/sentence.js",
+        "node_modules/diff/lib/diff/word.js",
+        "node_modules/diff/lib/index.js",
+        "node_modules/diff/lib/patch/apply.js",
+        "node_modules/diff/lib/patch/create.js",
+        "node_modules/diff/lib/patch/merge.js",
+        "node_modules/diff/lib/patch/parse.js",
+        "node_modules/diff/lib/util/array.js",
+        "node_modules/diff/lib/util/distance-iterator.js",
+        "node_modules/diff/lib/util/params.js",
+        "node_modules/diff/runtime.js",
         "node_modules/fs-plus/lib/fs-plus.js",
         "node_modules/fs-plus/node_modules/async/lib/async.js",
         "node_modules/fs-plus/node_modules/mkdirp/examples/pow.js",
@@ -704,6 +731,7 @@
         "node_modules/atom-space-pen-views/node_modules/space-pen/node_modules/jquery/package.json",
         "node_modules/atom-space-pen-views/node_modules/space-pen/package.json",
         "node_modules/atom-space-pen-views/package.json",
+        "node_modules/diff/package.json",
         "node_modules/fs-plus/node_modules/async/component.json",
         "node_modules/fs-plus/node_modules/async/package.json",
         "node_modules/fs-plus/node_modules/mkdirp/package.json",
@@ -723,6 +751,7 @@
         ],
         "dependencies": {
           "atom-space-pen-views": "^2.0.3",
+          "diff": "^2.2.2",
           "fs-plus": "^2.0.0",
           "mixto": "1.x",
           "underscore-plus": "^1.6.6"

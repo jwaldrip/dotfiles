@@ -1,8 +1,6 @@
 /**
  * @fileoverview Plugins manager
  * @author Nicholas C. Zakas
- * @copyright 2016 Nicholas C. Zakas. All rights reserved.
- * See LICENSE file in root directory for full license.
  */
 "use strict";
 
@@ -117,6 +115,10 @@ module.exports = {
             } catch (err) {
                 debug("Failed to load plugin eslint-plugin-" + pluginNameWithoutPrefix + ". Proceeding without it.");
                 err.message = "Failed to load plugin " + pluginName + ": " + err.message;
+                err.messageTemplate = "plugin-missing";
+                err.messageData = {
+                    pluginName: pluginNameWithoutPrefix
+                };
                 throw err;
             }
 

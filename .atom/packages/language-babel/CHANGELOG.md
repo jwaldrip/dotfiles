@@ -1,3 +1,90 @@
+### 2.20.10
+  - Fix flow declare class methods named static being parsed as storage modifiers.
+  - Fix flow declare class methods with no name being parsed incorrectly.
+  
+### 2.20.9
+  - Fix class properties with flow keyword names - type, declare & interface being ignored.
+  - Fix class property issues when used with ASI and flow.
+
+### 2.20.8
+  - Fix handling of let/var/const creation of arrow functions. [Fixes #181](https://github.com/gandm/language-babel/issues/181)
+  - Fix function labels not allowing all possible characters. [Fixes #184](https://github.com/gandm/language-babel/issues/184)
+
+### 2.20.7
+  - Fix bad destructuring scopes in grammar.
+
+### 2.20.6
+  - Object literal prop:func-call mistakenly treated as prop:method-call.
+
+### 2.20.5
+  - Change JSX tag autocomplete snippet to only have a single anchor. [Fixes #180](https://github.com/gandm/language-babel/issues/180)
+
+### 2.20.4
+  - Fix Flow $JSXIntrinsics properties object being ignored in grammar.
+
+### 2.20.3
+  - Fix incorrect handling of case statement used as a return flow type [Fixes #179](https://github.com/gandm/language-babel/issues/179)
+
+### 2.20.2
+  - Refactored grammar regex reverted in 2.20.1
+
+### 2.20.1
+  - Revert small commit
+
+### 2.20.0
+  - Improve Flow and ASI support.
+
+### 2.19.4
+  - Regression JSX ignoring '-' chars as being valid in custom element names.
+
+### 2.19.3
+  - Added more cases as per 2.19.2 for function/arrow labels.
+
+### 2.19.2
+  - Parsing some ternaries as key/value arrow constants,
+
+### 2.19.1
+  - Incorrect JSX Start regex
+
+### 2.19.0
+  - Modified grammar scopes to highlight JSX components as classes. [Enhancement Request #173](https://github.com/gandm/language-babel/issues/173)
+
+### 2.18.7
+  - Add close brace and close array as let, var and const terminators.
+
+### 2.18.6
+  - Fix keys & values named type & declare being highlighted as js keywords. [Fixes #172 ](https://github.com/gandm/language-babel/issues/172)
+  - Scope flow variant polymorph operators <+T,-V>
+
+### 2.18.5
+  - Grammar incorrectly parsed a returned object literal. [Fixes #171](https://github.com/gandm/language-babel/issues/171)
+
+### 2.18.4
+  - Make literal-object grammar recursive to fix nested object methods.
+
+### 2.18.3
+  - Improve detection of object literals. [Fixes #170](https://github.com/gandm/language-babel/issues/170)
+
+### 2.18.2
+  - Fix function call td.function() being interpreted as a function definition. [Fixes #169](https://github.com/gandm/language-babel/issues)
+
+### 2.18.1
+  - Incorrect scope for arrow function async keyword inside object literal. [Fixes](https://github.com/gandm/language-babel/issues/168)
+
+### 2.18.0
+  - Allow flow syntax to be used within files that use ASI.
+  - Use two forms of scoping for interpolated strings. [Fixes](https://github.com/gandm/language-babel/issues/167)
+
+### 2.17.3
+  - [Fixes #166](https://github.com/gandm/language-babel/issues/166) Grammar for `async`, `get` and `set` on shorthand object functions
+
+### 2.17.2
+  - [Fixes #164](https://github.com/gandm/language-babel/issues/164) flow comment syntax breaks highlighting
+
+### 2.17.1
+  - Fix regression: single line comment not including language-todo
+  - Fix export default <jsx></jsx> in grammar
+
 #### 2.17.0
   - Add file tree `Babel Transpile` context menu. [Enhancement Request #160](https://github.com/gandm/language-babel/issues/160)
   - Add `.es` as grammar detected file type.

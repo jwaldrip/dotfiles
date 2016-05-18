@@ -17,6 +17,13 @@
   "git-plus": {}
   "goto-definition": {}
   "js-autoimport": {}
+  "js-hyperclick":
+    extensions: [
+      ".js"
+      ".json"
+      ".node"
+      ".jsx"
+    ]
   "jump-to-import": {}
   "language-babel": {}
   linter:

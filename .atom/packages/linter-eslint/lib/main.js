@@ -63,6 +63,12 @@ module.exports = {
       description: 'Paths of node_modules, .eslintignore and others are cached',
       type: 'boolean',
       default: false
+    },
+    fixOnSave: {
+      title: 'Fix errors on save',
+      description: 'Have eslint attempt to fix some errors automatically when saving the file.',
+      type: 'boolean',
+      default: false
     }
   },
   activate: function activate() {
@@ -84,6 +90,19 @@ module.exports = {
           _this.scopes.splice(_this.scopes.indexOf(embeddedScope), 1);
         }
       }
+    }));
+    this.subscriptions.add(atom.workspace.observeTextEditors(function (editor) {
+      editor.onDidSave(function () {
+        if (_this.scopes.indexOf(editor.getGrammar().scopeName) !== -1 && atom.config.get('linter-eslint.fixOnSave')) {
+          _this.worker.request('job', {
+            type: 'fix',
+            config: atom.config.get('linter-eslint'),
+            filePath: editor.getPath()
+          }).catch(function (response) {
+            return atom.notifications.addWarning(response);
+          });
+        }
+      });
     }));
     this.subscriptions.add(atom.commands.add('atom-text-editor', {
       'linter-eslint:fix-file': function linterEslintFixFile() {
