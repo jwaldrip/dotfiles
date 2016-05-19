@@ -87,8 +87,8 @@
   "homepage": "https://github.com/AtomLinter/linter-eslint#readme",
   "_id": "linter-eslint@7.2.2",
   "_shasum": "b4f52580953ad0f0cb1804b7ee3498349aafc9c7",
-  "_resolved": "file:../d-116418-14992-1oa60ek/package.tgz",
-  "_from": "../d-116418-14992-1oa60ek/package.tgz",
+  "_resolved": "file:../d-116419-91993-cqr4fx/package.tgz",
+  "_from": "../d-116419-91993-cqr4fx/package.tgz",
   "_atomModuleCache": {
     "version": 1,
     "dependencies": [
