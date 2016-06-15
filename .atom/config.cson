@@ -29,6 +29,8 @@
   linter:
     errorPanelHeight: 217
   "linter-eslint": {}
+  "linter-ruby":
+    rubyExecutablePath: "/Users/jwaldrip/.rubies/ruby-2.3.1/bin/ruby"
   "merge-conflicts": {}
   minimap:
     plugins:
@@ -44,5 +46,6 @@
       pigmentsDecorationsZIndex: 0
       selection: true
       selectionDecorationsZIndex: 0
+  "spell-check": {}
   welcome:
     showOnStartup: false

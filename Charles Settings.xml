@@ -209,13 +209,13 @@
     <maximised>false</maximised>
     <fullscreen>false</fullscreen>
     <mainWindow>
-      <x>0</x>
-      <y>23</y>
+      <x>143</x>
+      <y>124</y>
       <width>1851</width>
       <height>1177</height>
     </mainWindow>
     <currentDirectory>/Users/jwaldrip</currentDirectory>
-    <lastCheckUpdates>2016-03-29 00:40:13.438 UTC</lastCheckUpdates>
+    <lastCheckUpdates>2016-06-14 22:48:58.516 UTC</lastCheckUpdates>
   </startupConfiguration>
   <userInterfaceConfiguration>
     <promptToSaveSessions>false</promptToSaveSessions>
@@ -241,15 +241,23 @@
         <boolean>true</boolean>
       </entry>
       <entry>
+        <string>charles.update.3.11.5b5</string>
+        <boolean>true</boolean>
+      </entry>
+      <entry>
         <string>charles.update.3.11.4</string>
         <boolean>true</boolean>
       </entry>
       <entry>
-        <string>charles.update.3.11</string>
+        <string>charles.update.3.11.5</string>
         <boolean>true</boolean>
       </entry>
       <entry>
         <string>charles.update.3.11.3</string>
+        <boolean>true</boolean>
+      </entry>
+      <entry>
+        <string>charles.update.3.11</string>
         <boolean>true</boolean>
       </entry>
       <entry>
@@ -385,7 +393,7 @@
       </entry>
       <entry>
         <string>SessionFrame.splitPlane.dividerLocation.vertical</string>
-        <int>566</int>
+        <int>461</int>
       </entry>
       <entry>
         <string>SessionFrame.navTabs.mode</string>
