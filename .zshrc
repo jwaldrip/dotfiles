@@ -74,6 +74,8 @@ alias g=git
 alias twr=gittower
 alias reload!="exec $SHELL"
 alias e=$EDITOR
+alias finder-show-hidden-files="defaults write com.apple.finder AppleShowAllFiles YES && sudo killall Finder"
+alias finder-hide-hidden-files="defaults write com.apple.finder AppleShowAllFiles NO && sudo killall Finder"
 
 # Paths
 export PATH="$HOME/bin:$PATH"
