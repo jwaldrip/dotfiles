@@ -4,6 +4,9 @@ init-antigen() {
 }
 init-antigen v1.0.4
 
+# Load private vars
+source ~/.private/vars.sh
+
 # Load the oh-my-zsh's library.
 antigen use oh-my-zsh
 
