@@ -1,8 +1,9 @@
 # Install antigen, if not already installed
+antigen_version=v1.0.4
 init-antigen() {
-  source antigen-$1.zsh || (curl https://cdn.rawgit.com/zsh-users/antigen/$1/antigen.zsh > antigen-$1.zsh && init-antigen)
+  source antigen-$antigen_version.zsh || (curl https://cdn.rawgit.com/zsh-users/antigen/$antigen_version/antigen.zsh > antigen-$antigen_version.zsh && init-antigen)
 }
-init-antigen v1.0.4
+init-antigen
 
 # Load private vars
 source ~/.private/vars.sh
@@ -42,7 +43,6 @@ antigen bundle bundler
 antigen bundle git
 antigen bundle docker
 antigen bundle autojump
-antigen bundle chruby
 antigen bundle node
 antigen bundle npm
 antigen bundle osx
@@ -54,11 +54,20 @@ antigen bundle terraform
 antigen bundle heroku
 
 # Other Tools
-which chruby &> /dev/null || brew install chruby
+brew list chruby &> /dev/null || brew install chruby
+source `brew --prefix chruby`/share/chruby/chruby.sh
+source `brew --prefix chruby`/share/chruby/auto.sh
 
 # Theme
-# antigen bundle frmendes/geometry
-antigen theme https://github.com/caiogondim/bullet-train-oh-my-zsh-theme bullet-train
+antigen theme https://github.com/jwaldrip/bullet-train-oh-my-zsh-theme bullet-train
+BULLETTRAIN_GIT_COLORIZE_DIRTY=true
+BULLETTRAIN_PERL_SHOW=true
+BULLETTRAIN_GO_BG=80
+BULLETTRAIN_GO_FG=230
+BULLETTRAIN_GO_SHOW=true
+BULLETTRAIN_RUBY_SHOW=true
+BULLETTRAIN_NVM_SHOW=true
+BULLETTRAIN_VIRTUALENV_SHOW=true
 
 # Editors
 export EDITOR="vim"
