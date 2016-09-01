@@ -57,7 +57,8 @@ antigen bundle heroku
 which chruby &> /dev/null || brew install chruby
 
 # Theme
-antigen bundle frmendes/geometry
+# antigen bundle frmendes/geometry
+antigen theme https://github.com/caiogondim/bullet-train-oh-my-zsh-theme bullet-train
 
 # Editors
 export EDITOR="vim"
