@@ -1,7 +1,7 @@
 # Install antigen, if not already installed
 antigen_version=v1.0.4
 init-antigen() {
-  source antigen-$antigen_version.zsh || (curl https://cdn.rawgit.com/zsh-users/antigen/$antigen_version/antigen.zsh > antigen-$antigen_version.zsh && init-antigen)
+  source ~/antigen-$antigen_version.zsh || (curl https://cdn.rawgit.com/zsh-users/antigen/$antigen_version/antigen.zsh > ~/antigen-$antigen_version.zsh && init-antigen)
 }
 init-antigen
 
