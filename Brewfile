@@ -34,6 +34,7 @@ cask install kaleidoscope
 cask install iterm2
 cask install docker
 cask install paw
+cask install gpgtools
 install git
 install autojump
 install pkg-config
