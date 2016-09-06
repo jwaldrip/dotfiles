@@ -89,3 +89,21 @@ alias finder-hide-hidden-files="defaults write com.apple.finder AppleShowAllFile
 
 # Paths
 export PATH="$HOME/bin:$PATH"
+
+# Set the development path
+export DEVPATH=~/dev
+
+# Set the Go path
+export GOPATH=$DEVPATH
+export PATH=$GOPATH/bin:$PATH
+
+# Locate Atom
+export ATOM_PATH=~/Applications
+
+# Brew Bundle
+function brew-bundle(){
+  cat Brewfile | sed 's:#.*$::g' | sed '/^$/d' | /usr/bin/ruby -e "STDIN.each_line { |line| system 'brew ' + line.strip }"
+}
+
+# iTerm integration
+test -e ${HOME}/.iterm2_shell_integration.zsh && source ${HOME}/.iterm2_shell_integration.zsh
