@@ -37,8 +37,8 @@ antigen bundle zsh-users/zsh-syntax-highlighting
 
 # Plugins
 antigen bundle brew
-antigen bundle ruby
-antigen bundle rails
+# antigen bundle ruby
+# antigen bundle rails
 antigen bundle bundler
 antigen bundle git
 antigen bundle docker
