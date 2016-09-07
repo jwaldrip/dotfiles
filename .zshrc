@@ -97,9 +97,6 @@ export DEVPATH=~/dev
 export GOPATH=$DEVPATH
 export PATH=$GOPATH/bin:$PATH
 
-# Locate Atom
-export ATOM_PATH=~/Applications
-
 # Brew Bundle
 function brew-bundle(){
   cat Brewfile | sed 's:#.*$::g' | sed '/^$/d' | /usr/bin/ruby -e "STDIN.each_line { |line| system 'brew ' + line.strip }"
