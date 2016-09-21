@@ -86,6 +86,9 @@ alias reload!="exec $SHELL"
 alias e=$EDITOR
 alias finder-show-hidden-files="defaults write com.apple.finder AppleShowAllFiles YES && sudo killall Finder"
 alias finder-hide-hidden-files="defaults write com.apple.finder AppleShowAllFiles NO && sudo killall Finder"
+alias gcloud-config="docker inspect gcloud-config &> /dev/null || docker run -it --name gcloud-config google/cloud-sdk"
+alias gcloud="gcloud-config && docker run --rm -ti --volumes-from gcloud-config google/cloud-sdk gcloud"
+alias gsutil="gcloud-config && docker run --rm -ti --volumes-from gcloud-config google/cloud-sdk gsutil"
 
 # Paths
 export PATH="$HOME/bin:$PATH"
