@@ -117,3 +117,7 @@ fi
 if [ -f /Users/jwaldrip/Downloads/google-cloud-sdk/completion.zsh.inc ]; then
   source '/Users/jwaldrip/Downloads/google-cloud-sdk/completion.zsh.inc'
 fi
+
+# SSH Agent
+eval $(ssh-agent) &> /dev/null
+grep -rwl ~/.ssh/* -e 'PRIVATE KEY-----' | xargs ssh-add &> /dev/null
