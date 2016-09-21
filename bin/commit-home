@@ -2,12 +2,30 @@
 date=`date`
 lwd=$PWD
 cd ~
-git pull origin master
+
+# Commit Changes
+git add -A
+git commit -m "dotfiles update on $date"
+
+# Commit submodules
 git submodule foreach git checkout master
 git submodule foreach git add -A
 git submodule foreach git commit -am "dotfiles update on $date"
 git submodule foreach git push origin master
-git add -A
-git commit -am "dotfiles update on $date"
+
+# Pull updates
+git pull origin master
+
+# Bundle the brew
+brew bundle
+
+# Update the bundle
+rm Brewfile
+brew bundle dump
+
+# Commit Changes
+git add Brewfile
+git commit -m "Brewfile update on $date"
+
 git push origin master
 cd $lwd
