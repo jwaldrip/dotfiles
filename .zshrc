@@ -100,11 +100,6 @@ export DEVPATH=~/dev
 export GOPATH=$DEVPATH
 export PATH=$GOPATH/bin:$PATH
 
-# Brew Bundle
-function brew-bundle(){
-  cat Brewfile | sed 's:#.*$::g' | sed '/^$/d' | /usr/bin/ruby -e "STDIN.each_line { |line| system 'brew ' + line.strip }"
-}
-
 # iTerm integration
 test -e ${HOME}/.iterm2_shell_integration.zsh && source ${HOME}/.iterm2_shell_integration.zsh
 

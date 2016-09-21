@@ -1,49 +1,43 @@
 # Prepare Install Homebrew Dependencies
-install caskroom/cask/brew-cask
-cask install xquartz
+cask_args appdir: '/Applications'
+cask 'xquartz'
 
 #### General Applications
-cask install google-chrome
-cask install moom
+cask 'google-chrome'
+cask 'moom'
 
 #### Utilities
-cask install transmit
-cask install dropbox
-cask install teamviewer
+cask 'transmit'
+cask 'dropbox'
 
 #### Entertainment
-cask install flash
-cask install silverlight
-cask install spotify
+cask 'spotify'
 
 #### Communication
-cask install skype
-cask install google-hangouts
-cask install gitter
-cask install mailbox
-
-#### Media
-cask install adobe-creative-cloud
+cask 'skype'
+cask 'slack'
+cask 'gitter'
+cask 'nylas-n1'
 
 #### Development Tools
-cask install charles
-cask install atom
-cask install dash
-cask install tower
-cask install kaleidoscope
-cask install iterm2
-cask install docker
-cask install paw
-cask install gpgtools
-install git
-install autojump
-install pkg-config
-install openssl
-install cmake
+cask 'charles'
+cask 'atom'
+cask 'tower'
+cask 'kaleidoscope'
+cask 'iterm2'
+cask 'docker'
+cask 'paw'
+cask 'gpgtools'
+brew 'git'
+brew 'autojump'
+brew 'pkg-config'
+brew 'openssl'
+brew 'cmake'
 
 #### Languages
-install go
-install elixir
-install crystal-lang
-install nimrod
-install dmd
+brew 'go'
+brew 'elixir'
+brew 'crystal-lang'
+brew 'nimrod'
+brew 'rust'
+brew 'dmd'
