@@ -99,6 +99,14 @@ export PATH=$GOPATH/bin:$PATH
 
 # iTerm integration
 test -e ${HOME}/.iterm2_shell_integration.zsh && source ${HOME}/.iterm2_shell_integration.zsh
+  source '/Users/jwaldrip/Downloads/google-cloud-sdk/path.zsh.inc'
+fi
+  source '/Users/jwaldrip/Downloads/google-cloud-sdk/completion.zsh.inc'
+fi
+
+# SSH Agent
+eval $(ssh-agent) &> /dev/null
+grep -rwl ~/.ssh/* -e 'PRIVATE KEY-----' | xargs ssh-add &> /dev/null
 
 # The next line updates PATH for the Google Cloud SDK.
 if [ -f /Users/jwaldrip/Downloads/google-cloud-sdk/path.zsh.inc ]; then
@@ -109,7 +117,3 @@ fi
 if [ -f /Users/jwaldrip/Downloads/google-cloud-sdk/completion.zsh.inc ]; then
   source '/Users/jwaldrip/Downloads/google-cloud-sdk/completion.zsh.inc'
 fi
-
-# SSH Agent
-eval $(ssh-agent) &> /dev/null
-grep -rwl ~/.ssh/* -e 'PRIVATE KEY-----' | xargs ssh-add &> /dev/null
