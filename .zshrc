@@ -11,26 +11,6 @@ source ~/.private/vars.sh
 # Load the oh-my-zsh's library.
 antigen use oh-my-zsh
 
-# Install Required Packages
-which brew &> /dev/null || /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
-which autojump &> /dev/null || brew install autojump
-which git &> /dev/null || brew install git
-which ruby-install &>/dev/null || brew install ruby-install
-
-# Install Programming Languages
-which go &> /dev/null || brew install go
-which crystal &> /dev/null || brew install crystal-lang
-which node &> /dev/null || brew install node
-which elixir &> /dev/null || brew install elixir
-which rustc &> /dev/null || brew install rust
-
-# Install used libaries
-which psql &> /dev/null || brew install postgresql
-which mysql &> /dev/null || brew install mysql
-
-# Install Tools
-which heroku &> /dev/null || brew install heroku
-which terraform &> /dev/null || brew install terraform
 
 # Add ZSH Syntax Hightlighting
 antigen bundle zsh-users/zsh-syntax-highlighting
@@ -54,9 +34,10 @@ antigen bundle terraform
 antigen bundle heroku
 
 # Other Tools
-brew list chruby &> /dev/null || brew install chruby
-source `brew --prefix chruby`/share/chruby/chruby.sh
-source `brew --prefix chruby`/share/chruby/auto.sh
+if [ brew --prefix chruby &> /dev/null ] ; then
+  source `brew --prefix chruby`/share/chruby/chruby.sh
+  source `brew --prefix chruby`/share/chruby/auto.sh
+fi
 
 # Theme
 antigen theme https://github.com/jwaldrip/bullet-train-oh-my-zsh-theme bullet-train
@@ -103,6 +84,11 @@ test -e ${HOME}/.iterm2_shell_integration.zsh && source ${HOME}/.iterm2_shell_in
 # The next line updates PATH for the Google Cloud SDK.
 if [ -f /usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.zsh.inc ]; then
   source '/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.zsh.inc'
+fi
+
+# Crystal completion
+if [ -f /usr/local/share/zsh/site-functions ]; then
+  source '/usr/local/share/zsh/site-functions'
 fi
 
 # SSH Agent
