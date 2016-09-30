@@ -31355,7 +31355,7 @@
 	<key>LeftOption</key>
 	<integer>2</integer>
 	<key>LeftTabBarWidth</key>
-	<real>297.02734375</real>
+	<real>277.828125</real>
 	<key>LoadPrefsFromCustomFolder</key>
 	<true/>
 	<key>MaxVertically</key>
@@ -31363,9 +31363,7 @@
 	<key>NSNavLastRootDirectory</key>
 	<string>~</string>
 	<key>NSNavPanelExpandedSizeForOpenMode</key>
-	<string>{712, 448}</string>
-	<key>NSNavPanelExpandedSizeForSaveMode</key>
-	<string>{712, 565}</string>
+	<string>{712, 459}</string>
 	<key>NSQuotedKeystrokeBinding</key>
 	<string></string>
 	<key>NSRepeatCountBinding</key>
@@ -31385,33 +31383,20 @@
 		BAtzdHJlYW10eXBlZIHoA4QBQISEhAhOU1N0cmluZwGEhAhOU09iamVjdACF
 		hAErATGG
 		</data>
-		<string>307</string>
+		<string>322</string>
 	</array>
 	<key>NSTableView Hidden Columns KeyBingingTable</key>
 	<array/>
 	<key>NSTableView Sort Ordering KeyBingingTable</key>
 	<array/>
-	<key>NSToolbar Configuration com.apple.NSColorPanel</key>
-	<dict>
-		<key>TB Is Shown</key>
-		<integer>1</integer>
-	</dict>
-	<key>NSWindow Frame Preferences</key>
-	<string>1419 935 606 456 0 0 2560 1417 </string>
-	<key>NSWindow Frame SUStatusFrame</key>
-	<string>719 786 400 129 0 0 1920 1177 </string>
 	<key>NSWindow Frame SUUpdateAlert</key>
-	<string>931 768 620 392 0 0 2560 1417 </string>
+	<string>2650 379 620 392 1680 -390 2560 1417 </string>
 	<key>NSWindow Frame SessionsPreferences</key>
-	<string>630 317 606 456 0 0 2560 1417 </string>
+	<string>1709 -41 606 456 1440 -180 1920 1057 </string>
 	<key>NSWindow Frame SharedPreferences</key>
-	<string>308 494 796 473 0 0 1920 1177 </string>
-	<key>NSWindow Frame UKCrashReporter</key>
-	<string>155 593 592 584 0 0 1920 1177 </string>
+	<string>269 122 796 473 0 0 1440 877 </string>
 	<key>NSWindow Frame iTerm Window 0</key>
-	<string>226 155 1162 877 0 0 1920 1177 </string>
-	<key>NSWindow Frame iTerm Window 1</key>
-	<string>800 448 585 473 0 0 1920 1177 </string>
+	<string>1680 6 1674 1021 1680 -390 2560 1417 </string>
 	<key>New Bookmarks</key>
 	<array>
 		<dict>
@@ -32963,24 +32948,18 @@
 			<string>/Users/jwaldrip</string>
 		</dict>
 	</array>
-	<key>NoSyncCommandHistoryHasEverBeenUsed</key>
-	<true/>
-	<key>NoSyncConfirmBeta</key>
-	<true/>
-	<key>NoSyncHaveWarnedAboutIncompatibleSoftware</key>
-	<true/>
 	<key>NoSyncInstallationId</key>
-	<string>A7D8865B-9B4A-4525-8E8E-25D240057E30</string>
+	<string>AB05FECD-57D2-4148-88DC-C8E4BE8D5F0C</string>
 	<key>NoSyncLastTipTime</key>
-	<real>469987327.94601899</real>
+	<real>496773352.55414999</real>
+	<key>NoSyncNeverRemindPrefsChangesLostForFile</key>
+	<true/>
+	<key>NoSyncNeverRemindPrefsChangesLostForFile_selection</key>
+	<integer>0</integer>
 	<key>NoSyncPermissionToShowTip</key>
 	<true/>
 	<key>NoSyncTimeOfFirstLaunchOfVersionWithTip</key>
-	<real>466954883.76181197</real>
-	<key>NoSyncTimeOfLastPromo</key>
-	<real>453220783.77594203</real>
-	<key>NoSyncTimeOfLastPromoDownload</key>
-	<real>464275166.13893402</real>
+	<real>494891512.61961198</real>
 	<key>NoSyncTipsDisabled</key>
 	<true/>
 	<key>NoSyncTipsToNotShow</key>
@@ -32995,10 +32974,6 @@
 		<string>0006</string>
 		<string>0007</string>
 		<string>0008</string>
-		<string>0009</string>
-		<string>0010</string>
-		<string>0011</string>
-		<string>0012</string>
 	</array>
 	<key>OnlyWhenMoreTabs</key>
 	<true/>
@@ -33061,18 +33036,18 @@
 	<integer>8</integer>
 	<key>RightOption</key>
 	<integer>3</integer>
-	<key>SUAutomaticallyUpdate</key>
-	<true/>
 	<key>SUEnableAutomaticChecks</key>
 	<true/>
 	<key>SUFeedAlternateAppNameKey</key>
 	<string>iTerm</string>
 	<key>SUFeedURL</key>
-	<string>https://iterm2.com/appcasts/testing.xml?shard=7</string>
+	<string>https://iterm2.com/appcasts/testing.xml?shard=92</string>
 	<key>SUHasLaunchedBefore</key>
 	<true/>
 	<key>SULastCheckTime</key>
-	<date>2016-09-01T20:41:06Z</date>
+	<date>2016-09-28T15:16:50Z</date>
+	<key>SUSendProfileInfo</key>
+	<false/>
 	<key>SavePasteHistory</key>
 	<false/>
 	<key>Secure Input</key>
@@ -33099,8 +33074,6 @@
 	<integer>10</integer>
 	<key>TripleClickSelectsFullWrappedLines</key>
 	<false/>
-	<key>UKCrashReporterLastCrashReportDate</key>
-	<real>1454177792</real>
 	<key>URLHandlersByGuid</key>
 	<dict>
 		<key>ssh</key>
@@ -33127,7 +33100,7 @@
 	<key>findRegex_iTerm</key>
 	<false/>
 	<key>iTerm Version</key>
-	<string>3.0.8</string>
+	<string>3.0.10</string>
 	<key>kCPKSelectionViewPreferredModeKey</key>
 	<integer>0</integer>
 	<key>kCPKSelectionViewShowHSBTextFieldsKey</key>
