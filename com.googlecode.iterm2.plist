@@ -31355,7 +31355,7 @@
 	<key>LeftOption</key>
 	<integer>2</integer>
 	<key>LeftTabBarWidth</key>
-	<real>277.828125</real>
+	<real>119.9765625</real>
 	<key>LoadPrefsFromCustomFolder</key>
 	<true/>
 	<key>MaxVertically</key>
@@ -31392,11 +31392,11 @@
 	<key>NSWindow Frame SUUpdateAlert</key>
 	<string>2650 379 620 392 1680 -390 2560 1417 </string>
 	<key>NSWindow Frame SessionsPreferences</key>
-	<string>1709 -41 606 456 1440 -180 1920 1057 </string>
+	<string>400 222 606 456 0 0 2560 1417 </string>
 	<key>NSWindow Frame SharedPreferences</key>
-	<string>269 122 796 473 0 0 1440 877 </string>
+	<string>2417 -74 770 381 1680 -390 2560 1417 </string>
 	<key>NSWindow Frame iTerm Window 0</key>
-	<string>1680 6 1674 1021 1680 -390 2560 1417 </string>
+	<string>0 4 2549 1413 0 0 2560 1417 </string>
 	<key>New Bookmarks</key>
 	<array>
 		<dict>
@@ -33045,7 +33045,7 @@
 	<key>SUHasLaunchedBefore</key>
 	<true/>
 	<key>SULastCheckTime</key>
-	<date>2016-09-28T15:16:50Z</date>
+	<date>2016-10-10T16:24:52Z</date>
 	<key>SUSendProfileInfo</key>
 	<false/>
 	<key>SavePasteHistory</key>
