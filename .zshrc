@@ -32,12 +32,7 @@ antigen bundle postgres
 antigen bundle rust
 antigen bundle terraform
 antigen bundle heroku
-
-# Other Tools
-if [ brew --prefix chruby &> /dev/null ] ; then
-  source `brew --prefix chruby`/share/chruby/chruby.sh
-  source `brew --prefix chruby`/share/chruby/auto.sh
-fi
+antigen bundle chruby
 
 # Theme
 antigen theme https://github.com/jwaldrip/bullet-train-oh-my-zsh-theme bullet-train
@@ -90,6 +85,12 @@ fi
 if [ -f /usr/local/share/zsh/site-functions ]; then
   source '/usr/local/share/zsh/site-functions'
 fi
+
+# Get npm token
+export NPM_TOKEN="$(cat ~/.npmrc | sed "s/.*=//")"
+
+# Google Cloud Creds
+export CLOUDSDK_CONTAINER_USE_CLIENT_CERTIFICATE=True
 
 # SSH Agent
 eval $(ssh-agent) &> /dev/null
