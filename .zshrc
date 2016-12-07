@@ -95,3 +95,6 @@ export CLOUDSDK_CONTAINER_USE_CLIENT_CERTIFICATE=True
 # SSH Agent
 eval $(ssh-agent) &> /dev/null
 grep -rwl ~/.ssh/* -e 'PRIVATE KEY-----' | xargs ssh-add &> /dev/null
+
+# added by travis gem
+[ -f /Users/jwaldrip/.travis/travis.sh ] && source /Users/jwaldrip/.travis/travis.sh
