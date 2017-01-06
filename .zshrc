@@ -93,7 +93,6 @@ export NPM_TOKEN="$(cat ~/.npmrc | sed "s/.*=//")"
 export CLOUDSDK_CONTAINER_USE_CLIENT_CERTIFICATE=True
 
 # SSH Agent
-eval $(ssh-agent) &> /dev/null
 grep -rwl ~/.ssh/* -e 'PRIVATE KEY-----' | xargs ssh-add &> /dev/null
 
 # added by travis gem

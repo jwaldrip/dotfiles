@@ -4,7 +4,7 @@
 	editor = vim
 [user]
 	email = jason@waldrip.net
-	name = jwaldrip
+	name = Jason Waldrip
 	signingkey = 22A5D30F
 [push]
 	default = current
