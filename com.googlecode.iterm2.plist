@@ -7,7 +7,7 @@
 	<key>AllowClipboardAccess</key>
 	<false/>
 	<key>AlternateMouseScroll</key>
-	<true/>
+	<false/>
 	<key>AnimateDimming</key>
 	<false/>
 	<key>AppleAntiAliasingThreshold</key>
@@ -31400,11 +31400,11 @@
 	<key>NSWindow Frame SUUpdateAlert</key>
 	<string>648 498 620 392 0 0 1920 1057 </string>
 	<key>NSWindow Frame SessionsPreferences</key>
-	<string>86 37 606 456 0 0 1024 617 </string>
+	<string>402 221 606 456 0 0 2560 1417 </string>
 	<key>NSWindow Frame SharedPreferences</key>
-	<string>369 211 918 452 0 0 1680 1027 </string>
+	<string>369 588 1018 447 0 0 2560 1417 </string>
 	<key>NSWindow Frame iTerm Window 0</key>
-	<string>0 36 1670 1021 0 0 1920 1057 </string>
+	<string>0 6 1670 1021 0 0 1680 1027 </string>
 	<key>New Bookmarks</key>
 	<array>
 		<dict>
@@ -31995,7 +31995,7 @@
 			<key>Minimum Contrast</key>
 			<real>0.0</real>
 			<key>Mouse Reporting</key>
-			<true/>
+			<false/>
 			<key>Name</key>
 			<string>Development</string>
 			<key>Non Ascii Font</key>
@@ -32962,6 +32962,8 @@
 	<string>AB05FECD-57D2-4148-88DC-C8E4BE8D5F0C</string>
 	<key>NoSyncLastTipTime</key>
 	<real>496773352.55414999</real>
+	<key>NoSyncNeverAskAboutSettingAlternateMouseScroll</key>
+	<true/>
 	<key>NoSyncNeverRemindPrefsChangesLostForFile</key>
 	<true/>
 	<key>NoSyncNeverRemindPrefsChangesLostForFile_selection</key>
@@ -33055,7 +33057,7 @@
 	<key>SUHasLaunchedBefore</key>
 	<true/>
 	<key>SULastCheckTime</key>
-	<date>2016-12-14T15:06:42Z</date>
+	<date>2017-02-03T16:31:00Z</date>
 	<key>SUSendProfileInfo</key>
 	<false/>
 	<key>SavePasteHistory</key>

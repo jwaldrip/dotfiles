@@ -1,9 +1,11 @@
-# Install antigen, if not already installed
-antigen_version=v1.0.4
-init-antigen() {
-  source ~/antigen-$antigen_version.zsh || (curl https://cdn.rawgit.com/zsh-users/antigen/$antigen_version/antigen.zsh > ~/antigen-$antigen_version.zsh && init-antigen)
+get-antigen() {
+  version=$1
+  url=https://cdn.rawgit.com/zsh-users/antigen/$version/bin/antigen.zsh
+  file=~/antigen-$version.zsh
+  [[ -f $file ]] || (>&2 echo "Downloading antigen $version" && curl -sSL $url > $file)
+  echo $file
 }
-init-antigen
+source `get-antigen v1.3.5`
 
 # Load private vars
 source ~/.private/vars.sh
@@ -16,7 +18,7 @@ antigen use oh-my-zsh
 antigen bundle zsh-users/zsh-syntax-highlighting
 
 # Plugins
-antigen bundle brew
+# antigen bundle brew
 # antigen bundle ruby
 # antigen bundle rails
 antigen bundle bundler
@@ -44,6 +46,7 @@ BULLETTRAIN_GO_SHOW=true
 BULLETTRAIN_RUBY_SHOW=true
 BULLETTRAIN_NVM_SHOW=true
 BULLETTRAIN_VIRTUALENV_SHOW=true
+BULLETTRAIN_CONTEXT_DEFAULT_USER=$USER
 
 # Editors
 export EDITOR="vim"
@@ -59,7 +62,9 @@ alias kiki="echo 'love of my life'"
 alias g=git
 alias twr=gittower
 alias reload!="exec $SHELL"
+alias dc=docker-compose
 alias e=$EDITOR
+alias a="atom"
 alias finder-show-hidden-files="defaults write com.apple.finder AppleShowAllFiles YES && sudo killall Finder"
 alias finder-hide-hidden-files="defaults write com.apple.finder AppleShowAllFiles NO && sudo killall Finder"
 

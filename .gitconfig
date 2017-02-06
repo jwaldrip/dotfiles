@@ -4,7 +4,7 @@
 	editor = vim
 [user]
 	email = jason@waldrip.net
-	name = Jason Waldrip
+	name = jwaldrip
 	signingkey = 22A5D30F
 [push]
 	default = current
@@ -67,9 +67,8 @@
 	commend = commit --amend --no-edit
 	it = "!git init && git commit -m 'new repo' --allow-empty"
 	stsh = stash --keep-index
-	staash = stash --include-untrackedi
+	staash = stash --include-untracke
 	staaash = stash --all
-	recycle = clean -xdf
 	lg = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
 	resolve = "!f() { git branch --merged `git rev-parse --abbrev-ref HEAD` | grep -v '\\* develop' | xargs -n 1 git branch -d; } ; f"
 [difftool "Kaleidoscope"]
@@ -91,8 +90,3 @@
 	helper = osxkeychain
 [commit]
 	gpgsign = true
-[filter "lfs"]
-	clean = git-lfs clean -- %f
-	smudge = git-lfs smudge -- %f
-	process = git-lfs filter-process
-	required = true
