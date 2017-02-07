@@ -28,7 +28,7 @@
 	grep = grep -Ii
 	gr = grep -Ii
 	tr = "!git branch --set-upstream-to=origin/`git rev-parse --abbrev-ref HEAD` `git rev-parse --abbrev-ref HEAD`"
-  trr = "!f() { git branch --set-upstream-to=\"$1\" `git rev-parse --abbrev-ref HEAD` ; } ; f"
+	trr = "!f() { git branch --set-upstream-to=\"$1\" `git rev-parse --abbrev-ref HEAD` ; } ; f"
 	gra = "!f() { A=$(pwd) && TOPLEVEL=$(git rev-parse --show-toplevel) && cd $TOPLEVEL && git grep --full-name -In $1 | xargs -I{} echo $TOPLEVEL/{} && cd $A; }; f"
 	la = "!git config -l | grep alias | cut -c 7-"
 	done = "!f() { git branch | grep "$1" | cut -c 3- | grep -v done | xargs -I{} git branch -m {} done-{}; }; f"
