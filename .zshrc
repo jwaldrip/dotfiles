@@ -5,7 +5,7 @@ get-antigen() {
   [[ -f $file ]] || (>&2 echo "Downloading antigen $version" && curl -sSL $url > $file)
   echo $file
 }
-source `get-antigen v1.3.5`
+source `get-antigen v1.4.0`
 
 # Load private vars
 source ~/.private/vars.sh
@@ -13,14 +13,10 @@ source ~/.private/vars.sh
 # Load the oh-my-zsh's library.
 antigen use oh-my-zsh
 
-
 # Add ZSH Syntax Hightlighting
 antigen bundle zsh-users/zsh-syntax-highlighting
 
 # Plugins
-# antigen bundle brew
-# antigen bundle ruby
-# antigen bundle rails
 antigen bundle bundler
 antigen bundle git
 antigen bundle docker
@@ -67,6 +63,8 @@ alias e=$EDITOR
 alias a="atom"
 alias finder-show-hidden-files="defaults write com.apple.finder AppleShowAllFiles YES && sudo killall Finder"
 alias finder-hide-hidden-files="defaults write com.apple.finder AppleShowAllFiles NO && sudo killall Finder"
+alias gke-creds="gcloud container clusters get-credentials"
+alias kube-context="kubectl config use-context"
 
 # Paths
 export PATH="$HOME/bin:$PATH"
@@ -102,3 +100,5 @@ grep -rwl ~/.ssh/* -e 'PRIVATE KEY-----' | xargs ssh-add &> /dev/null
 
 # added by travis gem
 [ -f /Users/jwaldrip/.travis/travis.sh ] && source /Users/jwaldrip/.travis/travis.sh
+
+antigen apply
