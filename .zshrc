@@ -1,11 +1,5 @@
-get-antigen() {
-  version=$1
-  url=https://cdn.rawgit.com/zsh-users/antigen/$version/bin/antigen.zsh
-  file=~/antigen-$version.zsh
-  [[ -f $file ]] || (>&2 echo "Downloading antigen $version" && curl -sSL $url > $file)
-  echo $file
-}
-source `get-antigen v1.4.0`
+# Source antigen
+source /usr/local/share/antigen/antigen.zsh
 
 # Load private vars
 source ~/.private/vars.sh
@@ -31,6 +25,9 @@ antigen bundle rust
 antigen bundle terraform
 antigen bundle heroku
 antigen bundle chruby
+antigen bundle zsh-users/zsh-completions
+antigen bundle cp
+antigen bundle yarn
 
 # Theme
 antigen theme https://github.com/jwaldrip/bullet-train-oh-my-zsh-theme bullet-train
