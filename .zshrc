@@ -83,7 +83,7 @@ fi
 
 # Crystal completion
 if [ -d /usr/local/share/zsh/site-functions ]; then
-  for f in `ls /usr/local/share/zsh/site-functions` ; do
+  for f in `ls /usr/local/share/zsh/site-functions/*` ; do
     source $f
   done
 fi
