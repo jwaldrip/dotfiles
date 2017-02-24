@@ -81,13 +81,6 @@ if [ -f /usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.zsh.in
   source '/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.zsh.inc'
 fi
 
-# Crystal completion
-if [ -d /usr/local/share/zsh/site-functions ]; then
-  for f in `ls /usr/local/share/zsh/site-functions/*` ; do
-    source $f
-  done
-fi
-
 # Get npm token
 export NPM_TOKEN="$(cat ~/.npmrc | sed "s/.*=//")"
 
