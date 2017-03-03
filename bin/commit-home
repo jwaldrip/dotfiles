@@ -9,6 +9,7 @@ git commit -m "dotfiles update on $date"
 
 # Commit submodules
 git submodule foreach git checkout master
+git submodule foreach git pull origin master
 git submodule foreach git add -A
 git submodule foreach git commit -am "dotfiles update on $date"
 git submodule foreach git push origin master
@@ -24,7 +25,7 @@ rm Brewfile
 brew bundle dump
 
 # Commit Changes
-git add Brewfile
+git add -f Brewfile
 git commit -m "Brewfile update on $date"
 
 git push origin master
