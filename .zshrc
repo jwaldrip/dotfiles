@@ -28,6 +28,7 @@ antigen bundle chruby
 antigen bundle zsh-users/zsh-completions
 antigen bundle cp
 antigen bundle yarn
+antigen bundle commercialtribe/.zshrc
 
 # Theme
 antigen theme https://github.com/jwaldrip/bullet-train-oh-my-zsh-theme bullet-train
@@ -55,13 +56,12 @@ alias kiki="echo 'love of my life'"
 alias g=git
 alias twr=gittower
 alias reload!="exec $SHELL"
+alias d=docker
 alias dc=docker-compose
 alias e=$EDITOR
 alias a="atom"
 alias finder-show-hidden-files="defaults write com.apple.finder AppleShowAllFiles YES && sudo killall Finder"
 alias finder-hide-hidden-files="defaults write com.apple.finder AppleShowAllFiles NO && sudo killall Finder"
-alias gke-creds="gcloud container clusters get-credentials"
-alias kube-context="kubectl config use-context"
 
 # Paths
 export PATH="$HOME/bin:$PATH"
@@ -83,9 +83,6 @@ fi
 
 # Get npm token
 export NPM_TOKEN="$(cat ~/.npmrc | sed "s/.*=//")"
-
-# Google Cloud Creds
-export CLOUDSDK_CONTAINER_USE_CLIENT_CERTIFICATE=True
 
 # SSH Agent
 grep -rwl ~/.ssh/* -e 'PRIVATE KEY-----' | xargs ssh-add &> /dev/null
