@@ -42,6 +42,9 @@ BULLETTRAIN_NVM_SHOW=true
 BULLETTRAIN_VIRTUALENV_SHOW=true
 BULLETTRAIN_CONTEXT_DEFAULT_USER=$USER
 
+# Nix
+. /Users/jwaldrip/.nix-profile/etc/profile.d/nix.sh
+
 # Editors
 export EDITOR="vim"
 export VISUAL="atom -w"
@@ -91,3 +94,7 @@ grep -rwl ~/.ssh/* -e 'PRIVATE KEY-----' | xargs ssh-add &> /dev/null
 [ -f /Users/jwaldrip/.travis/travis.sh ] && source /Users/jwaldrip/.travis/travis.sh
 
 antigen apply
+
+# tabtab source for electron-forge package
+# uninstall by removing these lines or running `tabtab uninstall electron-forge`
+[[ -f /usr/local/lib/node_modules/electron-forge/node_modules/tabtab/.completions/electron-forge.zsh ]] && . /usr/local/lib/node_modules/electron-forge/node_modules/tabtab/.completions/electron-forge.zsh
