@@ -65,6 +65,7 @@ alias e=$EDITOR
 alias a="atom"
 alias finder-show-hidden-files="defaults write com.apple.finder AppleShowAllFiles YES && sudo killall Finder"
 alias finder-hide-hidden-files="defaults write com.apple.finder AppleShowAllFiles NO && sudo killall Finder"
+alias docker-implode="docker ps -aq | xargs docker rm -f && docker images -aq | xargs docker rmi && docker volume prune"
 
 # Paths
 export PATH="$HOME/bin:$PATH"
