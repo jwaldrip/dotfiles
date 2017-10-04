@@ -65,7 +65,7 @@ alias e=$EDITOR
 alias a="atom"
 alias finder-show-hidden-files="defaults write com.apple.finder AppleShowAllFiles YES && sudo killall Finder"
 alias finder-hide-hidden-files="defaults write com.apple.finder AppleShowAllFiles NO && sudo killall Finder"
-alias docker-implode="docker ps -aq | xargs docker rm -f && docker images -aq | xargs docker rmi && docker volume prune"
+alias docker-implode="docker ps -aq | xargs docker rm -f; docker images -aq | xargs docker rmi; docker volume prune"
 
 # Paths
 export PATH="$HOME/bin:$PATH"
@@ -86,7 +86,7 @@ if [ -f /usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.zsh.in
 fi
 
 # Get npm token
-export NPM_TOKEN="$(cat ~/.npmrc | sed "s/.*=//")"
+export NPM_TOKEN="$(cat ~/.npmrc | grep "//registry.npmjs.org/:_authToken=" | sed "s/.*=//")"
 
 # SSH Agent
 grep -rwl ~/.ssh/* -e 'PRIVATE KEY-----' | xargs ssh-add &> /dev/null

@@ -64,6 +64,7 @@
 	shorty = status --short --branch
 	merc = merge --no-ff
 	please = push --force-with-lease
+        amend = commit --amend
 	commend = commit --amend --no-edit
 	it = "!git init && git commit -m 'new repo' --allow-empty"
 	stsh = stash --keep-index
