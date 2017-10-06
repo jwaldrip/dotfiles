@@ -70,6 +70,9 @@ alias docker-implode="docker ps -aq | xargs docker rm -f; docker images -aq | xa
 # Paths
 export PATH="$HOME/bin:$PATH"
 
+# PKG config
+export PKG_CONFIG_PATH="/usr/local/opt/openssl/lib/pkgconfig"
+
 # Set the development path
 export DEVPATH=~/dev
 
