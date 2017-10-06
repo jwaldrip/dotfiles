@@ -72,7 +72,7 @@
 	staaash = stash --all
 	lg = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
 	resolve = "!f() { git branch --merged `git rev-parse --abbrev-ref HEAD` | grep -v '\\* develop' | xargs -n 1 git branch -d; } ; f"
-	fix-upstream = "!f() { branch=`git rev-parse --abbrev-ref HEAD`; git branch --set-upstream-to=origin/$branch $branch; } ; f"
+	fu = "!f() { branch=`git rev-parse --abbrev-ref HEAD`; git branch --set-upstream-to=origin/$branch $branch; } ; f"
 [difftool "Kaleidoscope"]
 	cmd = ksdiff --partial-changeset --relative-path \"$MERGED\" -- \"$LOCAL\" \"$REMOTE\"
 [diff]
