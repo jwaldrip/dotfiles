@@ -21,7 +21,7 @@ git pull origin master
 brew bundle
 
 # Update the bundle
-rm Brewfile
+rm -f Brewfile
 brew bundle dump
 
 # Commit Changes
