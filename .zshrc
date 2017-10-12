@@ -1,8 +1,11 @@
+# NOTE: You need to be running zsh as your shell `chsh -s /bin/zsh` and have antigen installed `brew install antigen`
+
+
 # Source antigen
 source /usr/local/share/antigen/antigen.zsh
 
-# Load private vars
-source ~/.private/vars.sh
+# Load private vars, ignore if not present
+source ~/.private/vars.sh 2> /dev/null || true
 
 # Load the oh-my-zsh's library.
 antigen use oh-my-zsh
