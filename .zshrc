@@ -1,5 +1,9 @@
-# NOTE: You need to be running zsh as your shell `chsh -s /bin/zsh` and have antigen installed `brew install antigen`
-
+# NOTE: You need to be running zsh as your shell:
+#   `chsh -s /bin/zsh`
+#
+# ...and have antigen installed: 
+#   `brew install antigen`
+#
 # Source antigen
 source /usr/local/share/antigen/antigen.zsh
 
