@@ -51,7 +51,7 @@ BULLETTRAIN_VIRTUALENV_SHOW=true
 BULLETTRAIN_CONTEXT_DEFAULT_USER=$USER
 
 # Nix
-. /Users/jwaldrip/.nix-profile/etc/profile.d/nix.sh
+# . /Users/jwaldrip/.nix-profile/etc/profile.d/nix.sh
 
 # Editors
 export EDITOR="vim"
