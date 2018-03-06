@@ -1,29 +1,24 @@
 #!/bin/bash
 set -e
 
+# Install Homebrew
+if ! which brew &> /dev/null ; then
+  /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+fi
+
+# Bundle the brews
+brew bundle
+
 # Get my private directory
 ./setup-private
 
 # Clone all submodules
 git submodule update -f --init --recursive
 
-# Install Homebrew
-if ! which brew &> /dev/null ; then
-  ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
-fi
-
-# Fix Homebrew Directories
-sudo mkdir -p /usr/local/include && sudo chown `whoami` /usr/local/include
-sudo mkdir -p /usr/local/lib && sudo chown `whoami` /usr/local/lib
-sudo mkdir -p /usr/local && sudo chown `whoami` /usr/local/lib
+# Update git-remote
+git remote set-url origin git@github.com:jwaldrip/dotfiles.git
 
 # Symlink Cloud Directories
 for folder in Documents Pictures Music Movies
   do sudo rm -rf $folder && ln -sf ./.cloud-drive/$folder
 done
-
-# Update git-remote
-git remote set-url origin git@github.com:jwaldrip/environment.git
-
-# Bundle the brews
-cat Brewfile | sed 's:#.*$::g' | sed '/^$/d' | /usr/bin/ruby -e "STDIN.each_line { |line| system 'brew ' + line.strip }"
