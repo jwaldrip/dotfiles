@@ -37,6 +37,7 @@ push-changes:
 	@sh -c "cd .private && git push origin master || true"
 	@git add -A
 	@git commit -m "dotfiles update on $date"
+	@git push origin master
 
 pull-changes:
 	@git pull origin master
