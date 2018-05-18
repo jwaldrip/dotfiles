@@ -37,6 +37,7 @@ antigen bundle zsh-users/zsh-completions
 antigen bundle cp
 antigen bundle yarn
 antigen bundle commercialtribe/.zshrc
+antigen bundle jimeh/zsh-peco-history
 
 # Theme
 antigen theme https://github.com/jwaldrip/bullet-train-oh-my-zsh-theme bullet-train
@@ -91,13 +92,17 @@ export PATH=$GOPATH/bin:$PATH
 # iTerm integration
 test -e ${HOME}/.iterm2_shell_integration.zsh && source ${HOME}/.iterm2_shell_integration.zsh
 
+# Set Android SDK path
+export ANDROID_HOME="/usr/local/share/android-sdk"
+export ANDROID_SDK_ROOT="/usr/local/share/android-sdk"
+
 # The next line updates PATH for the Google Cloud SDK.
 if [ -f /usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.zsh.inc ]; then
   source '/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.zsh.inc'
 fi
 
 # Get npm token
-export NPM_TOKEN="$(cat ~/.npmrc | grep "//registry.npmjs.org/:_authToken=" | sed "s/.*=//")"
+# export NPM_TOKEN="$(cat ~/.npmrc | grep "//registry.npmjs.org/:_authToken=" | sed "s/.*=//")"
 
 # SSH Agent
 grep -rwl ~/.ssh/* -e 'PRIVATE KEY-----' | xargs ssh-add &> /dev/null
@@ -106,7 +111,4 @@ grep -rwl ~/.ssh/* -e 'PRIVATE KEY-----' | xargs ssh-add &> /dev/null
 [ -f /Users/jwaldrip/.travis/travis.sh ] && source /Users/jwaldrip/.travis/travis.sh
 
 antigen apply
-
-# tabtab source for electron-forge package
-# uninstall by removing these lines or running `tabtab uninstall electron-forge`
-[[ -f /usr/local/lib/node_modules/electron-forge/node_modules/tabtab/.completions/electron-forge.zsh ]] && . /usr/local/lib/node_modules/electron-forge/node_modules/tabtab/.completions/electron-forge.zsh
+export PATH="/usr/local/opt/gettext/bin:$PATH"
