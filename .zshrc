@@ -51,9 +51,6 @@ BULLETTRAIN_NVM_SHOW=true
 BULLETTRAIN_VIRTUALENV_SHOW=true
 BULLETTRAIN_CONTEXT_DEFAULT_USER=$USER
 
-# Nix
-# . /Users/jwaldrip/.nix-profile/etc/profile.d/nix.sh
-
 # Editors
 export EDITOR="vim"
 export VISUAL="atom -w"
@@ -109,7 +106,7 @@ fi
 grep -rwl ~/.ssh/* -e 'PRIVATE KEY-----' | xargs ssh-add &> /dev/null
 
 # added by travis gem
-[ -f /Users/jwaldrip/.travis/travis.sh ] && source /Users/jwaldrip/.travis/travis.sh
+[ -f /Users/$USER/.travis/travis.sh ] && source /Users/$USER/.travis/travis.sh
 
 antigen apply
 export PATH="/usr/local/opt/gettext/bin:$PATH"
