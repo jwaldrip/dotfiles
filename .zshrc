@@ -57,6 +57,7 @@ BULLETTRAIN_CONTEXT_DEFAULT_USER=$USER
 # Editors
 export EDITOR="vim"
 export VISUAL="atom -w"
+export REACT_EDITOR=$VISUAL
 
 # Disable Auto Correct
 DISABLE_CORRECTION="true"
@@ -93,8 +94,8 @@ export PATH=$GOPATH/bin:$PATH
 test -e ${HOME}/.iterm2_shell_integration.zsh && source ${HOME}/.iterm2_shell_integration.zsh
 
 # Set Android SDK path
-export ANDROID_HOME="/usr/local/share/android-sdk"
-export ANDROID_SDK_ROOT="/usr/local/share/android-sdk"
+export ANDROID_HOME="/Users/jasonwaldrip/Library/Android/sdk"
+export ANDROID_SDK_ROOT="$ANDROID_HOME"
 
 # The next line updates PATH for the Google Cloud SDK.
 if [ -f /usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.zsh.inc ]; then
@@ -112,3 +113,6 @@ grep -rwl ~/.ssh/* -e 'PRIVATE KEY-----' | xargs ssh-add &> /dev/null
 
 antigen apply
 export PATH="/usr/local/opt/gettext/bin:$PATH"
+
+# added by travis gem
+[ -f /Users/jasonwaldrip/.travis/travis.sh ] && source /Users/jasonwaldrip/.travis/travis.sh
