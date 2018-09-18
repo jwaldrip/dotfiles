@@ -32,7 +32,6 @@ antigen bundle postgres
 antigen bundle rust
 antigen bundle terraform
 antigen bundle heroku
-antigen bundle chruby
 antigen bundle zsh-users/zsh-completions
 antigen bundle cp
 antigen bundle yarn
@@ -54,7 +53,7 @@ BULLETTRAIN_CONTEXT_DEFAULT_USER=$USER
 # Editors
 export EDITOR="vim"
 export VISUAL="atom -w"
-export REACT_EDITOR=$VISUAL
+export REACT_EDITOR="atom"
 
 # Disable Auto Correct
 DISABLE_CORRECTION="true"
@@ -93,10 +92,17 @@ test -e ${HOME}/.iterm2_shell_integration.zsh && source ${HOME}/.iterm2_shell_in
 # Set Android SDK path
 export ANDROID_HOME="/Users/jasonwaldrip/Library/Android/sdk"
 export ANDROID_SDK_ROOT="$ANDROID_HOME"
+export JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk1.8.0_181.jdk/Contents/Home
+export PATH=$JAVA_HOME/bin:$PATH
 
 # The next line updates PATH for the Google Cloud SDK.
 if [ -f /usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.zsh.inc ]; then
   source '/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.zsh.inc'
+fi
+
+# ASDF
+if which asdf &> /dev/null ; then
+source /usr/local/opt/asdf/asdf.sh
 fi
 
 # Get npm token
