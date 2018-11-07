@@ -78,6 +78,7 @@ export PATH="$HOME/bin:$PATH"
 
 # PKG config
 export PKG_CONFIG_PATH="/usr/local/opt/openssl/lib/pkgconfig"
+export KERL_CONFIGURE_OPTIONS="--with-ssl=/usr/local/opt/openssl"
 
 # Set the development path
 export DEVPATH=~/dev
