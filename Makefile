@@ -437,10 +437,10 @@ git-init:
 
 push-changes:
 	git submodule foreach --quiet --recursive git add -A
-	sh -c "cd .private && git commit -am 'dotfiles update on $$date' || true"
+	sh -c "cd .private && git commit -am 'dotfiles update on ${date}' || true"
 	sh -c "cd .private && git push origin master || true"
 	git add -A
-	git commit -m "dotfiles update on $$date"
+	git commit -m "dotfiles update on ${date}"
 	git push origin master
 
 pull-changes:
