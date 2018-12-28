@@ -1,8 +1,8 @@
 date=`date`
 
 init: git-init setup-private setup-directories set-shell force-restore system-setup
-restore: brew-cleanup pull-changes brew-bundle mackup-restore
-update: brew-dump push-changes mackup-backup
+restore: brew-cleanup pull-changes brew-bundle
+update: brew-dump push-changes
 sync: restore update
 
 install-homebrew:
