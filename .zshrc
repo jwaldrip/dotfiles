@@ -35,7 +35,6 @@ antigen bundle heroku
 antigen bundle zsh-users/zsh-completions
 antigen bundle cp
 antigen bundle yarn
-antigen bundle commercialtribe/.zshrc
 antigen bundle jimeh/zsh-peco-history
 
 # Theme
