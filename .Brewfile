@@ -146,6 +146,7 @@ mas "Kaleidoscope", id: 587512244
 mas "Keynote", id: 409183694
 mas "LastPass", id: 926036361
 mas "Moom", id: 419330170
+mas "Moom", id: 419330170
 mas "NordVPN IKE", id: 1116599239
 mas "Numbers", id: 409203825
 mas "OneDrive", id: 823766827
