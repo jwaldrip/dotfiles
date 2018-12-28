@@ -20,6 +20,7 @@ antigen bundle zsh-users/zsh-syntax-highlighting
 
 # Plugins
 antigen bundle bundler
+antigen bundle asdf
 antigen bundle git
 antigen bundle docker
 antigen bundle autojump
@@ -98,12 +99,6 @@ export PATH=$JAVA_HOME/bin:$PATH
 # The next line updates PATH for the Google Cloud SDK.
 if [ -f /usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.zsh.inc ]; then
   source '/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.zsh.inc'
-fi
-
-# ASDF
-if which asdf &> /dev/null ; then
-  . $HOME/.asdf/asdf.sh
-  . $HOME/.asdf/completions/asdf.bash
 fi
 
 # Get npm token
