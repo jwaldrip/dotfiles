@@ -1,6 +1,6 @@
 date=`date`
 
-init: git-init setup-private setup-directories set-shell force-restore system-setup
+init: git-init setup-private setup-directories set-shell force-restore asdf system-setup
 restore: brew-cleanup pull-changes brew-bundle
 update: brew-dump push-changes
 sync: restore update
@@ -12,6 +12,23 @@ force-restore:
 	git fetch
 	git reset --hard origin/master
 	make restore
+
+gpg:
+	brew cask install gpg-suite
+	sudo gpgconf --kill dirmngr
+	sudo chown -R $$USER:wheel $$HOME/.gnupg
+	chmod -R 0600 $$HOME/.gnupg
+
+asdf: gpg
+	rm -rf ~/.asdf
+	git clone https://github.com/asdf-vm/asdf.git ~/.asdf --branch v0.6.2
+	~/.asdf/bin/asdf plugin-add nodejs
+	~/.asdf/bin/asdf plugin-add erlang
+	~/.asdf/bin/asdf plugin-add elixir
+	~/.asdf/bin/asdf plugin-add python
+	~/.asdf/bin/asdf plugin-add ruby
+	~/.asdf/bin/asdf plugin-add crystal 
+	bash ~/.asdf/plugins/nodejs/bin/import-release-team-keyring
 
 set-shell:
 	chsh -s /bin/zsh
@@ -96,7 +113,7 @@ system-setup:
 	defaults -currentHost write NSGlobalDomain com.apple.trackpad.enableSecondaryClick -bool true
 
 	# Disable “natural” (Lion-style) scrolling
-	defaults write NSGlobalDomain com.apple.swipescrolldirection -bool false
+	defaults write NSGlobalDomain com.apple.swipescrolldirection -bool true
 
 	# Increase sound quality for Bluetooth headphones/headsets
 	defaults write com.apple.BluetoothAudioAgent "Apple Bitpool Min (editable)" -int 40

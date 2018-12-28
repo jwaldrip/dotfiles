@@ -102,7 +102,8 @@ fi
 
 # ASDF
 if which asdf &> /dev/null ; then
-source /usr/local/opt/asdf/asdf.sh
+  . $HOME/.asdf/asdf.sh
+  . $HOME/.asdf/completions/asdf.bash
 fi
 
 # Get npm token
