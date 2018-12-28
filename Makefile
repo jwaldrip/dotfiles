@@ -1,6 +1,6 @@
 date=`date`
 
-init: git-init setup-private setup-directories system-setup set-shell force-restore
+init: git-init setup-private setup-directories set-shell force-restore system-setup
 restore: brew-cleanup pull-changes brew-bundle mackup-restore
 update: brew-dump push-changes mackup-backup
 sync: restore update
@@ -31,9 +31,9 @@ system-setup:
 	###############################################################################
 
 	# Set computer name (as done via System Preferences → Sharing)
-	sudo scutil --set ComputerName "andhbGRyaXAK"
-	sudo scutil --set HostName "andhbGRyaXAK"
-	sudo scutil --set LocalHostName "andhbGRyaXAK"
+	sudo scutil --set ComputerName "Jason Waldrip's MacBook Pro"
+	sudo scutil --set HostName "jwaldrip.macbook.local"
+	sudo scutil --set LocalHostName "jwaldrip"
 	sudo defaults write /Library/Preferences/SystemConfiguration/com.apple.smb.server NetBIOSName -string "andhbGRyaXAK"
 
 	# Always show scrollbars
@@ -104,12 +104,6 @@ system-setup:
 	# Enable full keyboard access for all controls
 	# (e.g. enable Tab in modal dialogs)
 	defaults write NSGlobalDomain AppleKeyboardUIMode -int 3
-
-	# Use scroll gesture with the Ctrl (^) modifier key to zoom
-	defaults write com.apple.universalaccess closeViewScrollWheelToggle -bool true
-	defaults write com.apple.universalaccess HIDScrollZoomModifierMask -int 262144
-	# Follow the keyboard focus while zoomed in
-	defaults write com.apple.universalaccess closeViewZoomFollowsFocus -bool true
 
 	# Disable press-and-hold for keys in favor of key repeat
 	defaults write NSGlobalDomain ApplePressAndHoldEnabled -bool false
@@ -416,28 +410,9 @@ system-setup:
 
 	# Disable signing emails by default
 	defaults write ~/Library/Preferences/org.gpgtools.gpgmail SignNewEmailsByDefault -bool false
-
-	###############################################################################
-	# Restart Affected Applications                                               #
-	###############################################################################
-
-	@for app in "Activity Monitor" \
-		"Address Book" \
-		"Calendar" \
-		"cfprefsd" \
-		"Contacts" \
-		"Dock" \
-		"Finder" \
-		"Google Chrome" \
-		"Messages" \
-		"Photos" \
-		"Safari" \
-		"SystemUIServer" \
-		"Terminal" \
-		"iCal"; do \
-		killall "${app}" &> /dev/null || true; \
-	done
-	@ echo "Done. Note that some of these changes require a logout/restart to take effect."
+	@echo "restarting in 10 seconds"
+	@sleep 10
+	sudo reboot
 
 setup-private:
 	brew cask install keybase
