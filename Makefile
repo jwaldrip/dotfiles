@@ -20,11 +20,12 @@ setup-private:
 	rm -rf .private
 	git clone keybase://private/jwaldrip/private .private
 	chmod 0400 .private/.ssh/id_rsa
+	ssh-add ~/.private/.ssh/id_rsa
 
 setup-directories:
-	for folder in Documents Pictures Music Movies ; do \
+	for folder in Documents Music Movies ; do \
 		sudo rm -rf $$folder ; \
-		ln -sf ./.cloud-drive/$$folder ; \
+		sudo ln -sf ./.cloud-drive/$$folder ; \
 	done
 
 git-init:
