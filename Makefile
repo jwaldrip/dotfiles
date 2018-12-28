@@ -34,7 +34,7 @@ system-setup:
 	sudo scutil --set ComputerName "Jason Waldrip's MacBook Pro"
 	sudo scutil --set HostName "jwaldrip.macbook.local"
 	sudo scutil --set LocalHostName "jwaldrip"
-	sudo defaults write /Library/Preferences/SystemConfiguration/com.apple.smb.server NetBIOSName -string "andhbGRyaXAK"
+	sudo defaults write /Library/Preferences/SystemConfiguration/com.apple.smb.server NetBIOSName -string "jwaldrip"
 
 	# Always show scrollbars
 	defaults write NSGlobalDomain AppleShowScrollBars -string "Always"
