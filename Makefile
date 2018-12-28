@@ -44,10 +44,10 @@ pull-changes:
 	git submodule update --recursive --remote
 
 brew-bundle:
-	brew bundle --verbose
+	brew bundle --verbose --global
 
 brew-dump:
-	brew bundle dump --force
+	brew bundle dump --force --global
 
 brew-cleanup:
-	brew bundle cleanup --force
+	brew bundle cleanup --force --global
