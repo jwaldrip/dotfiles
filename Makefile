@@ -28,6 +28,7 @@ asdf: gpg
 	~/.asdf/bin/asdf plugin-add python
 	~/.asdf/bin/asdf plugin-add ruby
 	~/.asdf/bin/asdf plugin-add crystal 
+	~/.asdf/bin/asdf plugin-add java
 	bash ~/.asdf/plugins/nodejs/bin/import-release-team-keyring
 
 set-shell:
