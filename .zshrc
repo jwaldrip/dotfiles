@@ -59,6 +59,10 @@ export REACT_EDITOR="atom"
 DISABLE_CORRECTION="true"
 unsetopt correct_all
 
+if [ -f ~/.asdf/plugins/java/asdf-java-wrapper.bash ] ; then
+  . ~/.asdf/plugins/java/asdf-java-wrapper.bash
+fi
+
 # Aliases
 alias zshconfig="e ~/.zshrc"
 alias kiki="echo 'love of my life'"
@@ -115,3 +119,5 @@ export PATH="/usr/local/opt/gettext/bin:$PATH"
 
 # added by travis gem
 [ -f /Users/jasonwaldrip/.travis/travis.sh ] && source /Users/jasonwaldrip/.travis/travis.sh
+
+true
