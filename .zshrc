@@ -59,6 +59,7 @@ export REACT_EDITOR="atom"
 DISABLE_CORRECTION="true"
 unsetopt correct_all
 
+# ASDF Custom Plugins
 if [ -f ~/.asdf/plugins/java/asdf-java-wrapper.bash ] ; then
   . ~/.asdf/plugins/java/asdf-java-wrapper.bash
 fi
@@ -97,16 +98,11 @@ test -e ${HOME}/.iterm2_shell_integration.zsh && source ${HOME}/.iterm2_shell_in
 # Set Android SDK path
 export ANDROID_HOME="/Users/jasonwaldrip/Library/Android/sdk"
 export ANDROID_SDK_ROOT="$ANDROID_HOME"
-export JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk1.8.0_181.jdk/Contents/Home
-export PATH=$JAVA_HOME/bin:$PATH
 
 # The next line updates PATH for the Google Cloud SDK.
 if [ -f /usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.zsh.inc ]; then
   source '/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.zsh.inc'
 fi
-
-# Get npm token
-# export NPM_TOKEN="$(cat ~/.npmrc | grep "//registry.npmjs.org/:_authToken=" | sed "s/.*=//")"
 
 # SSH Agent
 grep -rwl ~/.ssh/* -e 'PRIVATE KEY-----' | xargs ssh-add &> /dev/null
@@ -114,10 +110,9 @@ grep -rwl ~/.ssh/* -e 'PRIVATE KEY-----' | xargs ssh-add &> /dev/null
 # added by travis gem
 [ -f /Users/$USER/.travis/travis.sh ] && source /Users/$USER/.travis/travis.sh
 
-antigen apply
 export PATH="/usr/local/opt/gettext/bin:$PATH"
 
 # added by travis gem
 [ -f /Users/jasonwaldrip/.travis/travis.sh ] && source /Users/jasonwaldrip/.travis/travis.sh
 
-true
+antigen apply
