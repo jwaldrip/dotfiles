@@ -53,7 +53,7 @@ BULLETTRAIN_CONTEXT_DEFAULT_USER=$USER
 # Editors
 export EDITOR="vim"
 export VISUAL="atom -w"
-export REACT_EDITOR="atom"
+export REACT_EDITOR="code"
 
 # Disable Auto Correct
 DISABLE_CORRECTION="true"
@@ -96,8 +96,9 @@ export PATH=$GOPATH/bin:$PATH
 test -e ${HOME}/.iterm2_shell_integration.zsh && source ${HOME}/.iterm2_shell_integration.zsh
 
 # Set Android SDK path
-export ANDROID_HOME="/Users/jasonwaldrip/Library/Android/sdk"
-export ANDROID_SDK_ROOT="$ANDROID_HOME"
+export ANDROID_HOME=/usr/local/share/android-sdk
+export ANDROID_NDK_HOME=/usr/local/share/android-ndk
+export ANDROID_SDK_ROOT=$ANDROID_HOME
 
 # The next line updates PATH for the Google Cloud SDK.
 if [ -f /usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.zsh.inc ]; then
