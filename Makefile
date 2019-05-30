@@ -17,7 +17,7 @@ force-restore:
 
 gpg:
 	brew cask install gpg-suite
-	sudo gpgconf --kill dirmngr
+	sudo /usr/local/MacGPG2/bin/gpgconf --kill dirmngr
 	sudo chown -R $$USER:wheel $$HOME/.gnupg
 	chmod -R 0600 $$HOME/.gnupg
 
