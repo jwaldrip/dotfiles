@@ -460,7 +460,7 @@ git-init:
 	git remote add origin git@github.com:jwaldrip/dotfiles.git
 
 push-changes:
-	git submodule foreach --quiet --recursive git add -A
+	git submodule foreach --quiet --recursive "git add -A"
 	sh -c "cd .private && git commit -am 'dotfiles update on ${date}' || true"
 	sh -c "cd .private && git push origin master || true"
 	git add -A

@@ -75,6 +75,11 @@
 	fu = "!f() { branch=`git rev-parse --abbrev-ref HEAD`; git branch --set-upstream-to=origin/$branch $branch; } ; f"
 	dad = !curl https://icanhazdadjoke.com/ && git add
 	commmit-lie = "!f() { git commit -m \"`curl -fsSL https://whatthecommit.com/index.txt`\" $@; } ; f"
+	wta = "!f() { git worktree add \"`git rev-parse --show-toplevel`-$1\" ${2-$1}; } ; f"
+	wtb = "!f() { git worktree add \"`git rev-parse --show-toplevel`-$1\" -b ${2-$1}; } ; f"
+	wtr = "!f() { git worktree remove \"`git rev-parse --show-toplevel`-$1\"; } ; f"
+	wtp = worktree prune
+	wtl = worktree list
 
 [difftool "Kaleidoscope"]
 	cmd = ksdiff --partial-changeset --relative-path \"$MERGED\" -- \"$LOCAL\" \"$REMOTE\"
