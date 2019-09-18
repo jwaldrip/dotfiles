@@ -52,7 +52,7 @@ BULLETTRAIN_CONTEXT_DEFAULT_USER=$USER
 
 # Editors
 export EDITOR="vim"
-export VISUAL="atom -w"
+export VISUAL="code"
 export REACT_EDITOR="code"
 
 # Disable Auto Correct
