@@ -79,6 +79,9 @@ alias a="atom"
 alias finder-show-hidden-files="defaults write com.apple.finder AppleShowAllFiles YES && sudo killall Finder"
 alias finder-hide-hidden-files="defaults write com.apple.finder AppleShowAllFiles NO && sudo killall Finder"
 alias docker-implode="docker ps -aq | xargs docker rm -f; docker images -aq | xargs docker rmi; docker volume prune"
+alias dj="curl https://icanhazdadjoke.com/"
+alias backmergedev='for mr in `lab mr list -a --target-branch dev | grep -oE "\d{4}"`; do lab mr checkout $mr && git fu && git pull --no-edit && git pull --no-edit origin dev && git push; git merge --abort ; done'
+alias mr="lab mr checkout"
 
 # Paths
 export PATH="$HOME/bin:$PATH"
