@@ -68,7 +68,7 @@ fi
 alias zshconfig="e ~/.zshrc"
 alias kiki="echo 'love of my life'"
 alias g=git
-alias twr=gittower
+alias twr="gittower `git root`"
 alias reload!="exec $SHELL"
 alias d=docker
 alias dc=docker-compose
@@ -82,6 +82,8 @@ alias docker-implode="docker ps -aq | xargs docker rm -f; docker images -aq | xa
 alias dj="curl https://icanhazdadjoke.com/"
 alias backmergedev='for mr in `lab mr list -a --target-branch dev | grep -oE "\d{4}"`; do lab mr checkout $mr && git fu && git pull --no-edit && git pull --no-edit origin dev && git push; git merge --abort ; done'
 alias mr="lab mr checkout"
+alias codegr="code `git root`"
+alias cdgr="cd `git root`"
 
 # Paths
 export PATH="$HOME/bin:$PATH"
@@ -121,5 +123,11 @@ export PATH="/usr/local/opt/gettext/bin:$PATH"
 
 # added by travis gem
 [ -f /Users/jasonwaldrip/.travis/travis.sh ] && source /Users/jasonwaldrip/.travis/travis.sh
+
+# increase node size
+export NODE_OPTIONS=--max-old-space-size=4096
+export BROWSERSTACK_USERNAME="jasonwaldrip2"
+export BROWSERSTACK_ACCESS_KEY="VBkcgz5mp8gJsx86RJ4J"
+
 
 antigen apply

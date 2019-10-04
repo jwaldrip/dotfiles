@@ -80,6 +80,7 @@
 	wtr = "!f() { git worktree remove \"`git rev-parse --show-toplevel`-$1\"; } ; f"
 	wtp = worktree prune
 	wtl = worktree list
+	root = rev-parse --show-toplevel
 
 [difftool "Kaleidoscope"]
 	cmd = ksdiff --partial-changeset --relative-path \"$MERGED\" -- \"$LOCAL\" \"$REMOTE\"
