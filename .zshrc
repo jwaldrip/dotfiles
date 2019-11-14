@@ -84,6 +84,9 @@ alias backmergedev='for mr in `lab mr list -a --target-branch dev | grep -oE "\d
 alias mr="lab mr checkout"
 alias codegr="code `git root`"
 alias cdgr="cd `git root`"
+alias glci="lab issue create"
+alias glcifm="lab issue create -a jwaldrip"
+alias glcmr="lab mr create origin"
 
 # Paths
 export PATH="$HOME/bin:$PATH"
@@ -114,7 +117,7 @@ if [ -f /usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.zsh.in
 fi
 
 # SSH Agent
-grep -rwl ~/.ssh/* -e 'PRIVATE KEY-----' | xargs ssh-add &> /dev/null
+grep -rwl ~/.ssh/* -e 'PRIVATE KEY-----' | xargs ssh-add -K &> /dev/null
 
 # added by travis gem
 [ -f /Users/$USER/.travis/travis.sh ] && source /Users/$USER/.travis/travis.sh
