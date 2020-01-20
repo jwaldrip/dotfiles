@@ -23,14 +23,14 @@ gpg:
 
 asdf: gpg
 	rm -rf ~/.asdf
-	git clone https://github.com/asdf-vm/asdf.git ~/.asdf --branch v0.6.2
+	git clone https://github.com/asdf-vm/asdf.git ~/.asdf
 	~/.asdf/bin/asdf plugin-add nodejs
 	~/.asdf/bin/asdf plugin-add erlang
 	~/.asdf/bin/asdf plugin-add elixir
 	~/.asdf/bin/asdf plugin-add python
 	~/.asdf/bin/asdf plugin-add ruby
 	~/.asdf/bin/asdf plugin-add crystal 
-	~/.asdf/bin/asdf plugin-add java
+	~/.asdf/bin/asdf plugin-add java https://github.com/skotchpine/asdf-java.git
 	bash ~/.asdf/plugins/nodejs/bin/import-release-team-keyring
 
 set-shell:

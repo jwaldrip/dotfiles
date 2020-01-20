@@ -6,6 +6,9 @@
 # |    `brew install antigen`                        |
 # \--------------------------------------------------/
 
+# Set up completions
+autoload -Uz compinit && compinit
+
 # Source antigen
 source /usr/local/share/antigen/antigen.zsh
 
@@ -20,7 +23,7 @@ antigen bundle zsh-users/zsh-syntax-highlighting
 
 # Plugins
 antigen bundle bundler
-antigen bundle asdf
+# antigen bundle asdf
 antigen bundle git
 antigen bundle docker
 antigen bundle autojump
@@ -59,7 +62,9 @@ export REACT_EDITOR="code"
 DISABLE_CORRECTION="true"
 unsetopt correct_all
 
-# ASDF Custom Plugins
+# ASDF
+. $HOME/.asdf/asdf.sh
+. $HOME/.asdf/completions/asdf.bash
 if [ -f ~/.asdf/plugins/java/asdf-java-wrapper.bash ] ; then
   . ~/.asdf/plugins/java/asdf-java-wrapper.bash
 fi
@@ -68,7 +73,7 @@ fi
 alias zshconfig="e ~/.zshrc"
 alias kiki="echo 'love of my life'"
 alias g=git
-alias twr="gittower `git root`"
+alias twr='gittower `git root`'
 alias reload!="exec $SHELL"
 alias d=docker
 alias dc=docker-compose
@@ -82,17 +87,21 @@ alias docker-implode="docker ps -aq | xargs docker rm -f; docker images -aq | xa
 alias dj="curl https://icanhazdadjoke.com/"
 alias backmergedev='for mr in `lab mr list -a --target-branch dev | grep -oE "\d{4}"`; do lab mr checkout $mr && git fu && git pull --no-edit && git pull --no-edit origin dev && git push; git merge --abort ; done'
 alias mr="lab mr checkout"
-alias codegr="code `git root`"
-alias cdgr="cd `git root`"
+alias codegr='code `git root`'
+alias cdgr='cd `git root`'
 alias glci="lab issue create"
 alias glcifm="lab issue create -a jwaldrip"
 alias glcmr="lab mr create origin"
+alias m="cd /Users/jwaldrip/dev/src/gitlab.com/gigsmart/projects/monorepo"
+alias m1="cd /Users/jwaldrip/dev/src/gitlab.com/gigsmart/projects/monorepo-1"
+alias m2="cd /Users/jwaldrip/dev/src/gitlab.com/gigsmart/projects/monorepo-2"
 
 # Paths
 export PATH="$HOME/bin:$PATH"
+export PATH="/usr/local/opt/helm@2/bin:$PATH"
 
 # PKG config
-export PKG_CONFIG_PATH="/usr/local/opt/openssl/lib/pkgconfig"
+export PKG_CONFIG_PATH=/usr/local/opt/openssl/lib/pkgconfig
 export KERL_CONFIGURE_OPTIONS="--with-ssl=/usr/local/opt/openssl"
 
 # Set the development path
