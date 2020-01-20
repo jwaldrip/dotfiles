@@ -3,7 +3,6 @@ date=`date`
 init: git-init setup-private setup-directories set-shell force-restore asdf system-setup
 restore: brew-cleanup pull-changes brew-bundle
 update: brew-dump push-changes
-sync: restore update
 
 install-homebrew:
 	/usr/bin/ruby -e "`curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install`" || true
