@@ -37,6 +37,10 @@ antigen bundle rust
 antigen bundle terraform
 antigen bundle heroku
 antigen bundle zsh-users/zsh-completions
+antigen bundle zsh-users/zsh-syntax-highlighting
+antigen bundle zsh-users/zsh-autosuggestions
+antigen bundle zsh-users/zsh-history-substring-search
+antigen bundle zsh-users/zsh-apple-touchbar
 antigen bundle cp
 antigen bundle yarn
 antigen bundle jimeh/zsh-peco-history
@@ -95,6 +99,7 @@ alias glcmr="lab mr create origin"
 alias m="cd /Users/jwaldrip/dev/src/gitlab.com/gigsmart/projects/monorepo"
 alias m1="cd /Users/jwaldrip/dev/src/gitlab.com/gigsmart/projects/monorepo-1"
 alias m2="cd /Users/jwaldrip/dev/src/gitlab.com/gigsmart/projects/monorepo-2"
+alias ksh="kubectl run $USER-`openssl rand -hex 5` --image=busybox --restart=Never --attach --wait --rm -it"
 
 # Paths
 export PATH="$HOME/bin:$PATH"
@@ -143,3 +148,5 @@ export BROWSERSTACK_ACCESS_KEY="VBkcgz5mp8gJsx86RJ4J"
 
 
 antigen apply
+
+which starship &>/dev/null && eval "$(starship init zsh)"
