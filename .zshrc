@@ -67,6 +67,9 @@ export REACT_EDITOR="code"
 DISABLE_CORRECTION="true"
 unsetopt correct_all
 
+# Direnv
+eval "$(direnv hook zsh)"
+
 # ASDF
 . $HOME/.asdf/asdf.sh
 . $HOME/.asdf/completions/asdf.bash
