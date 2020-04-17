@@ -8,6 +8,7 @@
 
 # Set up completions
 autoload -Uz compinit && compinit
+autoload -Uz bashcompinit && bashcompinit
 
 # Source antigen
 source /usr/local/share/antigen/antigen.zsh
