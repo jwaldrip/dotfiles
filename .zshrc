@@ -147,9 +147,6 @@ export PATH="/usr/local/opt/gettext/bin:$PATH"
 
 # increase node size
 export NODE_OPTIONS=--max-old-space-size=4096
-export BROWSERSTACK_USERNAME="jasonwaldrip2"
-export BROWSERSTACK_ACCESS_KEY="VBkcgz5mp8gJsx86RJ4J"
-
 
 antigen apply
 
