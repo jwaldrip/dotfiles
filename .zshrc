@@ -110,7 +110,7 @@ export PATH="$HOME/bin:$PATH"
 export PATH="/usr/local/opt/helm@2/bin:$PATH"
 
 # PKG config
-export PKG_CONFIG_PATH=/usr/local/opt/openssl/lib/pkgconfig
+export PKG_CONFIG_PATH=/usr/local/opt/openssl/lib/pkgconfig:$PKG_CONFIG_PATH
 export KERL_CONFIGURE_OPTIONS="--with-ssl=/usr/local/opt/openssl"
 
 # Set the development path
