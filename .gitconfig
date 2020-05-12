@@ -73,8 +73,8 @@
 	lg = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
 	resolve = "!f() { git branch --merged `git rev-parse --abbrev-ref HEAD` | grep -v '\\* develop' | xargs -n 1 git branch -d; } ; f"
 	fu = "!f() { branch=`git rev-parse --abbrev-ref HEAD`; git branch --set-upstream-to=origin/$branch $branch; } ; f"
-	dad = !curl https://icanhazdadjoke.com/ && git add
-	commmit-lie = "!f() { git commit -m \"`curl -fsSL https://whatthecommit.com/index.txt`\" $@; } ; f"
+	dadd = !curl https://icanhazdadjoke.com/ && git add
+	commmit-lie = "!f() { git commit -m \"`curl -fsSL http://whatthecommit.com/index.txt`\" $@; } ; f"
 	wta = "!f() { git worktree add \"`git rev-parse --show-toplevel`-$1\" ${2-$1}; } ; f"
 	wtb = "!f() { git worktree add \"`git rev-parse --show-toplevel`-$1\" -b ${2-$1}; } ; f"
 	wtr = "!f() { git worktree remove \"`git rev-parse --show-toplevel`-$1\"; } ; f"
