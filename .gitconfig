@@ -96,6 +96,7 @@
 	keepBackup = true
 [merge]
 	tool = Kaleidoscope
+	renameLimit = 999999
 [http]
 [credential]
 	helper = osxkeychain
