@@ -29,8 +29,8 @@ antigen bundle git
 antigen bundle docker
 antigen bundle autojump
 antigen bundle node
-antigen bundle npm
-antigen bundle osx
+# antigen bundle npm
+# antigen bundle osx
 antigen bundle redis-cli
 antigen bundle golang
 antigen bundle postgres
@@ -104,6 +104,7 @@ alias m="cd /Users/jwaldrip/dev/src/gitlab.com/gigsmart/projects/monorepo"
 alias m1="cd /Users/jwaldrip/dev/src/gitlab.com/gigsmart/projects/monorepo-1"
 alias m2="cd /Users/jwaldrip/dev/src/gitlab.com/gigsmart/projects/monorepo-2"
 alias ksh="kubectl run $USER-`openssl rand -hex 5` --image=busybox --restart=Never --attach --wait --rm -it"
+alias fix10='yarn tsc -b | grep -oE "[^\(]*\.tsx?" | grep --invert-match "error T" | uniq | head -10 | xargs code'
 
 # Paths
 export PATH="$HOME/bin:$PATH"
