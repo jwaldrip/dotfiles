@@ -40,7 +40,8 @@
 	lasttag = describe --tags --abbrev=0
 	youngest = for-each-ref --sort=-committerdate refs/heads/ --format='%(committerdate:short) | %(refname:short) [%(authorname)]'
 	oldest = for-each-ref --sort=committerdate refs/heads/ --format='%(committerdate:short) | %(refname:short) [%(authorname)]'
-	lt = describe --tags --abbrev=0
+	recent = for-each-ref --sort=-committerdate --count=15 --format='%(refname:short)' refs/heads/
+        lt = describe --tags --abbrev=0
 	cp = cherry-pick
 	st = status -s
 	msg = commit --allow-empty -m

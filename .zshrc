@@ -58,6 +58,11 @@ BULLETTRAIN_NVM_SHOW=true
 BULLETTRAIN_VIRTUALENV_SHOW=true
 BULLETTRAIN_CONTEXT_DEFAULT_USER=$USER
 
+# History Settings
+export HISTSIZE=1000000000
+export HISTFILESIZE=1000000000
+export SAVEHIST=$HISTSIZE
+
 # Editors
 export EDITOR="vim"
 export VISUAL="code"
@@ -153,3 +158,4 @@ export NODE_OPTIONS=--max-old-space-size=4096
 antigen apply
 
 which starship &>/dev/null && eval "$(starship init zsh)"
+export PATH="/usr/local/sbin:$PATH"
