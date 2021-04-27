@@ -35,8 +35,8 @@ antigen bundle redis-cli
 antigen bundle golang
 antigen bundle postgres
 antigen bundle rust
-antigen bundle terraform
-antigen bundle heroku
+# antigen bundle terraform
+# antigen bundle heroku
 antigen bundle zsh-users/zsh-completions
 antigen bundle zsh-users/zsh-syntax-highlighting
 antigen bundle zsh-users/zsh-autosuggestions
@@ -47,16 +47,16 @@ antigen bundle yarn
 antigen bundle jimeh/zsh-peco-history
 
 # Theme
-antigen theme https://github.com/jwaldrip/bullet-train-oh-my-zsh-theme bullet-train
-BULLETTRAIN_GIT_COLORIZE_DIRTY=true
-BULLETTRAIN_PERL_SHOW=true
-BULLETTRAIN_GO_BG=80
-BULLETTRAIN_GO_FG=230
-BULLETTRAIN_GO_SHOW=true
-BULLETTRAIN_RUBY_SHOW=true
-BULLETTRAIN_NVM_SHOW=true
-BULLETTRAIN_VIRTUALENV_SHOW=true
-BULLETTRAIN_CONTEXT_DEFAULT_USER=$USER
+# antigen theme https://github.com/jwaldrip/bullet-train-oh-my-zsh-theme bullet-train
+# BULLETTRAIN_GIT_COLORIZE_DIRTY=true
+# BULLETTRAIN_PERL_SHOW=true
+# BULLETTRAIN_GO_BG=80
+# BULLETTRAIN_GO_FG=230
+# BULLETTRAIN_GO_SHOW=true
+# BULLETTRAIN_RUBY_SHOW=true
+# BULLETTRAIN_NVM_SHOW=true
+# BULLETTRAIN_VIRTUALENV_SHOW=true
+# BULLETTRAIN_CONTEXT_DEFAULT_USER=$USER
 
 # History Settings
 export HISTSIZE=1000000000
@@ -78,8 +78,8 @@ eval "$(direnv hook zsh)"
 # ASDF
 . $HOME/.asdf/asdf.sh
 . $HOME/.asdf/completions/asdf.bash
-if [ -f ~/.asdf/plugins/java/asdf-java-wrapper.bash ] ; then
-  . ~/.asdf/plugins/java/asdf-java-wrapper.bash
+if [ -f ~/.asdf/plugins/java/set-java-home.zsh ] ; then
+  . ~/.asdf/plugins/java/set-java-home.zsh
 fi
 
 # Aliases

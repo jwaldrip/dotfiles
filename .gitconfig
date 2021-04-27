@@ -82,6 +82,7 @@
 	wtp = worktree prune
 	wtl = worktree list
 	root = rev-parse --show-toplevel
+        fresh = clean -fdX
 
 [difftool "Kaleidoscope"]
 	cmd = ksdiff --partial-changeset --relative-path \"$MERGED\" -- \"$LOCAL\" \"$REMOTE\"
