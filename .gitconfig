@@ -41,7 +41,7 @@
 	youngest = for-each-ref --sort=-committerdate refs/heads/ --format='%(committerdate:short) | %(refname:short) [%(authorname)]'
 	oldest = for-each-ref --sort=committerdate refs/heads/ --format='%(committerdate:short) | %(refname:short) [%(authorname)]'
 	recent = for-each-ref --sort=-committerdate --count=15 --format='%(refname:short)' refs/heads/
-        lt = describe --tags --abbrev=0
+	lt = describe --tags --abbrev=0
 	cp = cherry-pick
 	st = status -s
 	msg = commit --allow-empty -m
@@ -49,6 +49,8 @@
 	ci = commit
 	cma = commit -am
 	co = checkout
+	date-sha = "!f() { git rev-list -1 --before=\"$1\" \"${2-`git branch --show-current`}\"; } ; f"
+	cod = "!f() { date=$1; br=${2-`git branch --show-current`}; shift; shift ; git checkout `git date-sha \"$date\" \"$br\"` $@; } ; f"
 	br = branch
 	diff = diff --word-diff
 	dc = diff --cached
@@ -82,7 +84,7 @@
 	wtp = worktree prune
 	wtl = worktree list
 	root = rev-parse --show-toplevel
-        fresh = clean -fdX
+	fresh = clean -fdX
 
 [difftool "Kaleidoscope"]
 	cmd = ksdiff --partial-changeset --relative-path \"$MERGED\" -- \"$LOCAL\" \"$REMOTE\"
@@ -111,3 +113,5 @@
 	required = true
 [gpg]
 	program = /usr/local/bin/gpg
+[pull]
+	rebase = false

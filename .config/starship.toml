@@ -1,0 +1,62 @@
+add_newline = false
+
+format = """
+$username\
+$hostname\
+$kubernetes\
+$directory\
+$git_branch\
+$git_commit\
+$git_state\
+$git_status\
+$hg_branch\
+$package\
+$dotnet\
+$elm\
+$golang\
+$haskell\
+$java\
+$nodejs\
+$php\
+$python\
+$ruby\
+$rust\
+$terraform\
+$nix_shell\
+$conda\
+$memory_usage\
+$aws\
+$env_var\
+$crystal\
+$cmd_duration\
+$line_break\
+$jobs\
+$battery\
+$time\
+$character\
+"""
+
+[package]
+disabled=true
+
+[git_branch]
+symbol = " "
+
+[git_status]
+format = '[ $all_status$ahead_behind]($style)'
+conflicted = "窱"
+ahead = "﯐ "
+behind = "ﰈ "
+diverged = "易 "
+untracked = " "
+stashed = " "
+modified = "珞 "
+renamed = " "
+deleted = " "
+staged = "落 "
+
+[nodejs]
+format = "[ $version](bold green) "
+
+[ruby]
+format = "[ $version](bold red) "

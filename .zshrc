@@ -1,3 +1,6 @@
+
+[ -s ~/.fig/shell/pre.sh ] && source ~/.fig/shell/pre.sh
+
 # /--------------------------------------------------\
 # | NOTE: You need to be running zsh as your shell:  |
 # |    `chsh -s /bin/zsh`                            |
@@ -98,7 +101,7 @@ alias finder-show-hidden-files="defaults write com.apple.finder AppleShowAllFile
 alias finder-hide-hidden-files="defaults write com.apple.finder AppleShowAllFiles NO && sudo killall Finder"
 alias docker-implode="docker ps -aq | xargs docker rm -f; docker images -aq | xargs docker rmi; docker volume prune"
 alias dj="curl https://icanhazdadjoke.com/"
-alias backmergedev='for mr in `lab mr list -a --target-branch dev | grep -oE "\d{4}"`; do lab mr checkout $mr && git fu && git pull --no-edit && git pull --no-edit origin dev && git push; git merge --abort ; done'
+alias backmergedev='for mr in `lab mr list -a --target-branch dev | grep -oE "\d{4}"`; do lab mr checkout $mr --force && git fu && git pull --no-edit && git pull --no-edit origin dev && git push; git merge --abort ; done'
 alias mr="lab mr checkout"
 alias codegr='code `git root`'
 alias cdgr='cd `git root`'
@@ -110,6 +113,8 @@ alias m1="cd /Users/jwaldrip/dev/src/gitlab.com/gigsmart/projects/monorepo-1"
 alias m2="cd /Users/jwaldrip/dev/src/gitlab.com/gigsmart/projects/monorepo-2"
 alias ksh="kubectl run $USER-`openssl rand -hex 5` --image=busybox --restart=Never --attach --wait --rm -it"
 alias fix10='yarn tsc -b | grep -oE "[^\(]*\.tsx?" | grep --invert-match "error T" | uniq | head -10 | xargs code'
+alias k='kubectl'
+alias kns='kubectl config set-context --current --namespace'
 
 # Paths
 export PATH="$HOME/bin:$PATH"
@@ -159,3 +164,8 @@ antigen apply
 
 which starship &>/dev/null && eval "$(starship init zsh)"
 export PATH="/usr/local/sbin:$PATH"
+
+
+
+
+
