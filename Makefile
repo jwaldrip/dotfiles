@@ -15,7 +15,7 @@ force-restore:
 	make restore
 
 gpg:
-	brew cask install gpg-suite
+	brew install gpg-suite
 	sudo /usr/local/MacGPG2/bin/gpgconf --kill dirmngr
 	sudo chown -R $$USER:wheel $$HOME/.gnupg
 	chmod -R 0600 $$HOME/.gnupg
@@ -438,7 +438,7 @@ system-setup:
 	sudo reboot
 
 setup-private:
-	brew cask install keybase
+	brew install keybase
 	keybase login
 	rm -rf .private
 	git clone keybase://private/jwaldrip/private .private
