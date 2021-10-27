@@ -123,7 +123,7 @@ export PATH="/usr/local/opt/helm@2/bin:$PATH"
 # PKG config
 export PKG_CONFIG_PATH=/usr/local/opt/openssl/lib/pkgconfig:$PKG_CONFIG_PATH
 export KERL_BUILD_DOCS="no"
-export KERL_CONFIGURE_OPTIONS="--without-javac --with-ssl=$(brew --prefix openssl)"
+export KERL_CONFIGURE_OPTIONS="--without-javac --with-ssl=$(brew --prefix openssl@1.1)"
 
 # Set the development path
 export DEVPATH=~/dev
