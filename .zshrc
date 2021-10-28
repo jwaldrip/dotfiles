@@ -1,6 +1,3 @@
-
-[ -s ~/.fig/shell/pre.sh ] && source ~/.fig/shell/pre.sh
-
 # /--------------------------------------------------\
 # | NOTE: You need to be running zsh as your shell:  |
 # |    `chsh -s /bin/zsh`                            |
@@ -14,7 +11,7 @@ autoload -Uz compinit && compinit
 autoload -Uz bashcompinit && bashcompinit
 
 # Source antigen
-source /usr/local/share/antigen/antigen.zsh
+source "$(brew --prefix antigen)/share/antigen/antigen.zsh"
 
 # Load private vars, ignore if not present
 source ~/.private/vars.sh 2> /dev/null || true
@@ -27,19 +24,17 @@ antigen bundle zsh-users/zsh-syntax-highlighting
 
 # Plugins
 antigen bundle bundler
-# antigen bundle asdf
+antigen bundle asdf
 antigen bundle git
 antigen bundle docker
 antigen bundle autojump
 antigen bundle node
-# antigen bundle npm
-# antigen bundle osx
+antigen bundle npm
+antigen bundle osx
 antigen bundle redis-cli
 antigen bundle golang
 antigen bundle postgres
 antigen bundle rust
-# antigen bundle terraform
-# antigen bundle heroku
 antigen bundle zsh-users/zsh-completions
 antigen bundle zsh-users/zsh-syntax-highlighting
 antigen bundle zsh-users/zsh-autosuggestions
@@ -118,10 +113,9 @@ alias kns='kubectl config set-context --current --namespace'
 
 # Paths
 export PATH="$HOME/bin:$PATH"
-export PATH="/usr/local/opt/helm@2/bin:$PATH"
 
 # PKG config
-export PKG_CONFIG_PATH=/usr/local/opt/openssl/lib/pkgconfig:$PKG_CONFIG_PATH
+export PKG_CONFIG_PATH=$(brew --prefix openssl@1.1)/lib/pkgconfig:$PKG_CONFIG_PATH
 export KERL_BUILD_DOCS="no"
 export KERL_CONFIGURE_OPTIONS="--without-javac --with-ssl=$(brew --prefix openssl@1.1)"
 
@@ -141,18 +135,11 @@ export ANDROID_NDK_HOME=/usr/local/share/android-ndk
 export ANDROID_SDK_ROOT=$ANDROID_HOME
 export NODE_OPTIONS=--max_old_space_size=4096
 
-# The next line updates PATH for the Google Cloud SDK.
-if [ -f /usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.zsh.inc ]; then
-  source '/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.zsh.inc'
-fi
-
 # SSH Agent
 grep -rwl ~/.ssh/* -e 'PRIVATE KEY-----' | xargs ssh-add -K &> /dev/null
 
 # added by travis gem
 [ -f /Users/$USER/.travis/travis.sh ] && source /Users/$USER/.travis/travis.sh
-
-export PATH="/usr/local/opt/gettext/bin:$PATH"
 
 # added by travis gem
 [ -f /Users/jasonwaldrip/.travis/travis.sh ] && source /Users/jasonwaldrip/.travis/travis.sh

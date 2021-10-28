@@ -1,11 +1,13 @@
 date=`date`
 
-init: git-init setup-private setup-directories set-shell force-restore asdf system-setup
+init: git-init force-restore install-asdf system-setup
 restore: brew-cleanup pull-changes brew-bundle
 update: brew-dump push-changes
 
 install-homebrew:
-	/usr/bin/ruby -e "`curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install`" || true
+	sudo softwareupdate --install-rosetta
+	/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+	echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' > "$$HOME/.zprofile"
 
 force-restore:
 	git fetch
@@ -20,7 +22,7 @@ gpg:
 	sudo chown -R $$USER:wheel $$HOME/.gnupg
 	chmod -R 0600 $$HOME/.gnupg
 
-asdf: gpg
+install-asdf: gpg
 	rm -rf ~/.asdf
 	git clone https://github.com/asdf-vm/asdf.git ~/.asdf
 	~/.asdf/bin/asdf plugin-add nodejs
@@ -29,11 +31,9 @@ asdf: gpg
 	~/.asdf/bin/asdf plugin-add python
 	~/.asdf/bin/asdf plugin-add ruby
 	~/.asdf/bin/asdf plugin-add crystal 
-	~/.asdf/bin/asdf plugin-add java https://github.com/skotchpine/asdf-java.git
+	~/.asdf/bin/asdf plugin-add java
 	bash ~/.asdf/plugins/nodejs/bin/import-release-team-keyring
-
-set-shell:
-	chsh -s /bin/zsh
+	asdf install
 
 system-setup:
 	# Close any open System Preferences panes, to prevent them from overriding
@@ -225,7 +225,7 @@ system-setup:
 	defaults write com.apple.dock mineffect -string "scale"
 
 	# Move the dock to the right
-	defaults write com.apple.dock 'orientation' -string 'right'
+	defaults write com.apple.dock 'orientation' -string 'bottom'
 
 	# Show indicator lights for open applications in the Dock
 	defaults write com.apple.dock show-process-indicators -bool true
@@ -436,14 +436,6 @@ system-setup:
 	@echo "restarting in 10 seconds"
 	@sleep 10
 	sudo reboot
-
-setup-private:
-	brew install keybase
-	keybase login
-	rm -rf .private
-	git clone keybase://private/jwaldrip/private .private
-	chmod 0400 .private/.ssh/id_rsa
-	ssh-add ~/.private/.ssh/id_rsa
 
 setup-directories:
 	for folder in Documents Music Movies ; do \
