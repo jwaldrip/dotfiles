@@ -437,12 +437,6 @@ system-setup:
 	@sleep 10
 	sudo reboot
 
-setup-directories:
-	for folder in Documents Music Movies ; do \
-		sudo rm -rf $$folder ; \
-		sudo ln -sf ./.cloud-drive/$$folder ; \
-	done
-
 git-init:
 	rm -rf ./.git
 	rm -rf ./.gitconfig
