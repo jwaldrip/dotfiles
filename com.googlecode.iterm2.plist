@@ -32024,7 +32024,7 @@
 				<key>editor</key>
 				<string>com.github.atom</string>
 				<key>text</key>
-				<string>/usr/local/bin/code -r -g \1:\2</string>
+				<string>/opt/homebrew/bin/code -r -g \1:\2</string>
 			</dict>
 			<key>Send Code When Idle</key>
 			<false/>

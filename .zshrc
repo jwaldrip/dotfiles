@@ -130,9 +130,9 @@ export PATH=$GOPATH/bin:$PATH
 test -e ${HOME}/.iterm2_shell_integration.zsh && source ${HOME}/.iterm2_shell_integration.zsh
 
 # Set Android SDK path
-export ANDROID_HOME=/usr/local/share/android-sdk
-export ANDROID_NDK_HOME=/usr/local/share/android-ndk
-export ANDROID_SDK_ROOT=$ANDROID_HOME
+# export ANDROID_HOME=
+# export ANDROID_NDK_HOME=
+export ANDROID_SDK_ROOT=$(brew --prefix)/share/android-commandlinetools
 export NODE_OPTIONS=--max_old_space_size=4096
 
 # SSH Agent
