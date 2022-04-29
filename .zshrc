@@ -117,7 +117,20 @@ export PATH="$HOME/bin:$PATH"
 # PKG config
 export PKG_CONFIG_PATH=$(brew --prefix openssl@1.1)/lib/pkgconfig:$PKG_CONFIG_PATH
 export KERL_BUILD_DOCS="no"
-export KERL_CONFIGURE_OPTIONS="--without-javac --with-ssl=$(brew --prefix openssl@1.1)"
+export KERL_CONFIGURE_OPTIONS=" \
+--disable-debug \
+--disable-silent-rules \
+--without-javac \
+--enable-shared-zlib \
+--enable-dynamic-ssl-lib \
+--enable-threads \
+--enable-kernel-poll \
+--enable-wx \
+--enable-darwin-64bit \
+--with-ssl=$(brew --prefix openssl@1.1) \
+--with-dynamic-trace=dtrace \
+--enable-smp-support \
+"
 
 # Set the development path
 export DEVPATH=~/dev
