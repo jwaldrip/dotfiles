@@ -153,10 +153,7 @@ export PATH=$ANDROID_SDK_ROOT/emulator:$PATH
 grep -rwl ~/.ssh/* -e 'PRIVATE KEY-----' | xargs ssh-add -K &> /dev/null
 
 # added by travis gem
-[ -f /Users/$USER/.travis/travis.sh ] && source /Users/$USER/.travis/travis.sh
-
-# added by travis gem
-[ -f /Users/jasonwaldrip/.travis/travis.sh ] && source /Users/jasonwaldrip/.travis/travis.sh
+[ -f $HOME/.travis/travis.sh ] && source $HOME/.travis/travis.sh
 
 # increase node size
 export NODE_OPTIONS=--max-old-space-size=4096
