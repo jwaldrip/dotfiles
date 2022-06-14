@@ -146,9 +146,8 @@ test -e ${HOME}/.iterm2_shell_integration.zsh && source ${HOME}/.iterm2_shell_in
 # export ANDROID_HOME=
 # export ANDROID_NDK_HOME=
 export ANDROID_SDK_ROOT=$(brew --prefix)/share/android-commandlinetools
-export PATH=$(brew --prefix)/share/android-commandlinetools/platform-tools:$PATH
-export PATH=$(brew --prefix)/share/android-commandlinetools/emulator:$PATH
-export NODE_OPTIONS=--max_old_space_size=4096
+export PATH=$ANDROID_SDK_ROOT/platform-tools:$PATH
+export PATH=$ANDROID_SDK_ROOT/emulator:$PATH
 
 # SSH Agent
 grep -rwl ~/.ssh/* -e 'PRIVATE KEY-----' | xargs ssh-add -K &> /dev/null
