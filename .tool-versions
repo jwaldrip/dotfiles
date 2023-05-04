@@ -1,4 +1,4 @@
-crystal 1.2.1
+crystal 1.8.1
 nodejs 16.13.0
 java openjdk-17
 ruby 2.7.4

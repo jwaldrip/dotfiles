@@ -20,11 +20,6 @@
 	<true/>
 	<key>Control</key>
 	<integer>1</integer>
-	<key>Coprocess MRU</key>
-	<array>
-		<string>mine --line  /Users/jwaldrip/dev/src/github.com/brandfolder/jsonapionify/lib/jsonapionify/api/resource/definitions/pagination.rb</string>
-		<string>mine --line  /Users/jwaldrip/dev/src/github.com/brandfolder/jsonapionify/lib/jsonapionify/api/resource/definitions/params.rb</string>
-	</array>
 	<key>CopyLastNewline</key>
 	<false/>
 	<key>CopySelection</key>
@@ -32024,7 +32019,7 @@
 				<key>editor</key>
 				<string>com.github.atom</string>
 				<key>text</key>
-				<string>/usr/local/bin/code -r -g \1:\2</string>
+				<string>/usr/local/bin/code-insiders -r -g \1:\2</string>
 			</dict>
 			<key>Send Code When Idle</key>
 			<false/>

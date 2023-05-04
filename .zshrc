@@ -89,9 +89,11 @@ alias reload!="exec $SHELL"
 alias d=docker
 alias dc=docker-compose
 alias e=$EDITOR
+alias code="code-insiders"
 alias c="code"
 alias atom="code"
 alias a="atom"
+alias icr="`brew --prefix crystal`/bin/crystal i"
 alias finder-show-hidden-files="defaults write com.apple.finder AppleShowAllFiles YES && sudo killall Finder"
 alias finder-hide-hidden-files="defaults write com.apple.finder AppleShowAllFiles NO && sudo killall Finder"
 alias docker-implode="docker ps -aq | xargs docker rm -f; docker images -aq | xargs docker rmi; docker volume prune"
@@ -134,6 +136,9 @@ export KERL_CONFIGURE_OPTIONS=" \
 
 # Set the development path
 export DEVPATH=~/dev
+
+# Use GKE Auth Plugin
+export USE_GKE_GCLOUD_AUTH_PLUGIN=True
 
 # Set the Go path
 export GOPATH=$DEVPATH
