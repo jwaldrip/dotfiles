@@ -60,6 +60,7 @@ antigen bundle jimeh/zsh-peco-history
 export HISTSIZE=1000000000
 export HISTFILESIZE=1000000000
 export SAVEHIST=$HISTSIZE
+export ERL_AFLAGS="-kernel shell_history enabled"
 
 # Editors
 export EDITOR="vim"
@@ -89,7 +90,7 @@ alias reload!="exec $SHELL"
 alias d=docker
 alias dc=docker-compose
 alias e=$EDITOR
-alias code="code-insiders"
+alias code="/Applications/Windsurf.app/Contents/Resources/app/bin/windsurf"
 alias c="code"
 alias atom="code"
 alias a="atom"
